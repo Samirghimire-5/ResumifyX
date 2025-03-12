@@ -27,7 +27,7 @@ ResumifyX is an AI-enhanced **SaaS Resume & Portfolio Builder** that helps users
 ### **Phase 1 - Backend Setup**
 - [x] Initialize Next.js & Tailwind CSS ✅
 - [x] Set up Express.js & MongoDB backend ✅
-- [ ] Implement JWT Authentication (Signup, Login, Password Hashing) ⏳
+- [x] Implement JWT Authentication (Signup, Login, Password Hashing) ⏳
 - [ ] Create RESTful APIs for resume and portfolio data storage ⏳
 - [ ] Implement user roles (basic & premium users) ⏳
 - [ ] Integrate PDF generation for resumes ⏳
