@@ -5,25 +5,25 @@ ResumifyX is an AI-enhanced **SaaS Resume & Portfolio Builder** that helps users
 ---
 
 ## 🌟 Vision
-✅ Help users create professional resumes effortlessly 📄
-✅ Make portfolio building easy for developers & creatives 🎨
-✅ Ensure accessibility with a user-friendly and intuitive interface ✨
-✅ Save time with ready-made templates and quick customization ⏳
-✅ Enhance career growth with AI-powered resume suggestions 🤖
-✅ Offer a seamless experience across desktop and mobile devices 📱
-✅ Provide value through both free and premium features 💼 
+🔹✅ Help users create professional resumes effortlessly 📄
+🔹✅ Make portfolio building easy for developers & creatives 🎨
+🔹✅ Ensure accessibility with a user-friendly and intuitive interface ✨
+🔹✅ Save time with ready-made templates and quick customization ⏳
+🔹✅ Enhance career growth with AI-powered resume suggestions 🤖
+🔹✅ Offer a seamless experience across desktop and mobile devices 📱
+🔹✅ Provide value through both free and premium features 💼 
 
 ---
 
 ## ✨ Features
-📝 Resume Builder – Create and customize resumes easily.
-🎨 Templates – Choose from multiple designs.
-📂 Portfolio – Showcase your work and projects.
-🔐 Authentication – Secure login and account access.
-🖨️ PDF Export – Download resumes as PDFs.
-🚀 Future Plans
-    🤖 AI-powered resume suggestions 
-    💰 Premium templates & features 
+🔹📝 Resume Builder – Create and customize resumes easily.
+🔹🎨 Templates – Choose from multiple designs.
+🔹📂 Portfolio – Showcase your work and projects.
+🔹🔐 Authentication – Secure login and account access.
+🔹🖨️ PDF Export – Download resumes as PDFs.
+🔹🚀 Future Plans
+    🔹🤖 AI-powered resume suggestions 
+    🔹💰 Premium templates & features 
 
 ---
 
