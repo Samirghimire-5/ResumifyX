@@ -45,10 +45,10 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-cover bg-center bg-[url(/spider.jpg)]">
-      <div className="flex flex-col items-center gap-4 bg-transparent backdrop-blur-sm rounded-lg shadow-xl w-full max-w-[400] p-8">
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900">
+      <div className="flex flex-col items-center gap-4 bg-gray-900 bg-opacity-60 backdrop-blur-md rounded-lg shadow-2xl w-full max-w-md p-8 border border-indigo-500/30">
         <div className="text-center mb-5 w-full">
-          <h1 className="font-bold text-3xl text-white">Sign Up</h1>
+          <h1 className="font-bold text-3xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400">CREATE ACCOUNT</h1>
         </div>
 
         <form
@@ -63,7 +63,7 @@ const Register = () => {
                 maxLength: { value: 20, message: "Max length is 20" },
               })}
               placeholder="Username"
-              className={`w-full px-3 py-2 bg-transparent border-b-2 border-white focus:border-white transition-all text-white placeholder-gray-300 focus:outline-none ${
+              className={`w-full px-3 py-2 bg-gray-800 bg-opacity-50 border-b-2 border-indigo-500/50 focus:border-violet-500 transition-all text-gray-100 placeholder-gray-400 focus:outline-none rounded-md ${
                 errors.username ? "border-red-500" : ""
               }`}
             />
@@ -85,7 +85,7 @@ const Register = () => {
                 },
               })}
               placeholder="Email"
-              className={`w-full px-3 py-2 bg-transparent border-b-2 border-white focus:border-white transition-all text-white placeholder-gray-300 focus:outline-none ${
+              className={`w-full px-3 py-2 bg-gray-800 bg-opacity-50 border-b-2 border-indigo-500/50 focus:border-violet-500 transition-all text-gray-100 placeholder-gray-400 focus:outline-none rounded-md ${
                 errors.email ? "border-red-500" : ""
               }`}
             />
@@ -112,19 +112,19 @@ const Register = () => {
               })}
               type={showPassword ? "text" : "password"}
               placeholder="Password"
-              className={`w-full px-3 py-2 bg-transparent border-b-2 border-white focus:border-white transition-all text-white placeholder-gray-300 focus:outline-none ${
+              className={`w-full px-3 py-2 bg-gray-800 bg-opacity-50 border-b-2 border-indigo-500/50 focus:border-violet-500 transition-all text-gray-100 placeholder-gray-400 focus:outline-none rounded-md ${
                 errors.password ? "border-red-500" : ""
               }`}
             />
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute right-1 top-1 text-white focus:outline-none"
+              className="absolute right-2 top-2 text-indigo-400 focus:outline-none"
             >
               {showPassword ? (
-                <EyeOff size={20} className="text-gray-300" />
+                <EyeOff size={20} className="text-violet-400" />
               ) : (
-                <Eye size={20} className="text-gray-300" />
+                <Eye size={20} className="text-violet-400" />
               )}
             </button>
             {errors.password && (
@@ -148,19 +148,19 @@ const Register = () => {
               })}
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Password"
-              className={`w-full px-3 py-2 bg-transparent border-b-2 border-white focus:border-white transition-all text-white placeholder-gray-300 focus:outline-none ${
+              className={`w-full px-3 py-2 bg-gray-800 bg-opacity-50 border-b-2 border-indigo-500/50 focus:border-violet-500 transition-all text-gray-100 placeholder-gray-400 focus:outline-none rounded-md ${
                 errors.confirmPassword ? "border-red-500" : ""
               }`}
             />
             <button
               type="button"
               onClick={toggleConfirmPasswordVisibility}
-              className="absolute right-2 top-2 text-white focus:outline-none"
+              className="absolute right-2 top-2 text-indigo-400 focus:outline-none"
             >
               {showConfirmPassword ? (
-                <EyeOff size={20} className="text-gray-300" />
+                <EyeOff size={20} className="text-violet-400" />
               ) : (
-                <Eye size={20} className="text-gray-300" />
+                <Eye size={20} className="text-violet-400" />
               )}
             </button>
             {errors.confirmPassword && (
@@ -173,17 +173,17 @@ const Register = () => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-white text-black rounded-md hover:bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-70 mt-4"
+            className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-md hover:from-indigo-700 hover:to-violet-700 transition-all focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-70 mt-4 shadow-lg shadow-indigo-500/20"
           >
-            {isSubmitting ? "Signing Inn ..." : "Sign Up"}
+            {isSubmitting ? "PROCESSING..." : "SIGN UP"}
           </Button>
         </form>
 
-        <div className="font-serif">
-          <p className="text-sm text-white">
+        <div className="font-serif mt-2">
+          <p className="text-sm text-gray-400">
             Already have an account?{" "}
-            <span className="font-semibold text-blue-500 hover:underline">
-              <Link href={"/login"}>Sign In</Link>
+            <span className="font-semibold text-cyan-400 hover:text-violet-400 transition-colors">
+              <Link href={"/login"}>LOGIN</Link>
             </span>
           </p>
         </div>

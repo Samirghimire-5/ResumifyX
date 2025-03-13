@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80">
+  <!-- Background shape for the icon -->
+  <defs>
+    <linearGradient id="gradientBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4361EE" />
+      <stop offset="100%" stop-color="#3A0CA3" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Stylized document icon with X -->
+  <g transform="translate(15, 15)">
+    <!-- Document base shape -->
+    <rect x="0" y="0" width="40" height="50" rx="4" fill="url(#gradientBlue)" />
+    
+    <!-- Folded corner -->
+    <path d="M30,0 L40,10 L30,10 Z" fill="#6C63FF" />
+    
+    <!-- X in the document -->
+    <path d="M12,20 L28,40 M28,20 L12,40" stroke="white" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- Abstract lines representing text -->
+    <line x1="10" y1="15" x2="30" y2="15" stroke="white" stroke-width="1.5" opacity="0.6" />
+    <line x1="10" y1="45" x2="30" y2="45" stroke="white" stroke-width="1.5" opacity="0.6" />
+  </g>
+  
+  <!-- Text "Resumify" -->
+  <text x="70" y="48" font-family="Arial, sans-serif" font-weight="700" font-size="28" fill="#ffffff">
+    Resumify
+  </text>
+  
+  <!-- Stylized "X" -->
+  <text x="195" y="48" font-family="Arial, sans-serif" font-weight="700" font-size="32" fill="url(#gradientBlue)">
+    X
+  </text>
+  
+  <!-- Tagline -->
+  <text x="70" y="65" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">
+    Build your future
+  </text>
+</svg>

@@ -41,10 +41,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-cover bg-center bg-[url(/spider.jpg)]">
-      <div className="bg-transparent backdrop-blur-sm rounded-lg shadow-xl w-full max-w-[400] p-8">
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900">
+      <div className="bg-gray-900 bg-opacity-60 backdrop-blur-md rounded-lg shadow-2xl w-full max-w-md p-8 border border-indigo-500/30">
         <div className="text-center mb-8">
-          <h1 className="font-bold text-3xl text-white">Login</h1>
+          <h1 className="font-bold text-3xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400">ACCESS PORTAL</h1>
         </div>
 
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
@@ -60,7 +60,7 @@ const Login = () => {
               })}
               type="email"
               placeholder="Email"
-              className={`w-full px-3 py-2 bg-transparent border-b-2 border-white focus:border-white transition-all text-white placeholder-gray-300 focus:outline-none ${
+              className={`w-full px-3 py-2 bg-gray-800 bg-opacity-50 border-b-2 border-indigo-500/50 focus:border-violet-500 transition-all text-gray-100 placeholder-gray-400 focus:outline-none rounded-md ${
                 errors.email ? "border-red-500" : ""
               }`}
             />
@@ -78,19 +78,19 @@ const Login = () => {
               })}
               type={showPassword ? "text" : "password"}
               placeholder="Password"
-              className={`w-full px-3 py-2 bg-transparent border-b-2 border-white focus:border-white transition-all text-white placeholder-gray-300 focus:outline-none ${
+              className={`w-full px-3 py-2 bg-gray-800 bg-opacity-50 border-b-2 border-indigo-500/50 focus:border-violet-500 transition-all text-gray-100 placeholder-gray-400 focus:outline-none rounded-md ${
                 errors.password ? "border-red-500" : ""
               }`}
             />
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute right-2 top-2 text-white focus:outline-none"
+              className="absolute right-2 top-2 text-indigo-400 focus:outline-none"
             >
               {showPassword ? (
-                <Eye size={20} className="text-gray-300" />
+                <Eye size={20} className="text-violet-400" />
               ) : (
-                <EyeOff size={20} className="text-gray-300" />
+                <EyeOff size={20} className="text-violet-400" />
               )}
             </button>
             {errors.password && (
@@ -103,13 +103,13 @@ const Login = () => {
           <div className="flex justify-between items-center">
             <p className="flex items-center gap-2">
               <span>
-                <Checkbox />
+                <Checkbox className="border-indigo-500 text-violet-500 focus:ring-violet-500/20" />
               </span>{" "}
-              <span className="text-white">Remember Me</span>
+              <span className="text-gray-300 text-sm">Remember Me</span>
             </p>
             <Link
               href="/forgot-password"
-              className="text-blue-500 font-semibold hover:underline text-sm"
+              className="text-cyan-400 font-semibold hover:text-violet-400 transition-colors text-sm"
             >
               Forgot Password?
             </Link>
@@ -118,19 +118,19 @@ const Login = () => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-white text-black rounded-md hover:bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-70 mt-2"
+            className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-md hover:from-indigo-700 hover:to-violet-700 transition-all focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-70 mt-2 shadow-lg shadow-indigo-500/20"
           >
-            {isSubmitting ? "Logging in..." : "Login"}
+            {isSubmitting ? "AUTHENTICATING..." : "LOGIN"}
           </Button>
 
-          <div className=" font-serif text-center mt-2">
-            <p className="text-white text-sm">
+          <div className="font-serif text-center mt-2">
+            <p className="text-gray-400 text-sm">
               Don't have an account?{" "}
               <Link
                 href="/register"
-                className="font-semibold text-blue-500 hover:underline"
+                className="font-semibold text-cyan-400 hover:text-violet-400 transition-colors"
               >
-                Sign Up
+                SIGN UP
               </Link>
             </p>
           </div>

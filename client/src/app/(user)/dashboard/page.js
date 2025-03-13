@@ -1,10 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import SideNav from "../../components/sideNav";
-import { LogOut, LogOutIcon } from "lucide-react";
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
+  const router = useRouter()
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -16,12 +18,19 @@ const Dashboard = () => {
       .catch((error) => console.log("error", error));
   }, []);
 
-
+  const logOut = async () => {
+   const response = await axios.post("http://localhost:8000/api/logout", user, {withCredentials: true})
+    if (!response) return console.log("gayo")
+    try{
+  if (response.status === 200)
+    toast.success(response.data.message)
+    router.push("/login")
+} catch(error) {
+    console.log(error)
+  }
+  }
   return (
     <div className="bg-white flex gap-4">
-      <nav>
-        <SideNav />
-      </nav>
       <div className="flex flex-col items-center gap-3 font-bold font-mono text-2xl">
         {user ? 
         <div>
