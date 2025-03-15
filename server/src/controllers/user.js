@@ -76,7 +76,7 @@ const loginUser = async (req, res) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "Strict", 
-        maxAge: 7 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
       res.status(201).json({ message: "login successfull" });
@@ -89,4 +89,12 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, registerNewUsers, loginUser, dashboard };
+
+const logout =  (req, res) => {
+  // const body = await req.body
+  // console.log(body)
+  res.clearCookie("token");
+   res.status(200).json({message: "logout successfully"})
+}
+
+module.exports = { getUsers, registerNewUsers, loginUser, dashboard, logout };
