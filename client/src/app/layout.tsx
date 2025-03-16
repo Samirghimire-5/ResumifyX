@@ -2,7 +2,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import toast, { Toaster } from "react-hot-toast";
-import SideNav from "@/components/sideNav";
+import { Provider as ReduxProvider, useDispatch } from "react-redux";
+import { store } from "../lib/redux/store";
+import UserFetcher from "@/components/userFetcher";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,16 +18,18 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
-        <Toaster />
+        <ReduxProvider store={store}>
+          <UserFetcher />
+            {children}
+            <Toaster />
+        </ReduxProvider>
       </body>
     </html>
   );

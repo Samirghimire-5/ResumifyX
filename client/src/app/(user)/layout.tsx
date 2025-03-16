@@ -7,7 +7,7 @@ export default function Layout({ children }: any) {
   return (
     <SidebarProvider>
       <SideNav />
-      <main className="flex gap-1 w-full">
+      <main className="flex gap-5 w-full">
         <SidebarTrigger/>
         <div>
          {children} 

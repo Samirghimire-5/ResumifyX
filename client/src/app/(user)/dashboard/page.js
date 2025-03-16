@@ -1,44 +1,18 @@
 "use client";
+import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { LogOut, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+
 
 const Dashboard = () => {
-  const router = useRouter();
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/dashboard", { withCredentials: true })
-      .then((res) => {
-        setUser(res.data.user);
-      })
-      .catch((error) => console.log("error", error));
-  }, []);
-
-  // const logOut = async () => {
-  //   const response = await axios.post(
-  //     "http://localhost:8000/api/logout",
-  //     user,
-  //     { withCredentials: true }
-  //   );
-  //   if (!response) return console.log("gayo");
-  //   try {
-  //     if (response.status === 200) toast.success(response.data.message);
-  //     router.push("/login");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const user = useSelector((state) => state.userData.user)
 
   if (!user) {
     return <div>...loading</div>
   }
 
   return (
-    <main className="px-4 py-6 md:px-8">
+    <main className="px-4 py-6 md:px-8 max-w-fit">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-800">{`Welcome back, ${user.username}`}</h1>
         <p className="text-gray-600">
@@ -47,7 +21,7 @@ const Dashboard = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid gap-4 mb-8 md:grid-cols-3">
+      <div className="grid gap-8 mb-8 md:grid-cols-3">
         <div className="p-4 bg-white rounded-lg shadow-sm">
           <h3 className="text-sm font-medium text-gray-500">Resumes Created</h3>
           <p className="text-2xl font-bold">3</p>

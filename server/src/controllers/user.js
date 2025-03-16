@@ -14,7 +14,7 @@ const dashboard = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.json({message: 'welcome to dashboard', user})
+    res.status(201).json({message: 'welcome to dashboard', user})
   }catch (error) {
     res.status(500).json({error: "server error"})
   }
@@ -91,8 +91,6 @@ const loginUser = async (req, res) => {
 
 
 const logout =  (req, res) => {
-  // const body = await req.body
-  // console.log(body)
   res.clearCookie("token");
    res.status(200).json({message: "logout successfully"})
 }
