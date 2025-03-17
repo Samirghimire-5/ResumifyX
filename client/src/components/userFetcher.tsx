@@ -11,19 +11,23 @@ const UserFetcher = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:8000/api/dashboard", { withCredentials: true })
-        .then((response) => {
-          dispatch(userData(response.data.user));
-        })
-        .catch((error) => {
-          router.push("/login");
-          toast.error(error.response?.data?.error);
-        });
-    } catch (error) {
-      console.log("error", error);
+    const fetchUsers = async () => {
+      try {
+        await axios
+          .get("http://localhost:8000/api/dashboard", { withCredentials: true })
+          .then((response) => {
+            dispatch(userData(response.data.user));
+          })
+          .catch((error) => {
+            router.push("/login");
+            toast.error(error.response?.data?.error || "somthing went wrong");
+          });
+      } catch (error) {
+        console.log("error", error);
+      }
     }
+
+    fetchUsers();
   }, [dispatch]);
 
   return null;

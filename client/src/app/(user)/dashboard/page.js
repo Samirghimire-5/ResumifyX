@@ -1,10 +1,11 @@
 "use client";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { LogOut, Plus } from "lucide-react";
 
 
 const Dashboard = () => {
+
   const user = useSelector((state) => state.userData.user)
 
   if (!user) {

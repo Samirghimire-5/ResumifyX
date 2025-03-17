@@ -4,7 +4,6 @@ import "./globals.css";
 import toast, { Toaster } from "react-hot-toast";
 import { Provider as ReduxProvider, useDispatch } from "react-redux";
 import { store } from "../lib/redux/store";
-import UserFetcher from "@/components/userFetcher";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +25,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider store={store}>
-          <UserFetcher />
             {children}
             <Toaster />
         </ReduxProvider>
