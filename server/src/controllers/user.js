@@ -70,7 +70,7 @@ const loginUser = async (req, res) => {
 
     if (passwordMatch) {
       // Json Web Token(JWT) auth here
-      const token = jwt.sign({id: user._id}, process.env.SECRET_KEY, {expiresIn: '1h'})
+      const token = jwt.sign({id: user._id}, process.env.SECRET_KEY, {expiresIn: '7d'})
 
       res.cookie("token", token, {
         httpOnly: true,

@@ -9,7 +9,7 @@ const protecteRoute = (req, res, next) => {
     req.user = decode;
     next();
   }catch (err) {
-    res.status(498).json({error: 'Token is invalid'})
+    res.status(498).json({error: 'Token expired. Please log in again'})
   }
 };
 
