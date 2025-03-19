@@ -1,11 +1,15 @@
+"use client"
 import React from "react";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
+import { useDispatch } from "react-redux";
+import { changeActiveForm } from "@/lib/redux/resumeForms/formSlice";
 
-const PersonalInfo = () => {
+const PersonalInfo = ({activeForm} : {activeForm: any}) => {
+  const dispatch = useDispatch()
   interface FormInputs {
-    image?: FileList; // Optional image file
+    image?: FileList;
     fullName: string;
     jobTitle: string;
     phone: string;
@@ -23,15 +27,19 @@ const PersonalInfo = () => {
     console.log(data);
   };
 
+  const handleClick = () => {
+    dispatch(changeActiveForm("Summary"))
+  }
+
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col items-center">
-        <p className="font-bold font-serif text-xl">Personal Info</p>
-        <p className="font-light font-serif text-sm">Tell us about yourself.</p>
+      <div className="flex flex-col font-serif items-center">
+        <p className="font-bold text-xl">Personal Info</p>
+        <p className="font-light text-sm">Tell us about yourself.</p>
       </div>
 
       <form
-        className="flex flex-col gap-1 items-center"
+        className="flex flex-col gap-2 items-center"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="w-full">
@@ -63,7 +71,7 @@ const PersonalInfo = () => {
             />
             {errors.jobTitle && (
               <p className="text-red-500 text-xs">{errors.jobTitle.message}</p>
-             )}
+            )}
           </div>
 
           <div className="w-full">
@@ -78,8 +86,8 @@ const PersonalInfo = () => {
               placeholder="3939932992"
             />
             {errors.phone && (
-            <p className="text-red-500 text-xs">{errors.phone.message}</p>
-          )}
+              <p className="text-red-500 text-xs">{errors.phone.message}</p>
+            )}
           </div>
         </div>
 
@@ -107,7 +115,7 @@ const PersonalInfo = () => {
           )}
         </div>
 
-        <Button type="submit" className="mt-4 w-20">
+        <Button type="submit" className="mt-4 w-20" onClick={() => handleClick()}>
           Next
         </Button>
       </form>

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-
 import { Card } from "./ui/card";
 import {
   Breadcrumb,
@@ -8,57 +7,67 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "./ui/breadcrumb";
-import PersonalInfo from "./personalInfo";
+import PersonalInfo from "./resumeForm/personalInfo";
+import Summary from "./resumeForm/summaryInfo";
+import Experience from "./resumeForm/experienceInfo";
+import Education from "./resumeForm/educationInfo";
+import Skills from "./resumeForm/skillsInfo";
+import { useDispatch, useSelector } from "react-redux";
+import { changeActiveForm } from "@/lib/redux/resumeForms/formSlice";
 
 const InputSec = () => {
+  const dispatch = useDispatch()
+
   const categories = [
     "Personal Info",
     "Summary",
-    "Expirence",
+    "Experience",
     "Education",
     "Skills",
   ];
-  const [activeForm, setActiveForm] = useState("Personal Info");
+
+  const activeForm = useSelector((state: any) => state.activeForm.currentForm)
 
   const handleBreadcrumbClick = (category: any) => {
-    setActiveForm(category);
+    dispatch(changeActiveForm(category))
   };
 
   const renderForm = () => {
     switch (activeForm) {
       case "Skills":
-        return <div>Skills Form Content</div>;
+        return <Skills />;
       case "Education":
-        return <div>Education Form Content</div>;
+        return <Education />;
       case "Personal Info":
-        return <PersonalInfo />;
+        return <PersonalInfo activeForm={activeForm}/>;
       case "Summary":
-        return <div>Summary Form Content</div>;
-      case "Expirence":
-        return <div>exp</div>
+        return <Summary />;
+      case "Experience":
+        return <Experience />;
       default:
         return null;
     }
   };
 
   return (
-      <Card className="flex flex-col items-center min-h-[75%] w-[40%] p-4 cursor-pointer">
-        <Breadcrumb>
-          <BreadcrumbList>
-            {categories.map((item, index) => (
-              <React.Fragment key={index}>
-                <BreadcrumbPage className="text-sm font-semibold" onClick={() => handleBreadcrumbClick(item)}>
-                  {item}
-                </BreadcrumbPage>
-                {index < categories.length - 1 && <BreadcrumbSeparator />}
-              </React.Fragment>
-            ))}
-          </BreadcrumbList>
-        </Breadcrumb>
-        <div className="w-full overflow-y-auto">
-          {renderForm()}
-        </div>
-      </Card>
+    <Card className="flex flex-col items-center max-h-[75vh] min-h-[75vh] w-[40%] p-4 cursor-pointer">
+      <Breadcrumb>
+        <BreadcrumbList>
+          {categories.map((item, index) => (
+            <React.Fragment key={index}>
+              <BreadcrumbPage
+                className="text-sm font-semibold"
+                onClick={() => handleBreadcrumbClick(item)}
+              >
+                {item}
+              </BreadcrumbPage>
+              {index < categories.length - 1 && <BreadcrumbSeparator />}
+            </React.Fragment>
+          ))}
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div className="w-full overflow-y-auto">{renderForm()}</div>
+    </Card>
   );
 };
 
