@@ -8,13 +8,12 @@ const resumeSchema = new mongoose.Schema(
       required: true,
     },
     personalInfo: {
+      image: {type: String},
       fullName: { type: String, required: true },
       email: { type: String, required: true },
       phone: { type: String, required: true },
+      jobTitle: {type: String, required: true},
       address: { type: String },
-      linkedin: { type: String },
-      github: { type: String },
-      website: { type: String },
     },
     summary: { type: String },
 

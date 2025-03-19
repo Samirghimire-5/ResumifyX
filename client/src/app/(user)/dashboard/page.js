@@ -1,7 +1,7 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
-import { LogOut, Plus } from "lucide-react";
+import { useSelector } from "react-redux";
+import React from "react";
+import { Plus } from "lucide-react";
 
 
 const Dashboard = () => {
