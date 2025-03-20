@@ -1,13 +1,15 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
 import { changeActiveForm } from "@/lib/redux/resumeForms/formSlice";
+import toast from "react-hot-toast";
+import { personalInfo } from "@/lib/redux/resumeData/resumeDataSlice";
 
-const PersonalInfo = ({activeForm} : {activeForm: any}) => {
-  const dispatch = useDispatch()
+const PersonalInfo = () => {
+  const dispatch = useDispatch();
   interface FormInputs {
     image?: FileList;
     fullName: string;
@@ -20,16 +22,29 @@ const PersonalInfo = ({activeForm} : {activeForm: any}) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormInputs>();
 
+  const formValue = watch();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(personalInfo(formValue));
+    }, 0);
+
+    return () => clearTimeout(timer);
+
+  }, [formValue]);
+
   const onSubmit = async (data: any) => {
+    if (Object.keys(errors).length !== 0) {
+      return toast.error("fill out the details");
+    } else {
+      dispatch(changeActiveForm("Summary"));
+    }
     console.log(data);
   };
-
-  const handleClick = () => {
-    dispatch(changeActiveForm("Summary"))
-  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -41,6 +56,7 @@ const PersonalInfo = ({activeForm} : {activeForm: any}) => {
       <form
         className="flex flex-col gap-2 items-center"
         onSubmit={handleSubmit(onSubmit)}
+        // onChange={handleInputChange}
       >
         <div className="w-full">
           <label className="font-semibold font-sans text-sm">Your photo</label>
@@ -115,7 +131,7 @@ const PersonalInfo = ({activeForm} : {activeForm: any}) => {
           )}
         </div>
 
-        <Button type="submit" className="mt-4 w-20" onClick={() => handleClick()}>
+        <Button type="submit" className="mt-4 w-20">
           Next
         </Button>
       </form>

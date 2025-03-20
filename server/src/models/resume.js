@@ -38,13 +38,6 @@ const resumeSchema = new mongoose.Schema(
 
     skills: [{ type: String }],
 
-    achievements: [
-      {
-        title: { type: String },
-        description: { type: String },
-      },
-    ],
-
     selectedTemplate: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Template",

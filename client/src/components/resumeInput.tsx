@@ -39,7 +39,7 @@ const InputSec = () => {
       case "Education":
         return <Education />;
       case "Personal Info":
-        return <PersonalInfo activeForm={activeForm}/>;
+        return <PersonalInfo />;
       case "Summary":
         return <Summary />;
       case "Experience":
