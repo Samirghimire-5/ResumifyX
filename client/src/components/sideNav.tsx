@@ -26,9 +26,13 @@ const SideNav = () => {
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
-    const response = await axios.post("http://localhost:8000/api/logout", {
-      withCredentials: true,
-    });
+    const response = await axios.post(
+      "http://localhost:8000/api/logout",
+      {},
+      {
+        withCredentials: true,
+      }
+    );
     if (!response) {
       toast.error("Something went wrong");
     }

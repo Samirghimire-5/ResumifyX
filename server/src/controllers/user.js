@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const getUsers = async (req, res) => {
   const data = await User.find();
@@ -9,16 +9,16 @@ const getUsers = async (req, res) => {
 
 const dashboard = async (req, res) => {
   try {
-    const user = await User.findOne({_id: req.user.id}).select("-password");
+    const user = await User.findOne({ _id: req.user.id }).select("-password");
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.status(201).json({message: 'welcome to dashboard', user})
-  }catch (error) {
-    res.status(500).json({error: "server error"})
+    res.status(201).json({ message: "welcome to dashboard", user });
+  } catch (error) {
+    res.status(500).json({ error: "server error" });
   }
-}
+};
 
 const registerNewUsers = async (req, res) => {
   try {
@@ -59,7 +59,7 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     // check if email exists in db or not
-    const user = await User.findOne({ email: email }); // finding the user in db using email. In {email: email} first email is to check if a email property holds any value that matches the second email 
+    const user = await User.findOne({ email: email }); // finding the user in db using email. In {email: email} first email is to check if a email property holds any value that matches the second email
     // if email doesnot exists return error
     if (!user) {
       return res.status(404).json({ message: "Email not found" });
@@ -70,12 +70,14 @@ const loginUser = async (req, res) => {
 
     if (passwordMatch) {
       // Json Web Token(JWT) auth here
-      const token = jwt.sign({id: user._id}, process.env.SECRET_KEY, {expiresIn: '7d'})
+      const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
+        expiresIn: "7d",
+      });
 
       res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "Strict", 
+        sameSite: "Strict",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
@@ -89,10 +91,17 @@ const loginUser = async (req, res) => {
   }
 };
 
-
-const logout =  (req, res) => {
-  res.clearCookie("token");
-   res.status(200).json({message: "logout successfully"})
-}
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+    });
+    res.status(200).json({ message: "logout successfully" });
+  } catch (error) {
+    res.status(400).json({ error: "Failed to logout" });
+  }
+};
 
 module.exports = { getUsers, registerNewUsers, loginUser, dashboard, logout };
