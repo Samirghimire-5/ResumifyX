@@ -2,8 +2,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import toast, { Toaster } from "react-hot-toast";
-import { Provider as ReduxProvider, useDispatch } from "react-redux";
-import { store } from "../lib/redux/store";
+import { Provider } from "react-redux";
+import { persistor, store } from '../lib/redux/store'
+import { PersistGate } from 'redux-persist/integration/react';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +25,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ReduxProvider store={store}>
-            {children}
-            <Toaster />
-        </ReduxProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+              {children}
+              <Toaster />
+          </PersistGate>
+        </Provider>
       </body>
     </html>
   );

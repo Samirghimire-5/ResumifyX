@@ -1,12 +1,12 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose')
 
 const resumeSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    // userId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "User",
+    //   required: true,
+    // },
     personalInfo: {
       image: {type: String},
       fullName: { type: String, required: true },
@@ -38,13 +38,14 @@ const resumeSchema = new mongoose.Schema(
 
     skills: [{ type: String }],
 
-    selectedTemplate: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Template",
-    },
+    // selectedTemplate: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Template",
+    // },
   },
   { timestamps: true }
 );
 
 const Resume = mongoose.model("Resume", resumeSchema);
-export default Resume;
+
+module.exports = Resume;

@@ -11,7 +11,6 @@ export default function Layout({ children }: any) {
       <main className="flex gap-5 w-[100%]">
         <SidebarTrigger/>
         <div className="flex-1 w-[100%]">
-          <UserFetcher />
          {children} 
         </div>
       </main>

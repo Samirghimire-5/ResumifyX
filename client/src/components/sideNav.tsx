@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
@@ -19,7 +19,7 @@ import {
   SidebarMenuItem,
 } from "./ui/sidebar";
 import { useDispatch } from "react-redux";
-import { logOut } from "@/lib/redux/auth/authSlice";
+import { logOut } from "@/lib/redux/user/userSlice";
 
 const SideNav = () => {
   const router = useRouter();
@@ -37,9 +37,11 @@ const SideNav = () => {
       toast.error("Something went wrong");
     }
     try {
-      if (response.status == 200) toast.success(response.data.message);
-      dispatch(logOut());
-      router.push("/login");
+      if (response.status == 200) {
+        toast.success(response.data.message);
+        dispatch(logOut());
+        router.push("/login")
+      } 
     } catch (error) {
       console.log("error", error);
     }

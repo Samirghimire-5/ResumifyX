@@ -3,6 +3,7 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const app = express();
 const userRoute = require("./routes/user");
+const resumeRoute = require("./routes/resume");
 const dbConnect = require("./db/connection");
 const cors = require("cors");
 const port = 8000;
@@ -17,5 +18,6 @@ app.use(express.json());
 
 dbConnect();
 app.use(userRoute);
+app.use(resumeRoute);
 
 app.listen(port, () => console.log(`starting localhost: ${port}`));

@@ -1,5 +1,5 @@
 "use client";
-import { userData } from "@/lib/redux/auth/authSlice";
+import { userData } from "@/lib/redux/user/userSlice";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";

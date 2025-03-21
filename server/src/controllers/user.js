@@ -81,7 +81,7 @@ const loginUser = async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      res.status(201).json({ message: "login successfull" });
+      res.status(201).json({ message: "login successfull", user: user });
     } else {
       res.status(401).json({ message: "Invalid password" });
     }

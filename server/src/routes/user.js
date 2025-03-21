@@ -3,7 +3,7 @@ const { getUsers, registerNewUsers, loginUser, dashboard, logout,  } = require("
 const protecteRoute = require("../middleware/authMiddleware");
 const app = Router();
 
-app.get("/users", getUsers)
+app.get("/api/users", getUsers)
 app.post("/api/register", registerNewUsers)
 app.post("/api/login", loginUser)
 app.get("/api/dashboard", protecteRoute, dashboard)

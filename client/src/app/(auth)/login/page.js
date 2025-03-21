@@ -8,9 +8,12 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
+import { useDispatch } from "react-redux";
+import {userData} from "@/lib/redux/user/userSlice"
 
 const Login = () => {
   const router = useRouter();
+  const dispatch = useDispatch()
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -29,6 +32,8 @@ const Login = () => {
       );
       if (response.status === 201) {
         toast.success(response.data.message);
+        dispatch(userData(response.data.user))
+        
         router.push("/dashboard");
       }
     } catch (error) {

@@ -29,8 +29,7 @@ const Register = () => {
       if (response.status === 201) {
       toast.success(response.data.message)
        router.push('/login')
-      }
-      
+      }      
     } catch (error) {
         toast.error(error.response.data.message)
     }
