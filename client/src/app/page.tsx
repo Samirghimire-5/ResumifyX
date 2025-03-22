@@ -14,6 +14,7 @@ const Home = () => {
             width={180}
             height={48}
             alt="ResumifyX logo"
+            priority
           />
         </div>
         <div>

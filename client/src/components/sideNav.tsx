@@ -85,6 +85,7 @@ const SideNav = () => {
               height={100}
               width={220}
               alt="resumifyX logo"
+              priority
             />
           </SidebarGroupLabel>
           <SidebarGroupContent>

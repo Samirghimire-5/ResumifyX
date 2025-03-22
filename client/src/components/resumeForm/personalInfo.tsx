@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { changeActiveForm } from "@/lib/redux/resumeForms/formSlice";
 import toast from "react-hot-toast";
 import { personalInfo } from "@/lib/redux/resumeData/resumeDataSlice";
+import axios from "axios";
 
 const PersonalInfo = () => {
   const dispatch = useDispatch();
@@ -34,14 +35,33 @@ const PersonalInfo = () => {
     }, 0);
 
     return () => clearTimeout(timer);
-
   }, [formValue]);
 
   const onSubmit = async (data: any) => {
     if (Object.keys(errors).length !== 0) {
       return toast.error("fill out the details");
     } else {
-      dispatch(changeActiveForm("Summary"));
+      const formData = new FormData();
+      if (data.image && data.image[0]) {
+        formData.append("image", data.image[0]);
+      }
+      formData.append("fullName", data.fullName);
+      formData.append("jobTitle", data.jobTitle);
+      formData.append("phone", data.phone);
+      formData.append("address", data.address);
+      formData.append("email", data.email);
+
+      try {
+        const response = await axios.post("http://localhost:8000/resumeImg", formData);
+        if (response.status === 200) {
+          console.log(response);
+          dispatch(changeActiveForm("Summary"));
+        }
+
+      } catch (error) {
+        console.log(error)
+      }
+
     }
     console.log(data);
   };
@@ -54,13 +74,18 @@ const PersonalInfo = () => {
       </div>
 
       <form
+        encType="multipart/form-data"
         className="flex flex-col gap-2 items-center"
         onSubmit={handleSubmit(onSubmit)}
         // onChange={handleInputChange}
       >
         <div className="w-full">
           <label className="font-semibold font-sans text-sm">Your photo</label>
-          <Input placeholder="Choose a file" {...register("image", {})} />
+          <Input
+            type="file"
+            placeholder="Choose a file"
+            {...register("image", {})}
+          />
         </div>
 
         <div className="w-full">
