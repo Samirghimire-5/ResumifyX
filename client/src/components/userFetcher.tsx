@@ -14,7 +14,7 @@ const UserFetcher = () => {
     const fetchUsers = async () => {
       try {
         await axios
-          .get("http://localhost:8000/api/dashboard", { withCredentials: true })
+          .get(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`, { withCredentials: true })
           .then((response) => {
             dispatch(userData(response.data.user));
           })

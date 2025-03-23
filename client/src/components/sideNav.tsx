@@ -27,7 +27,7 @@ const SideNav = () => {
 
   const handleLogout = async () => {
     const response = await axios.post(
-      "http://localhost:8000/api/logout",
+      `${process.env.NEXT_PUBLIC_API_URL}/api/logout`,
       {},
       {
         withCredentials: true,

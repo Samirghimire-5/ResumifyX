@@ -13,9 +13,8 @@ import Experience from "./resumeForm/experienceInfo";
 import Education from "./resumeForm/educationInfo";
 import Skills from "./resumeForm/skillsInfo";
 import { useDispatch, useSelector } from "react-redux";
-import { changeActiveForm } from "@/lib/redux/resumeForms/formSlice";
 
-const InputSec = () => {
+const InputSec = ({setPreviewPhoto}: any) => {
   const dispatch = useDispatch()
 
   const categories = [
@@ -26,10 +25,10 @@ const InputSec = () => {
     "Skills",
   ];
 
-  const activeForm = useSelector((state: any) => state.activeForm.currentForm)
+  const [activeForm, setActiveForm] = useState('Personal Info')
 
   const handleBreadcrumbClick = (category: any) => {
-    dispatch(changeActiveForm(category))
+    setActiveForm(category)
   };
 
   const renderForm = () => {
@@ -39,7 +38,7 @@ const InputSec = () => {
       case "Education":
         return <Education />;
       case "Personal Info":
-        return <PersonalInfo />;
+        return <PersonalInfo setPreviewPhoto={setPreviewPhoto}/>;
       case "Summary":
         return <Summary />;
       case "Experience":

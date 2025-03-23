@@ -26,7 +26,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/login",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
         data,
         {withCredentials: true}
       );

@@ -2,6 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
+const dotenv = require('dotenv');
 
 // Database Connection
 const dbConnect = require("./db/connection");
@@ -14,7 +15,6 @@ const userRoute = require("./routes/user");
 const resumeRoute = require("./routes/resume");
 
 const app = express();
-const port = 8000;
 
 // Middleware Application
 app.use(cookieParser());
@@ -48,4 +48,4 @@ app.use(userRoute);
 app.use(resumeRoute);
 
 // Server Start
-app.listen(port, () => console.log(`starting localhost: ${port}`));
+app.listen(process.env.PORT, () => console.log(`starting localhost: ${process.env.PORT}`));

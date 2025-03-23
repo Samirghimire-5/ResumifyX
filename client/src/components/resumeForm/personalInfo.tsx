@@ -4,13 +4,14 @@ import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
-import { changeActiveForm } from "@/lib/redux/resumeForms/formSlice";
 import toast from "react-hot-toast";
 import { personalInfo } from "@/lib/redux/resumeData/resumeDataSlice";
 import axios from "axios";
 
-const PersonalInfo = () => {
+const PersonalInfo = ({setPreviewPhoto}: any) => {
+
   const dispatch = useDispatch();
+
   interface FormInputs {
     image?: FileList;
     fullName: string;
@@ -27,15 +28,33 @@ const PersonalInfo = () => {
     formState: { errors },
   } = useForm<FormInputs>();
 
-  const formValue = watch();
-
+  const watchedFields = watch(['fullName', 'jobTitle', 'phone', 'address', 'email']);
+  
+  const formValue = {
+    fullName: watchedFields[0],
+    jobTitle: watchedFields[1],
+    phone: watchedFields[2],
+    address: watchedFields[3],
+    email: watchedFields[4],
+  };
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(personalInfo(formValue));
-    }, 0);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [formValue]);
+
+  const handleInputChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e?.target?.files[0];
+
+      if (file) {
+        const objectUrl = URL.createObjectURL(file) 
+        setPreviewPhoto(objectUrl)
+      }
+    }
+  }
 
   const onSubmit = async (data: any) => {
     if (Object.keys(errors).length !== 0) {
@@ -52,10 +71,9 @@ const PersonalInfo = () => {
       formData.append("email", data.email);
 
       try {
-        const response = await axios.post("http://localhost:8000/resumeImg", formData);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/resumeImg`, formData);
         if (response.status === 200) {
           console.log(response);
-          dispatch(changeActiveForm("Summary"));
         }
 
       } catch (error) {
@@ -77,14 +95,14 @@ const PersonalInfo = () => {
         encType="multipart/form-data"
         className="flex flex-col gap-2 items-center"
         onSubmit={handleSubmit(onSubmit)}
-        // onChange={handleInputChange}
+        onChange={handleInputChange}
       >
         <div className="w-full">
           <label className="font-semibold font-sans text-sm">Your photo</label>
           <Input
             type="file"
             placeholder="Choose a file"
-            {...register("image", {})}
+            {...register("image")}
           />
         </div>
 

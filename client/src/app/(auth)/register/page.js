@@ -25,7 +25,7 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:8000/api/register", data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, data)
       if (response.status === 201) {
       toast.success(response.data.message)
        router.push('/login')
