@@ -1,9 +1,23 @@
 "use client"
-import React from "react";
+import React, { useRef } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { useDispatch } from "react-redux";
+import { summary } from "@/lib/redux/resumeData/resumeDataSlice";
 
 const Summary = () => {
+  const summaryRef = useRef<HTMLTextAreaElement | null>(null)
+  const dispatch = useDispatch()
+
+  const handleChange = () => {
+    if (summaryRef.current) {
+      const timer = setTimeout(() => {
+        dispatch(summary(summaryRef?.current?.value))
+      }, 1000)
+      return () => clearTimeout(timer);
+    }
+  }
+
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="flex flex-col items-center font-serif">
@@ -13,7 +27,7 @@ const Summary = () => {
         </p>
       </div>
 
-      <Textarea placeholder="Write something...." />
+      <Textarea placeholder="Write something...." ref={summaryRef} onChange={handleChange}/>
 
       <Button type="submit">Next</Button>
     </div>

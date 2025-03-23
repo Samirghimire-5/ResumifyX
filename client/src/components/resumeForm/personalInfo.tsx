@@ -81,7 +81,6 @@ const PersonalInfo = ({setPreviewPhoto}: any) => {
       }
 
     }
-    console.log(data);
   };
 
   return (

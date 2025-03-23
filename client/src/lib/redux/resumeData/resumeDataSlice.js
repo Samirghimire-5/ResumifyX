@@ -20,9 +20,18 @@ const resumeDataSlice = createSlice({
   reducers: {
     personalInfo: (state, action) => {
       state.personalInfo = {...state.personalInfo, ...action.payload}
+    }, 
+    summary: (state, action) => {
+      state.summary = action.payload;
+    },
+    experience: (state, action) => {
+      state.experience = action.payload
+    }, 
+    skills: (state, action) => {
+      state.skills = action.payload;
     }
   }
 })
 
-export const { personalInfo } = resumeDataSlice.actions;
+export const { personalInfo, summary, experience, skills } = resumeDataSlice.actions;
 export default resumeDataSlice.reducer

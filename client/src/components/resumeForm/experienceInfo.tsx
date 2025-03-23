@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, set, useForm } from "react-hook-form";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
@@ -7,9 +7,12 @@ import { DatePicker } from "../datePicker";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { Minus, Plus } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { experience } from "@/lib/redux/resumeData/resumeDataSlice";
 
 const Experience = () => {
   const [experiences, setExperiences] = useState([{id: 1}]);
+  const dispatch = useDispatch()
 
   interface ExperienceForm {
     jobTitle: string;
@@ -23,6 +26,7 @@ const Experience = () => {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = useForm<ExperienceForm>({
     defaultValues: {
@@ -33,6 +37,15 @@ const Experience = () => {
       description: "",
     },
   });
+
+  const formValue = watch();
+  console.log(formValue)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(experience(formValue))
+    })
+    return () => clearTimeout(timer);
+  },[formValue])
 
   const onSubmit = (data: any) => {
     console.log(data);
