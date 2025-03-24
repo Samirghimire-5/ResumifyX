@@ -3,11 +3,11 @@ import React from "react";
 import { Card } from "./ui/card";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import { Badge } from "./ui/badge";
 
 const PreviewSec = ({ previewPhoto }: any) => {
   const resume = useSelector((state: any) => state.resumeData); // resume object has {personalInfo, summary, experience, education, skills}
-
+  const experience = useSelector((state: any) => state.resumeData.experience)
+  console.log(experience)
   return (
     <Card className="h-[75%] w-[55%] shadow-xl bg-gray-100 rounded-2xl">
       <div>
@@ -34,7 +34,14 @@ const PreviewSec = ({ previewPhoto }: any) => {
 
       <div>
         <p>experience</p>
-        <p>{resume.experience.jobTitle}</p>
+        <div className="bg-black">
+          {experience.map((item: any, index: any) => (
+            <div key={index}>
+              <p>{item.jobTitle}</p>
+
+            </div>
+          ))}
+        </div>
       </div>
 
       <div>

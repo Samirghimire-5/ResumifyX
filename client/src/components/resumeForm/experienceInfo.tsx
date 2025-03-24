@@ -7,12 +7,17 @@ import { DatePicker } from "../datePicker";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { Minus, Plus } from "lucide-react";
-import { useDispatch } from "react-redux";
-import { experience } from "@/lib/redux/resumeData/resumeDataSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addExperience,
+  delExperience,
+  updateExperience,
+} from "@/lib/redux/resumeData/resumeDataSlice";
 
 const Experience = () => {
-  const [experiences, setExperiences] = useState([{id: 1}]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const experiences = useSelector((state: any) => state.resumeData.experience);
+  // console.log(experiences);
 
   interface ExperienceForm {
     jobTitle: string;
@@ -26,38 +31,32 @@ const Experience = () => {
     register,
     handleSubmit,
     control,
-    watch,
     formState: { errors },
-  } = useForm<ExperienceForm>({
-    defaultValues: {
-      jobTitle: "",
-      companyName: "",
-      startDate: null,
-      endDate: null,
-      description: "",
-    },
-  });
+  } = useForm<ExperienceForm>();
 
-  const formValue = watch();
-  console.log(formValue)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(experience(formValue))
-    })
-    return () => clearTimeout(timer);
-  },[formValue])
+  const updateExp = (index: any, item: any) => {
+    dispatch(updateExperience({item, index}))
+  };
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    console.log(data)
   };
 
   const addNew = () => {
-    setExperiences([...experiences, {id: experiences.length + 1}])
-  }
+    dispatch(
+      addExperience({
+        jobTitle: "",
+        companyName: "",
+        startDate: null,
+        endDate: null,
+        description: "",
+      })
+    );
+  };
 
-  const deleteExp = (item: any) => {
-    setExperiences(experiences.filter((exp) => exp.id !== item.id))
-  }
+  const deleteExp = (index: any) => {
+    dispatch(delExperience(index));
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -72,12 +71,12 @@ const Experience = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 items-center"
       >
-        {experiences.map((item, index) => {
+        {experiences.map((item: any, index: any) => {
           return (
-            <Card
-              key={index}
-              className="w-full p-3">
-              <p className="font-sans font-bold text-[16]">{`Work Experience ${item.id}`}</p>
+            <Card key={index} className="w-full p-3">
+              <p className="font-sans font-bold text-[16]">{`Work Experience ${
+                index + 1
+              }`}</p>
 
               <div className="flex flex-col gap-2">
                 <div className="w-full">
@@ -90,6 +89,7 @@ const Experience = () => {
                     })}
                     type="text"
                     placeholder="Software Engineer"
+                    onChange={(e) => updateExp(index, {...item, jobTitle: e.target.value})}
                   />
                   {errors.jobTitle && (
                     <p className="text-red-500 text-xs">
@@ -107,6 +107,7 @@ const Experience = () => {
                       required: { value: true, message: "Add job title" },
                     })}
                     placeholder="XYZ company"
+                    onChange={(e) => updateExp(index, {...item, companyName: e.target.value})}
                   />
                   {errors.companyName && (
                     <p className="text-red-500 text-xs">
@@ -127,7 +128,10 @@ const Experience = () => {
                       render={({ field }) => (
                         <DatePicker
                           value={field.value || null}
-                          onChange={field.onChange}
+                          onChange={(date) => {
+                            field.onChange(date);
+                            updateExp(index, { ...item, startDate: date });
+                          }}
                         />
                       )}
                     />
@@ -148,7 +152,10 @@ const Experience = () => {
                       render={({ field }) => (
                         <DatePicker
                           value={field.value || null}
-                          onChange={field.onChange}
+                          onChange={(date) => {
+                            field.onChange(date);
+                            updateExp(index, { ...item, startDate: date });
+                          }}
                         />
                       )}
                     />
@@ -163,13 +170,16 @@ const Experience = () => {
                   <label className="font-semibold font-sans text-sm">
                     Description
                   </label>
-                  <Textarea {...register("description")} />
+                  <Textarea {...register("description")} 
+                  onChange={(e) => updateExp(index, {...item, description: e.target.value})}
+                  />
                 </div>
               </div>
 
-              <Button 
-              onClick={() => deleteExp(item)}
-              className="bg-red-600 hover:bg-red-400 w-fit">
+              <Button
+                onClick={() => deleteExp(index)}
+                className="bg-red-600 hover:bg-red-400 w-fit"
+              >
                 <Minus />
                 Remove
               </Button>
@@ -177,7 +187,10 @@ const Experience = () => {
           );
         })}
 
-        <Button onClick={() => addNew()} className="bg-green-500 hover:bg-green-400">
+        <Button
+          onClick={() => addNew()}
+          className="bg-green-500 hover:bg-green-400"
+        >
           <Plus />
           Add new{" "}
         </Button>
