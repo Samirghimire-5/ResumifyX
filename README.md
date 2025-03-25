@@ -39,10 +39,10 @@ ResumifyX is an AI-enhanced **SaaS Resume & Portfolio Builder** that helps users
 
 ### **Phase 2 - Frontend Development**
 - [ ] Design and structure UI components using Tailwind CSS ⏳
-- [ ] Create Resume Builder page with form fields and live preview ⏳
+- [x] Create Resume Builder page with form fields and live preview ⏳
 - [ ] Implement dynamic template selection with previews ⏳
 - [ ] Connect frontend to backend APIs using Axios or Fetch ⏳
-- [ ] Add error handling and validation for user inputs ⏳
+- [x] Add error handling and validation for user inputs ⏳
 - [ ] Implement protected routes for authenticated users ⏳
 
 ### **Phase 3 - AI & SaaS Implementation**
