@@ -6,10 +6,9 @@ import Image from "next/image";
 
 const PreviewSec = ({ previewPhoto }: any) => {
   const resume = useSelector((state: any) => state.resumeData); // resume object has {personalInfo, summary, experience, education, skills}
-  const experience = useSelector((state: any) => state.resumeData.experience)
-  console.log(experience)
+  // console.log(resume.experience);
   return (
-    <Card className="h-[75%] w-[55%] shadow-xl bg-gray-100 rounded-2xl">
+    <Card className="h-[75%] w-[55%] shadow-xl bg-gray-100 rounded-2xl overflow-auto p-2">
       <div>
         <p>personal info</p>
         {previewPhoto && (
@@ -34,11 +33,60 @@ const PreviewSec = ({ previewPhoto }: any) => {
 
       <div>
         <p>experience</p>
-        <div className="bg-black">
-          {experience.map((item: any, index: any) => (
+        <div>
+          {resume.experience.map((item: any, index: any) => (
             <div key={index}>
               <p>{item.jobTitle}</p>
+              <p>{item.companyName}</p>
+              <p>
+                {item.startDate   // because we have ISOString date in our redux store So we have to convert the date 
+                  ? new Date(item.startDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : null}
+              </p>
+              <p>
+                {item.startDate
+                  ? new Date(item.startDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : null}
+              </p>
+              <p>{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
 
+      <div>
+        <p>education</p>
+        <div>
+          {resume.education.map((item: any, index: any) => (
+            <div key={index}>
+              <p>{item.degree}</p>
+              <p>{item.school}</p>
+              <p>
+                {item.startDate   // because we have ISOString date in our redux store So we have to convert the date 
+                  ? new Date(item.startDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : null}
+              </p>
+              <p>
+                {item.startDate
+                  ? new Date(item.startDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : null}
+              </p>
             </div>
           ))}
         </div>

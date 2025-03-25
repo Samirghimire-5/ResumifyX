@@ -15,7 +15,6 @@ import Skills from "./resumeForm/skillsInfo";
 import { useDispatch, useSelector } from "react-redux";
 
 const InputSec = ({setPreviewPhoto}: any) => {
-  const dispatch = useDispatch()
 
   const categories = [
     "Personal Info",
@@ -36,13 +35,13 @@ const InputSec = ({setPreviewPhoto}: any) => {
       case "Skills":
         return <Skills />;
       case "Education":
-        return <Education />;
+        return <Education setActiveForm={setActiveForm}/>;
       case "Personal Info":
-        return <PersonalInfo setPreviewPhoto={setPreviewPhoto}/>;
+        return <PersonalInfo setPreviewPhoto={setPreviewPhoto} setActiveForm={setActiveForm}/>;
       case "Summary":
-        return <Summary />;
+        return <Summary setActiveForm={setActiveForm}/>;
       case "Experience":
-        return <Experience />;
+        return <Experience setActiveForm={setActiveForm} />;
       default:
         return null;
     }

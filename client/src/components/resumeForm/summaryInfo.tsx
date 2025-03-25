@@ -4,8 +4,9 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
 import { summary } from "@/lib/redux/resumeData/resumeDataSlice";
+import { ChevronRight } from "lucide-react";
 
-const Summary = () => {
+const Summary = ({setActiveForm}: any) => {
   const summaryRef = useRef<HTMLTextAreaElement | null>(null)
   const dispatch = useDispatch()
 
@@ -29,7 +30,7 @@ const Summary = () => {
 
       <Textarea placeholder="Write something...." ref={summaryRef} onChange={handleChange}/>
 
-      <Button type="submit">Next</Button>
+      <Button type="submit" onClick={() => setActiveForm('Experience')}>Next <ChevronRight /></Button>
     </div>
   );
 };

@@ -7,8 +7,9 @@ import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { personalInfo } from "@/lib/redux/resumeData/resumeDataSlice";
 import axios from "axios";
+import { ChevronRight } from "lucide-react";
 
-const PersonalInfo = ({setPreviewPhoto}: any) => {
+const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
 
   const dispatch = useDispatch();
 
@@ -173,8 +174,9 @@ const PersonalInfo = ({setPreviewPhoto}: any) => {
           )}
         </div>
 
-        <Button type="submit" className="mt-4 w-20">
+        <Button type="submit" className="mt-4 w-20" onClick={() => setActiveForm('Summary')}>
           Next
+          <ChevronRight />
         </Button>
       </form>
     </div>

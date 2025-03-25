@@ -6,7 +6,7 @@ import { Input } from "../ui/input";
 import { DatePicker } from "../datePicker";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { Minus, Plus } from "lucide-react";
+import { ChevronRight, Minus, Plus } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addExperience,
@@ -14,7 +14,7 @@ import {
   updateExperience,
 } from "@/lib/redux/resumeData/resumeDataSlice";
 
-const Experience = () => {
+const Experience = ({setActiveForm}: any) => {
   const dispatch = useDispatch();
   const experiences = useSelector((state: any) => state.resumeData.experience);
   // console.log(experiences);
@@ -35,7 +35,11 @@ const Experience = () => {
   } = useForm<ExperienceForm>();
 
   const updateExp = (index: any, item: any) => {
-    dispatch(updateExperience({item, index}))
+    const data = {...item, 
+      startDate: item.startDate ? item.startDate.toISOString(): null,
+      endDate: item.endDate ? item.endDate.toISOString(): null,
+    }
+    dispatch(updateExperience({data, index}))
   };
 
   const onSubmit = (data: any) => {
@@ -154,7 +158,7 @@ const Experience = () => {
                           value={field.value || null}
                           onChange={(date) => {
                             field.onChange(date);
-                            updateExp(index, { ...item, startDate: date });
+                            updateExp(index, { ...item, endDate: date });
                           }}
                         />
                       )}
@@ -189,12 +193,12 @@ const Experience = () => {
 
         <Button
           onClick={() => addNew()}
-          className="bg-green-500 hover:bg-green-400"
+          className="bg-green-500 hover:bg-green-700"
         >
           <Plus />
           Add new{" "}
         </Button>
-        <Button type="submit">Next</Button>
+        <Button type="submit" onClick={() => setActiveForm('Education')}>Next  <ChevronRight/></Button>
       </form>
     </div>
   );

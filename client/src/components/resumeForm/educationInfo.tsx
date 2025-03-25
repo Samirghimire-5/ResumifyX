@@ -5,10 +5,17 @@ import { Card } from "../ui/card";
 import { Input } from "../ui/input";
 import { DatePicker } from "../datePicker";
 import { Button } from "../ui/button";
-import { Minus, Plus } from "lucide-react";
+import { ChevronRight, Minus, Plus } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addEducation,
+  delEducation,
+  updateEducation,
+} from "@/lib/redux/resumeData/resumeDataSlice";
 
-const Education = () => {
-  const [educations, setEducations] = useState([{ id: 1 }]);
+const Education = ({setActiveForm}: any) => {
+  const educations = useSelector((state: any) => state.resumeData.education);
+  const dispatch = useDispatch();
 
   interface EducationForm {
     degree: string;
@@ -22,25 +29,33 @@ const Education = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<EducationForm>({
-    defaultValues: {
-      degree: "",
-      school: "",
-      startDate: null,
-      endDate: null,
-    },
-  });
+  } = useForm<EducationForm>();
 
   const onSubmit = (data: any) => {
     console.log(data);
   };
 
-  const addNew = () => {
-    setEducations([...educations, { id: educations.length + 1 }]);
+  const updateEdu = (index: any, item: any) => {
+    const data = {...item,
+      startDate: item.startDate ? item.startDate.toISOString() : null,
+      endDate: item.endDate ? item.endDate.toISOString() : null
+    }
+    dispatch(updateEducation({data, index}))
   };
 
-  const deleteEdu = (item: any) => {
-    setEducations(educations.filter((edu) => edu.id !== item.id));
+  const addNew = () => {
+    dispatch(
+      addEducation({
+        degree: "",
+        school: "",
+        startDate: null,
+        endDate: null,
+      })
+    );
+  };
+
+  const deleteEdu = (index: any) => {
+    dispatch(delEducation(index));
   };
 
   return (
@@ -54,24 +69,36 @@ const Education = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 items-center"
       >
-        {educations.map((item, index) => {
+        {educations.map((item: any, index: any) => {
           return (
             <Card key={index} className="w-full p-3">
-              <p className="font-sans font-bold text-[16]">{`Education ${item.id}`}</p>
+              <p className="font-sans font-bold text-[16]">{`Education ${
+                index + 1
+              }`}</p>
 
               <div className="flex flex-col gap-2">
                 <div className="w-full">
                   <label className="font-semibold font-sans text-sm">
                     Degree
                   </label>
-                  <Input {...register("degree")} />
+                  <Input
+                    {...register("degree")}
+                    onChange={(e) =>
+                      updateEdu(index, { ...item, degree: e.target.value })
+                    }
+                  />
                 </div>
 
                 <div className="w-full">
                   <label className="font-semibold font-sans text-sm">
                     School
                   </label>
-                  <Input {...register("school")} />
+                  <Input
+                    {...register("school")}
+                    onChange={(e) =>
+                      updateEdu(index, { ...item, school: e.target.value })
+                    }
+                  />
                 </div>
 
                 <div className="flex justify-between overflow-x-auto w-full gap-2">
@@ -86,7 +113,10 @@ const Education = () => {
                       render={({ field }) => (
                         <DatePicker
                           value={field.value || null}
-                          onChange={field.onChange}
+                          onChange={(date) => {
+                            field.onChange(date);
+                            updateEdu(index, { ...item, startDate: date });
+                          }}
                         />
                       )}
                     />
@@ -107,7 +137,10 @@ const Education = () => {
                       render={({ field }) => (
                         <DatePicker
                           value={field.value || null}
-                          onChange={field.onChange}
+                          onChange={(date) => {
+                            field.onChange(date);
+                            updateEdu(index, { ...item, endDate: date });
+                          }}
                         />
                       )}
                     />
@@ -128,12 +161,12 @@ const Education = () => {
 
         <Button
           onClick={() => addNew()}
-          className="bg-green-500 hover:bg-green-400"
+          className="bg-green-500 hover:bg-green-700"
         >
           <Plus />
           Add new{" "}
         </Button>
-        <Button type="submit">Next</Button>
+        <Button type="submit" onClick={() => setActiveForm('Skills')}>Next  <ChevronRight/></Button>
       </form>
     </div>
   );

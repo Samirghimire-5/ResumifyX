@@ -1,5 +1,5 @@
 "use client"
-import SideNav from "@/components/sideNav";
+import SideNav from "@/components/sideBar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import UserFetcher from "@/components/userFetcher";
 
