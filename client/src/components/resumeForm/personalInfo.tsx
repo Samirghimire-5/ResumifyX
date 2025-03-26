@@ -27,6 +27,7 @@ const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
     handleSubmit,
     watch,
     formState: { errors },
+    trigger,
   } = useForm<FormInputs>();
 
   const watchedFields = watch(['fullName', 'jobTitle', 'phone', 'address', 'email']);
@@ -75,12 +76,12 @@ const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/resumeImg`, formData);
         if (response.status === 200) {
           console.log(response);
+          setActiveForm('Summary')
         }
 
       } catch (error) {
         console.log(error)
       }
-
     }
   };
 
@@ -174,7 +175,7 @@ const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
           )}
         </div>
 
-        <Button type="submit" className="mt-4 w-20" onClick={() => setActiveForm('Summary')}>
+        <Button type="submit" className="mt-4 w-20">
           Next
           <ChevronRight />
         </Button>

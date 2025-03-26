@@ -1,9 +1,14 @@
 const Resume = require("../models/resume");
 
-const getResume = async (req, res) => {
+const getResumes = async (req, res) => {
   const data = await Resume.find();
   return res.json(data);
 };
+
+const getResume = async (req, res) => {
+  const data = await Resume.findById(req.params.id)
+  return res.json(data)
+}
 
 const createNewResume = async (req, res) => {
   const resume = await Resume.create(req.body);
@@ -17,9 +22,9 @@ const updateResume = async (req, res) => {
   res.json({message: "updated successfully"})
 };
 
-const deletResume = async (req, res) => {
+const deleteResume = async (req, res) => {
   await Resume.findByIdAndDelete(req.params.id)
   res.json({message: "deleted "})
 };
 
-module.exports = { getResume, createNewResume, updateResume, deletResume };
+module.exports = { getResumes, getResume, createNewResume, updateResume, deleteResume }

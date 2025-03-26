@@ -13,6 +13,7 @@ import {
   delExperience,
   updateExperience,
 } from "@/lib/redux/resumeData/resumeDataSlice";
+import toast from "react-hot-toast";
 
 const Experience = ({setActiveForm}: any) => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const Experience = ({setActiveForm}: any) => {
     handleSubmit,
     control,
     formState: { errors },
+    trigger,
   } = useForm<ExperienceForm>();
 
   const updateExp = (index: any, item: any) => {
@@ -42,7 +44,10 @@ const Experience = ({setActiveForm}: any) => {
     dispatch(updateExperience({data, index}))
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+    const isValid = trigger();
+    if (!isValid) return toast.error("please fillout necessary fields");
+    setActiveForm('Education')
     console.log(data)
   };
 
@@ -198,7 +203,7 @@ const Experience = ({setActiveForm}: any) => {
           <Plus />
           Add new{" "}
         </Button>
-        <Button type="submit" onClick={() => setActiveForm('Education')}>Next  <ChevronRight/></Button>
+        <Button type="submit">Next  <ChevronRight/></Button>
       </form>
     </div>
   );

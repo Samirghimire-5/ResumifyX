@@ -12,8 +12,9 @@ import {
   delEducation,
   updateEducation,
 } from "@/lib/redux/resumeData/resumeDataSlice";
+import toast from "react-hot-toast";
 
-const Education = ({setActiveForm}: any) => {
+const Education = ({ setActiveForm }: any) => {
   const educations = useSelector((state: any) => state.resumeData.education);
   const dispatch = useDispatch();
 
@@ -29,18 +30,24 @@ const Education = ({setActiveForm}: any) => {
     handleSubmit,
     control,
     formState: { errors },
+    trigger,
   } = useForm<EducationForm>();
 
   const onSubmit = (data: any) => {
+    const isValid = trigger();
+    if (!isValid) return toast.error("please fill necessary fields");
+
+    setActiveForm("Skills");
     console.log(data);
   };
 
   const updateEdu = (index: any, item: any) => {
-    const data = {...item,
+    const data = {
+      ...item,
       startDate: item.startDate ? item.startDate.toISOString() : null,
-      endDate: item.endDate ? item.endDate.toISOString() : null
-    }
-    dispatch(updateEducation({data, index}))
+      endDate: item.endDate ? item.endDate.toISOString() : null,
+    };
+    dispatch(updateEducation({ data, index }));
   };
 
   const addNew = () => {
@@ -82,11 +89,21 @@ const Education = ({setActiveForm}: any) => {
                     Degree
                   </label>
                   <Input
-                    {...register("degree")}
+                    {...register("degree", {
+                      required: {
+                        value: true,
+                        message: "Enter degree name",
+                      },
+                    })}
                     onChange={(e) =>
                       updateEdu(index, { ...item, degree: e.target.value })
                     }
                   />
+                  {errors.degree && (
+                    <p className="text-red-500 text-xs">
+                      {errors.degree.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="w-full">
@@ -94,11 +111,18 @@ const Education = ({setActiveForm}: any) => {
                     School
                   </label>
                   <Input
-                    {...register("school")}
+                    {...register("school", {
+                      required: {value: true, message: 'Enter school name'}
+                    })}
                     onChange={(e) =>
                       updateEdu(index, { ...item, school: e.target.value })
                     }
                   />
+                  {errors.school && (
+                    <p className="text-red-500 text-xs">
+                      {errors.school.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="flex justify-between overflow-x-auto w-full gap-2">
@@ -166,7 +190,9 @@ const Education = ({setActiveForm}: any) => {
           <Plus />
           Add new{" "}
         </Button>
-        <Button type="submit" onClick={() => setActiveForm('Skills')}>Next  <ChevronRight/></Button>
+        <Button type="submit">
+          Next <ChevronRight />
+        </Button>
       </form>
     </div>
   );
