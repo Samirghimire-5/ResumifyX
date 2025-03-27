@@ -15,13 +15,13 @@ import {
 } from "@/lib/redux/resumeData/resumeDataSlice";
 import toast from "react-hot-toast";
 
-const Experience = ({setActiveForm}: any) => {
+const Experience = ({ setActiveForm }: any) => {
   const dispatch = useDispatch();
   const experiences = useSelector((state: any) => state.resumeData.experience);
   // console.log(experiences);
 
   interface ExperienceForm {
-    jobTitle: string;
+    role: string;
     companyName: string;
     startDate: Date | null;
     endDate: Date | null;
@@ -37,24 +37,26 @@ const Experience = ({setActiveForm}: any) => {
   } = useForm<ExperienceForm>();
 
   const updateExp = (index: any, item: any) => {
-    const data = {...item, 
-      startDate: item.startDate ? item.startDate.toISOString(): null,
-      endDate: item.endDate ? item.endDate.toISOString(): null,
-    }
-    dispatch(updateExperience({data, index}))
+    const data = {
+      ...item,
+      startDate:
+        item.startDate instanceof Date ? item.startDate.toISOString() : "",
+      endDate: item.endDate instanceof Date ? item.endDate.toISOString() : "",
+    };
+    dispatch(updateExperience({ data, index }));
   };
 
   const onSubmit = async (data: any) => {
-    const isValid = trigger();
+    const isValid = await trigger();
     if (!isValid) return toast.error("please fillout necessary fields");
-    setActiveForm('Education')
-    console.log(data)
+    setActiveForm("Education");
+    // console.log(data)
   };
 
   const addNew = () => {
     dispatch(
       addExperience({
-        jobTitle: "",
+        role: "",
         companyName: "",
         startDate: null,
         endDate: null,
@@ -90,19 +92,24 @@ const Experience = ({setActiveForm}: any) => {
               <div className="flex flex-col gap-2">
                 <div className="w-full">
                   <label className="font-semibold font-sans text-sm">
-                    Job title
+                    Role
                   </label>
                   <Input
-                    {...register("jobTitle", {
-                      required: { value: true, message: "Add job title" },
+                    {...register("role", {
+                      required: { value: true, message: "What was you role" },
                     })}
                     type="text"
                     placeholder="Software Engineer"
-                    onChange={(e) => updateExp(index, {...item, jobTitle: e.target.value})}
+                    onChange={(e) =>
+                      updateExp(index, { ...item, role: e.target.value })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.preventDefault();
+                    }}
                   />
-                  {errors.jobTitle && (
+                  {errors.role && (
                     <p className="text-red-500 text-xs">
-                      {errors.jobTitle.message}
+                      {errors.role.message}
                     </p>
                   )}
                 </div>
@@ -112,17 +119,14 @@ const Experience = ({setActiveForm}: any) => {
                     Company name
                   </label>
                   <Input
-                    {...register("companyName", {
-                      required: { value: true, message: "Add job title" },
-                    })}
-                    placeholder="XYZ company"
-                    onChange={(e) => updateExp(index, {...item, companyName: e.target.value})}
+                    {...register("companyName")}
+                    onChange={(e) =>
+                      updateExp(index, { ...item, companyName: e.target.value })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.preventDefault();
+                    }}
                   />
-                  {errors.companyName && (
-                    <p className="text-red-500 text-xs">
-                      {errors.companyName.message}
-                    </p>
-                  )}
                 </div>
 
                 <div className="flex justify-between overflow-x-auto w-full gap-2">
@@ -131,7 +135,7 @@ const Experience = ({setActiveForm}: any) => {
                       Start date
                     </label>
                     <Controller
-                      name="startDate"
+                      name={`startDate`}
                       control={control}
                       rules={{ required: "Start date is required" }}
                       render={({ field }) => (
@@ -156,7 +160,7 @@ const Experience = ({setActiveForm}: any) => {
                       End date
                     </label>
                     <Controller
-                      name="endDate"
+                      name={`endDate`}
                       control={control}
                       render={({ field }) => (
                         <DatePicker
@@ -179,13 +183,20 @@ const Experience = ({setActiveForm}: any) => {
                   <label className="font-semibold font-sans text-sm">
                     Description
                   </label>
-                  <Textarea {...register("description")} 
-                  onChange={(e) => updateExp(index, {...item, description: e.target.value})}
+                  <Textarea
+                    {...register("description")}
+                    onChange={(e) =>
+                      updateExp(index, { ...item, description: e.target.value })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.preventDefault();
+                    }}
                   />
                 </div>
               </div>
 
               <Button
+                type="button"
                 onClick={() => deleteExp(index)}
                 className="bg-red-600 hover:bg-red-400 w-fit"
               >
@@ -197,13 +208,17 @@ const Experience = ({setActiveForm}: any) => {
         })}
 
         <Button
+          type="button"
           onClick={() => addNew()}
           className="bg-green-500 hover:bg-green-700"
         >
           <Plus />
           Add new{" "}
         </Button>
-        <Button type="submit">Next  <ChevronRight/></Button>
+
+        <Button type="submit">
+          Next <ChevronRight />
+        </Button>
       </form>
     </div>
   );

@@ -33,8 +33,8 @@ const Education = ({ setActiveForm }: any) => {
     trigger,
   } = useForm<EducationForm>();
 
-  const onSubmit = (data: any) => {
-    const isValid = trigger();
+  const onSubmit = async (data: any) => {
+    const isValid = await trigger();
     if (!isValid) return toast.error("please fill necessary fields");
 
     setActiveForm("Skills");
@@ -44,9 +44,11 @@ const Education = ({ setActiveForm }: any) => {
   const updateEdu = (index: any, item: any) => {
     const data = {
       ...item,
-      startDate: item.startDate ? item.startDate.toISOString() : null,
-      endDate: item.endDate ? item.endDate.toISOString() : null,
+      startDate:
+        item.startDate instanceof Date ? item.startDate.toISOString() : null,
+      endDate: item.endDate instanceof Date ? item.endDate.toISOString() : null,
     };
+    console.log(data);
     dispatch(updateEducation({ data, index }));
   };
 
@@ -98,6 +100,9 @@ const Education = ({ setActiveForm }: any) => {
                     onChange={(e) =>
                       updateEdu(index, { ...item, degree: e.target.value })
                     }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.preventDefault();
+                    }}
                   />
                   {errors.degree && (
                     <p className="text-red-500 text-xs">
@@ -108,15 +113,21 @@ const Education = ({ setActiveForm }: any) => {
 
                 <div className="w-full">
                   <label className="font-semibold font-sans text-sm">
-                    School
+                    School / University
                   </label>
                   <Input
                     {...register("school", {
-                      required: {value: true, message: 'Enter school name'}
+                      required: {
+                        value: true,
+                        message: "Enter school/university name",
+                      },
                     })}
                     onChange={(e) =>
                       updateEdu(index, { ...item, school: e.target.value })
                     }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.preventDefault();
+                    }}
                   />
                   {errors.school && (
                     <p className="text-red-500 text-xs">
@@ -173,7 +184,8 @@ const Education = ({ setActiveForm }: any) => {
               </div>
 
               <Button
-                onClick={() => deleteEdu(item)}
+                type="button"
+                onClick={() => deleteEdu(index)}
                 className="bg-red-600 hover:bg-red-400 w-fit"
               >
                 <Minus />
@@ -184,12 +196,14 @@ const Education = ({ setActiveForm }: any) => {
         })}
 
         <Button
+          type="button"
           onClick={() => addNew()}
           className="bg-green-500 hover:bg-green-700"
         >
           <Plus />
           Add new{" "}
         </Button>
+
         <Button type="submit">
           Next <ChevronRight />
         </Button>

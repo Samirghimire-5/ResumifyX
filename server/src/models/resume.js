@@ -11,17 +11,17 @@ const resumeSchema = new mongoose.Schema(
       image: {type: String},
       fullName: { type: String, required: true },
       email: { type: String, required: true },
-      phone: { type: String, required: true },
-      jobTitle: {type: String, required: true},
+      phone: { type: String },
+      jobTitle: {type: String },
       address: { type: String },
     },
     summary: { type: String },
 
     experience: [
       {
-        jobTitle: { type: String, required: true },
-        company: { type: String, required: true },
-        startDate: { type: Date, required: true },
+        role: { type: String, required: true },
+        company: { type: String },
+        startDate: { type: Date },
         endDate: { type: Date },
         description: { type: String },
       },
@@ -31,7 +31,7 @@ const resumeSchema = new mongoose.Schema(
       {
         school: { type: String, required: true },
         degree: { type: String, required: true },
-        startDate: { type: Date, required: true },
+        startDate: { type: Date },
         endDate: { type: Date },
       },
     ],

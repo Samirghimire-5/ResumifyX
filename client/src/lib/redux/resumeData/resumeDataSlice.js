@@ -1,4 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = {
   personalInfo: {
     name: "",
@@ -17,17 +18,17 @@ const resumeDataSlice = createSlice({
   name: "resumeData",
   initialState,
   reducers: {
-    personalInfo: (state, action) => {
+    setPersonalInfo: (state, action) => {
       state.personalInfo = {...state.personalInfo, ...action.payload}
     }, 
-    summary: (state, action) => {
+    setSummary: (state, action) => {
       state.summary = action.payload;
     },
     addExperience: (state, action) => {
       state.experience = [...state.experience, action.payload]
     }, 
     delExperience: (state, action) => {
-      state.experience.splice(action.payload, 1)
+      state.experience = state.experience.filter((_, index) => index !== action.payload)
     },
     updateExperience: (state, action) => {
       const {data, index} = action.payload
@@ -37,17 +38,18 @@ const resumeDataSlice = createSlice({
       state.education = [...state.education, action.payload]
     }, 
     delEducation: (state, action) => {
-      state.education.splice(action.payload, 1)
+      state.education = state.education.filter((_, index) => index !== action.payload)
     },
     updateEducation: (state, action) => {
       const {data, index} = action.payload
       state.education[index] = {...data}
     },
-    skills: (state, action) => {
+    setSkills: (state, action) => {
       state.skills = action.payload;
     }, 
+    resetResumeData: () => initialState,
   }
 })
 
-export const { personalInfo, summary, addExperience, skills, delExperience, updateExperience, addEducation, delEducation, updateEducation} = resumeDataSlice.actions;
+export const { setPersonalInfo, setSummary, addExperience, setSkills, delExperience, updateExperience, addEducation, delEducation, updateEducation, resetResumeData} = resumeDataSlice.actions;
 export default resumeDataSlice.reducer

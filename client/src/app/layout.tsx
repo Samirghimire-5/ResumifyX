@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import toast, { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
-import { persistor, store } from '../lib/redux/store'
-import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from "../lib/redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +19,6 @@ const geistMono = Geist_Mono({
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-
   return (
     <html lang="en">
       <body
@@ -27,8 +26,8 @@ export default function RootLayout({
       >
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-              {children}
-              <Toaster />
+            {children}
+            <Toaster position="top-right" reverseOrder={true} />
           </PersistGate>
         </Provider>
       </body>

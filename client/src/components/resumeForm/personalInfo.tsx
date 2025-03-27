@@ -5,12 +5,10 @@ import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
-import { personalInfo } from "@/lib/redux/resumeData/resumeDataSlice";
-import axios from "axios";
+import { setPersonalInfo } from "@/lib/redux/resumeData/resumeDataSlice";
 import { ChevronRight } from "lucide-react";
 
-const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
-
+const PersonalInfo = ({ setPreviewPhoto, setActiveForm }: any) => {
   const dispatch = useDispatch();
 
   interface FormInputs {
@@ -30,8 +28,14 @@ const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
     trigger,
   } = useForm<FormInputs>();
 
-  const watchedFields = watch(['fullName', 'jobTitle', 'phone', 'address', 'email']);
-  
+  const watchedFields = watch([
+    "fullName",
+    "jobTitle",
+    "phone",
+    "address",
+    "email",
+  ]);
+
   const formValue = {
     fullName: watchedFields[0],
     jobTitle: watchedFields[1],
@@ -39,9 +43,10 @@ const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
     address: watchedFields[3],
     email: watchedFields[4],
   };
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch(personalInfo(formValue));
+      dispatch(setPersonalInfo(formValue));
     }, 500);
 
     return () => clearTimeout(timer);
@@ -52,17 +57,18 @@ const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
       const file = e?.target?.files[0];
 
       if (file) {
-        const objectUrl = URL.createObjectURL(file) 
-        setPreviewPhoto(objectUrl)
+        const objectUrl = URL.createObjectURL(file);
+        setPreviewPhoto(objectUrl);
       }
     }
-  }
+  };
 
   const onSubmit = async (data: any) => {
-    if (Object.keys(errors).length !== 0) {
+    const isValid = trigger();
+    const formData = new FormData();
+    if (!isValid) {
       return toast.error("fill out the details");
     } else {
-      const formData = new FormData();
       if (data.image && data.image[0]) {
         formData.append("image", data.image[0]);
       }
@@ -72,16 +78,16 @@ const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
       formData.append("address", data.address);
       formData.append("email", data.email);
 
-      try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/resumeImg`, formData);
-        if (response.status === 200) {
-          console.log(response);
-          setActiveForm('Summary')
-        }
+      // try {
+      //   const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/resumeImg`, formData);
+      //   if (response.status === 200) {
+      //     console.log(response);
+      //   }
 
-      } catch (error) {
-        console.log(error)
-      }
+      // } catch (error) {
+      //   console.log(error)
+      // }
+      setActiveForm("Summary");
     }
   };
 
@@ -112,7 +118,7 @@ const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
           <Input
             placeholder="Jhon Doe"
             {...register("fullName", {
-              required: { value: true, message: "Please add your full name" },
+              required: { value: true, message: "Add your Full name" },
             })}
           />
           {errors.fullName && (
@@ -123,37 +129,18 @@ const PersonalInfo = ({setPreviewPhoto, setActiveForm}: any) => {
         <div className="flex justify-between gap-2 w-full">
           <div className="w-full">
             <label className="font-semibold font-sans text-sm">Job title</label>
-            <Input
-              placeholder="Software Developer"
-              {...register("jobTitle", {
-                required: { value: true, message: "Specify your job" },
-              })}
-            />
-            {errors.jobTitle && (
-              <p className="text-red-500 text-xs">{errors.jobTitle.message}</p>
-            )}
+            <Input placeholder="Software Developer" {...register("jobTitle")} />
           </div>
 
           <div className="w-full">
             <label className="font-semibold font-sans text-sm">Phone</label>
-            <Input
-              {...register("phone", {
-                required: {
-                  value: true,
-                  message: "Please add your contact number",
-                },
-              })}
-              placeholder="3939932992"
-            />
-            {errors.phone && (
-              <p className="text-red-500 text-xs">{errors.phone.message}</p>
-            )}
+            <Input {...register("phone")} />
           </div>
         </div>
 
         <div className="w-full">
           <label className="font-semibold font-sans text-sm">Address</label>
-          <Input placeholder="Kathmandu, Nepal" {...register("address")} />
+          <Input {...register("address")} />
         </div>
 
         <div className="w-full">

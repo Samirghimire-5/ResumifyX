@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
-import { summary } from "@/lib/redux/resumeData/resumeDataSlice";
+import { setSummary } from "@/lib/redux/resumeData/resumeDataSlice";
 import { ChevronRight } from "lucide-react";
 
 const Summary = ({setActiveForm}: any) => {
@@ -13,7 +13,7 @@ const Summary = ({setActiveForm}: any) => {
   const handleChange = () => {
     if (summaryRef.current) {
       const timer = setTimeout(() => {
-        dispatch(summary(summaryRef?.current?.value))
+        dispatch(setSummary(summaryRef?.current?.value))
       }, 1000)
       return () => clearTimeout(timer);
     }

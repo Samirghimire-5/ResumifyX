@@ -11,9 +11,16 @@ const getResume = async (req, res) => {
 }
 
 const createNewResume = async (req, res) => {
-  const resume = await Resume.create(req.body);
-  res.json({ message: "created new resuem" });
-  console.log(resume);
+  try {
+    const resume = await Resume.create(req.body);
+    if (!resume) return res.status(400).json({error: 'failed to generate resume'})
+    
+      res.status(200).json({ message: "Successfully generated resume" });
+    console.log(resume);
+  } catch (error) {
+    res.status(401).json({error: 'server failure'})
+  }
+
 };
 
 
