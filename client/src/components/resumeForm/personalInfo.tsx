@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { setPersonalInfo } from "@/lib/redux/resumeData/resumeDataSlice";
-import { ChevronRight } from "lucide-react";
+import { setImage, setPersonalInfo } from "@/lib/redux/resumeData/resumeDataSlice";
+import { ChevronRight, FileLineChart } from "lucide-react";
 
-const PersonalInfo = ({ setPreviewPhoto, setActiveForm }: any) => {
+const PersonalInfo = ({ setActiveForm }: any) => {
+  // const reduxValue = useSelector((state: any) => state.resumeData.personalInfo)    // to set initial value of inputs
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const dispatch = useDispatch();
 
   interface FormInputs {
@@ -24,6 +26,7 @@ const PersonalInfo = ({ setPreviewPhoto, setActiveForm }: any) => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
     trigger,
   } = useForm<FormInputs>();
@@ -52,16 +55,22 @@ const PersonalInfo = ({ setPreviewPhoto, setActiveForm }: any) => {
     return () => clearTimeout(timer);
   }, [formValue]);
 
-  const handleInputChange = (e: any) => {
+
+  const handleFileChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e?.target?.files[0];
+      setSelectedFile(file.name)
 
-      if (file) {
-        const objectUrl = URL.createObjectURL(file);
-        setPreviewPhoto(objectUrl);
-      }
+      const objectUrl = URL.createObjectURL(file);
+      dispatch(setImage(objectUrl))
     }
   };
+
+  // useEffect(() => {    // this is to set the initial form value that user typed which is stored in redux
+  //   if (reduxValue) {
+  //     setValue('fullName', reduxValue.fullName)
+  //   }
+  // }, [reduxValue, setValue])
 
   const onSubmit = async (data: any) => {
     const isValid = trigger();
@@ -69,13 +78,13 @@ const PersonalInfo = ({ setPreviewPhoto, setActiveForm }: any) => {
     if (!isValid) {
       return toast.error("fill out the details");
     } else {
-      if (data.image && data.image[0]) {
-        formData.append("image", data.image[0]);
+      if (selectedFile) {
+        formData.append("image", selectedFile);
       }
       formData.append("fullName", data.fullName);
-      formData.append("jobTitle", data.jobTitle);
-      formData.append("phone", data.phone);
-      formData.append("address", data.address);
+      formData.append("jobTitle", data.jobTitle || '');
+      formData.append("phone", data.phone || '');
+      formData.append("address", data.address || '');
       formData.append("email", data.email);
 
       // try {
@@ -91,6 +100,12 @@ const PersonalInfo = ({ setPreviewPhoto, setActiveForm }: any) => {
     }
   };
 
+  const deleteImage = () => {
+    dispatch(setImage(''))
+    setSelectedFile(null)
+    setValue('image', undefined )
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col font-serif items-center">
@@ -102,15 +117,18 @@ const PersonalInfo = ({ setPreviewPhoto, setActiveForm }: any) => {
         encType="multipart/form-data"
         className="flex flex-col gap-2 items-center"
         onSubmit={handleSubmit(onSubmit)}
-        onChange={handleInputChange}
       >
         <div className="w-full">
           <label className="font-semibold font-sans text-sm">Your photo</label>
+          <div className="flex">
           <Input
             type="file"
             placeholder="Choose a file"
             {...register("image")}
+            onChange={handleFileChange}
           />
+          {selectedFile && <Button onClick={deleteImage}>Delete</Button>}
+          </div>
         </div>
 
         <div className="w-full">

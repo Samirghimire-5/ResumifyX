@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   personalInfo: {
+    image: '',
     name: "",
     jobTitle: "",
     email: "",
@@ -18,6 +19,9 @@ const resumeDataSlice = createSlice({
   name: "resumeData",
   initialState,
   reducers: {
+    setImage: (state, action) => {
+      state.personalInfo.image = action.payload
+    }, 
     setPersonalInfo: (state, action) => {
       state.personalInfo = {...state.personalInfo, ...action.payload}
     }, 
@@ -51,5 +55,5 @@ const resumeDataSlice = createSlice({
   }
 })
 
-export const { setPersonalInfo, setSummary, addExperience, setSkills, delExperience, updateExperience, addEducation, delEducation, updateEducation, resetResumeData} = resumeDataSlice.actions;
+export const { setImage, setPersonalInfo, setSummary, addExperience, setSkills, delExperience, updateExperience, addEducation, delEducation, updateEducation, resetResumeData} = resumeDataSlice.actions;
 export default resumeDataSlice.reducer

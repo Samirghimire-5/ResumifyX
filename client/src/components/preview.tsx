@@ -1,82 +1,158 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "./ui/card";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 
-const PreviewSec = ({ previewPhoto }: any) => {
+const PreviewSec = () => {
   const resume = useSelector((state: any) => state.resumeData);
+  // console.log(resume)
+  const imageUrl = resume?.personalInfo?.image
 
   return (
     <Card className="h-[75%] w-[55%] shadow-xl bg-gray-100 rounded-2xl p-2">
       {/* A4 Page Container */}
-      <div className="w-full h-full bg-white p-7 box-border shadow-md overflow-y-auto">
+      <div className="w-full h-full bg-white p-8 box-border shadow-md overflow-y-auto font-sans">
         {/* Resume Content */}
-        <div className="font-sans text-base">
-          {/* Personal Info */}
+        <div className="max-w-3xl mx-auto">
+          {/* Header Section (Personal Info & Photo) */}
           {resume.personalInfo && (
-            <div>
-              <h1 className="text-3xl font-bold">{resume.personalInfo.fullName}</h1>
-              <p className="text-lg">{resume.personalInfo.jobTitle}</p>
-              {/* Add other personal info fields */}
+            <div className="flex items-start mb-6">
+              {imageUrl && (
+              <div className="mr-6">
+                <Image
+                  src={imageUrl}
+                  alt="Profile"
+                  width={100}
+                  height={100}
+                  className="rounded-full object-cover"
+                />
+              </div>
+              )}
+
+              <div>
+                <h1 className="text-3xl font-semibold text-gray-800 leading-tight">
+                  {resume.personalInfo.fullName}
+                </h1>
+                <p className="text-lg text-gray-600">
+                  {resume.personalInfo.jobTitle}
+                </p>
+                {/* Add other personal info fields (e.g., email, phone, location) */}
+                {resume.personalInfo.email && (
+                  <p className="text-sm text-gray-600">
+                    {resume.personalInfo.email}
+                  </p>
+                )}
+                {resume.personalInfo.phone && (
+                  <p className="text-sm text-gray-600">
+                    {resume.personalInfo.phone}
+                  </p>
+                )}
+                {resume.personalInfo.address && (
+                  <p className="text-sm text-gray-600">
+                    {resume.personalInfo.address}
+                  </p>
+                )}
+              </div>
             </div>
           )}
 
-          {/* Summary */}
+          {/* Summary Section */}
           {resume.summary && (
-            <div className="mt-4">
-              <h2 className="text-xl font-semibold">Summary</h2>
-              <p>{resume.summary}</p>
-            </div>
+            <section className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-800 border-b pb-2">
+                Summary
+              </h2>
+              <p className="text-gray-700 mt-2 leading-relaxed">
+                {resume.summary}
+              </p>
+            </section>
           )}
 
-          {/* Experience */}
+          {/* Experience Section */}
           {resume.experience && resume.experience.length > 0 && (
-            <div className="mt-4">
-              <h2 className="text-xl font-semibold">Experience</h2>
+            <section className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-800 border-b pb-2">
+                Experience
+              </h2>
               {resume.experience.map((exp: any, index: any) => (
-                <div key={index} className="mt-2">
-                  <h3 className="font-semibold">{exp.role}</h3>
-                  <p>{exp.companyName}</p>
-                  <p>{exp.startDate ? new Date(exp.startDate).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }) : null} - {exp.endDate ? new Date(exp.endDate).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }) : null}</p>
-                  <p>{exp.description}</p>
+                <div key={index} className="mt-4">
+                  <h3 className="font-semibold text-gray-700">{exp.role}</h3>
+                  <p className="text-sm text-gray-600">
+                    {exp.companyName}, {exp.location}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {exp.startDate &&
+                      new Date(exp.startDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                      })}
+                    {exp.endDate &&
+                      exp.endDate !== "" &&
+                      ` - ${new Date(exp.endDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                      })}`}
+                    {(!exp.endDate || exp.endDate === "") &&
+                      exp.startDate &&
+                      " - Present"}
+                  </p>
+                  <ul className="list-disc list-inside text-gray-700 mt-2">
+                    {exp.description &&
+                      exp.description
+                        .split("\n")
+                        .map((item: any, descIndex: number) => (
+                          <li key={descIndex}>{item}</li>
+                        ))}
+                  </ul>
                 </div>
               ))}
-            </div>
+            </section>
           )}
 
-          {/* Education */}
+          {/* Education Section */}
           {resume.education && resume.education.length > 0 && (
-            <div className="mt-4">
-              <h2 className="text-xl font-semibold">Education</h2>
-              {resume.education.map((edu : any, index: any) => (
-                <div key={index} className="mt-2">
-                  <h3 className="font-semibold">{edu.degree}</h3>
-                  <p>{edu.school}</p>
-                  <p>{edu.startDate} - {edu.endDate}</p>
+            <section className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-800 border-b pb-2">
+                Education
+              </h2>
+              {resume.education.map((edu: any, index: any) => (
+                <div key={index} className="mt-4">
+                  <h3 className="font-semibold text-gray-700">{edu.degree}</h3>
+                  <p className="text-sm text-gray-600">{edu.school}</p>
+                  <p className="text-sm text-gray-600">
+                    {edu.startDate &&
+                      new Date(edu.startDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                      })}
+                    {edu.endDate &&
+                      edu.endDate !== "" &&
+                      ` - ${new Date(edu.endDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                      })}`}
+                    {(!edu.endDate || edu.endDate === "") &&
+                      edu.startDate &&
+                      " - Present"}
+                  </p>
                 </div>
               ))}
-            </div>
+            </section>
           )}
 
-          {/* Skills */}
+          {/* Skills Section */}
           {resume.skills && resume.skills.length > 0 && (
-            <div className="mt-4">
-              <h2 className="text-xl font-semibold">Skills</h2>
-              <ul className="list-disc list-inside">
+            <section className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-800 border-b pb-2">
+                Skills
+              </h2>
+              <ul className="list-disc list-inside text-gray-700">
                 {resume.skills.map((skill: any, index: any) => (
                   <li key={index}>{skill}</li>
                 ))}
               </ul>
-            </div>
+            </section>
           )}
         </div>
       </div>

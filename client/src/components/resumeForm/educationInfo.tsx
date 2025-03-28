@@ -44,11 +44,9 @@ const Education = ({ setActiveForm }: any) => {
   const updateEdu = (index: any, item: any) => {
     const data = {
       ...item,
-      startDate:
-        item.startDate instanceof Date ? item.startDate.toISOString() : null,
-      endDate: item.endDate instanceof Date ? item.endDate.toISOString() : null,
+      startDate: item.startDate instanceof Date ? item.startDate.toISOString() : item.startDate || '',
+      endDate: item.endDate instanceof Date ? item.endDate.toISOString() : item.endDate || '',
     };
-    console.log(data);
     dispatch(updateEducation({ data, index }));
   };
 

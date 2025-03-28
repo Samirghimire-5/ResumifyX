@@ -13,6 +13,8 @@ import Experience from "./resumeForm/experienceInfo";
 import Education from "./resumeForm/educationInfo";
 import Skills from "./resumeForm/skillsInfo";
 import { useDispatch, useSelector } from "react-redux";
+import { Button } from "./ui/button";
+import { RotateCcw } from "lucide-react";
 
 const InputSec = ({setPreviewPhoto}: any) => {
 
@@ -65,6 +67,7 @@ const InputSec = ({setPreviewPhoto}: any) => {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="w-full overflow-y-auto">{renderForm()}</div>
+      {/* <RotateCcw className="left-2 bottom-2"/> */}
     </Card>
   );
 };

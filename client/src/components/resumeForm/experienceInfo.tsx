@@ -39,9 +39,8 @@ const Experience = ({ setActiveForm }: any) => {
   const updateExp = (index: any, item: any) => {
     const data = {
       ...item,
-      startDate:
-        item.startDate instanceof Date ? item.startDate.toISOString() : "",
-      endDate: item.endDate instanceof Date ? item.endDate.toISOString() : "",
+      startDate: item.startDate instanceof Date ? item.startDate.toISOString() : item.startDate || '',
+      endDate: item.endDate instanceof Date ? item.endDate.toISOString() : item.endDate || '',
     };
     dispatch(updateExperience({ data, index }));
   };
