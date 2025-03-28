@@ -64,18 +64,6 @@ const SideNav = () => {
       icon: LayoutGrid,
       description: "Create your professional resume",
     },
-    {
-      title: "Examples",
-      url: "/examples",
-      icon: BookOpen,
-      description: "Explore successful resume examples",
-    },
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings,
-      description: "Manage your account preferences",
-    },
   ];
 
   return (
