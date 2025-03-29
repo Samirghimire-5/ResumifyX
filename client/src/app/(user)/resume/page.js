@@ -9,7 +9,7 @@ const Resume = () => {
   const router = useRouter()
 
   const handleClick = () => {
-    router.push("/builder")
+    router.push("/resume/builder")
   }
 
   return (

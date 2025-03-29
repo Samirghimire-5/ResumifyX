@@ -1,9 +1,13 @@
+'use client'
 import Image from "next/image";
-import React from "react";
+import React, { forwardRef } from "react";
 
-const DefaultTemplate = ({resume, imageUrl}: any) => {
+const DefaultTemplate = forwardRef(({ resume, imageUrl }: any, ref) => {
   return (
-    <div className="w-full h-full bg-white p-8 box-border shadow-md overflow-y-auto font-sans">
+    <div
+      ref={ref} // Forward the ref to the outermost div
+      className="w-full h-full bg-white p-8 box-border shadow-md overflow-y-auto font-sans"
+    >
       <div className="max-w-3xl mx-auto">
         {/* Header Section */}
         {resume.personalInfo && (
@@ -27,7 +31,6 @@ const DefaultTemplate = ({resume, imageUrl}: any) => {
               <p className="text-lg text-gray-600">
                 {resume.personalInfo.jobTitle}
               </p>
-              {/* Add other personal info fields (e.g., email, phone, location) */}
               {resume.personalInfo.email && (
                 <p className="text-sm text-gray-600">
                   {resume.personalInfo.email}
@@ -91,7 +94,7 @@ const DefaultTemplate = ({resume, imageUrl}: any) => {
                   {exp.description &&
                     exp.description
                       .split("\n")
-                      .map((item:any, descIndex:any) => (
+                      .map((item: any, descIndex: any) => (
                         <li key={descIndex}>{item}</li>
                       ))}
                 </ul>
@@ -106,7 +109,7 @@ const DefaultTemplate = ({resume, imageUrl}: any) => {
             <h2 className="text-xl font-semibold text-gray-800 border-b pb-2">
               Education
             </h2>
-            {resume.education.map((edu:any, index:any) => (
+            {resume.education.map((edu: any, index: any) => (
               <div key={index} className="mt-4">
                 <h3 className="font-semibold text-gray-700">{edu.degree}</h3>
                 <p className="text-sm text-gray-600">{edu.school}</p>
@@ -138,7 +141,7 @@ const DefaultTemplate = ({resume, imageUrl}: any) => {
               Skills
             </h2>
             <ul className="list-disc list-inside text-gray-700">
-              {resume.skills.map((skill:any, index:any) => (
+              {resume.skills.map((skill: any, index: any) => (
                 <li key={index}>{skill}</li>
               ))}
             </ul>
@@ -147,6 +150,6 @@ const DefaultTemplate = ({resume, imageUrl}: any) => {
       </div>
     </div>
   );
-};
+});
 
 export default DefaultTemplate;

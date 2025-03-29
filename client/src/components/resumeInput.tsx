@@ -50,7 +50,7 @@ const InputSec = ({setPreviewPhoto}: any) => {
   };
 
   return (
-    <Card className="flex flex-col items-center max-h-[75vh] min-h-[75vh] w-[40%] p-4 cursor-pointer">
+    <Card className="flex flex-col items-center max-h-[80vh] min-h-[80vh] w-[40%] p-4 cursor-pointer">
       <Breadcrumb>
         <BreadcrumbList>
           {categories.map((item, index) => (
@@ -66,7 +66,7 @@ const InputSec = ({setPreviewPhoto}: any) => {
           ))}
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="w-full overflow-y-auto">{renderForm()}</div>
+      <div className="w-full h-full overflow-y-auto">{renderForm()}</div>
       {/* <RotateCcw className="left-2 bottom-2"/> */}
     </Card>
   );
