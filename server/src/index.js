@@ -14,6 +14,7 @@ const upload = require("./middleware/imageMiddleware");
 const userRoute = require("./routes/user");
 const resumeRoute = require("./routes/resume");
 const templateRoute = require('./routes/template')
+const pdfRoute = require('./routes/pdf')
 
 const app = express();
 
@@ -48,6 +49,7 @@ dbConnect();
 app.use(userRoute);
 app.use(resumeRoute);
 app.use(templateRoute);
+app.use(pdfRoute)
 
 // Server Start
 app.listen(process.env.PORT, () => console.log(`starting localhost: ${process.env.PORT}`));

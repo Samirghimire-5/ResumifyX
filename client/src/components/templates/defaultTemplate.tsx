@@ -1,155 +1,87 @@
-'use client'
-import Image from "next/image";
-import React, { forwardRef } from "react";
+import React from "react";
+import { Document, Page, Text, View, Image, StyleSheet } from "@react-pdf/renderer";
 
-const DefaultTemplate = forwardRef(({ resume, imageUrl }: any, ref) => {
-  return (
-    <div
-      ref={ref} // Forward the ref to the outermost div
-      className="w-full h-full bg-white p-8 box-border shadow-md overflow-y-auto font-sans"
-    >
-      <div className="max-w-3xl mx-auto">
-        {/* Header Section */}
-        {resume.personalInfo && (
-          <div className="flex items-start mb-6">
-            {imageUrl && (
-              <div className="mr-6">
-                <Image
-                  src={imageUrl}
-                  alt="Profile"
-                  width={100}
-                  height={100}
-                  className="rounded-full object-cover"
-                />
-              </div>
-            )}
-
-            <div>
-              <h1 className="text-3xl font-semibold text-gray-800 leading-tight">
-                {resume.personalInfo.fullName}
-              </h1>
-              <p className="text-lg text-gray-600">
-                {resume.personalInfo.jobTitle}
-              </p>
-              {resume.personalInfo.email && (
-                <p className="text-sm text-gray-600">
-                  {resume.personalInfo.email}
-                </p>
-              )}
-              {resume.personalInfo.phone && (
-                <p className="text-sm text-gray-600">
-                  {resume.personalInfo.phone}
-                </p>
-              )}
-              {resume.personalInfo.address && (
-                <p className="text-sm text-gray-600">
-                  {resume.personalInfo.address}
-                </p>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Summary Section */}
-        {resume.summary && (
-          <section className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-800 border-b pb-2">
-              Summary
-            </h2>
-            <p className="text-gray-700 mt-2 leading-relaxed">
-              {resume.summary}
-            </p>
-          </section>
-        )}
-
-        {/* Experience Section */}
-        {resume.experience && resume.experience.length > 0 && (
-          <section className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-800 border-b pb-2">
-              Experience
-            </h2>
-            {resume.experience.map((exp: any, index: any) => (
-              <div key={index} className="mt-4">
-                <h3 className="font-semibold text-gray-700">{exp.role}</h3>
-                <p className="text-sm text-gray-600">
-                  {exp.companyName}, {exp.location}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {exp.startDate &&
-                    new Date(exp.startDate).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                    })}
-                  {exp.endDate &&
-                    exp.endDate !== "" &&
-                    ` - ${new Date(exp.endDate).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                    })}`}
-                  {(!exp.endDate || exp.endDate === "") &&
-                    exp.startDate &&
-                    " - Present"}
-                </p>
-                <ul className="list-disc list-inside text-gray-700 mt-2">
-                  {exp.description &&
-                    exp.description
-                      .split("\n")
-                      .map((item: any, descIndex: any) => (
-                        <li key={descIndex}>{item}</li>
-                      ))}
-                </ul>
-              </div>
-            ))}
-          </section>
-        )}
-
-        {/* Education Section */}
-        {resume.education && resume.education.length > 0 && (
-          <section className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-800 border-b pb-2">
-              Education
-            </h2>
-            {resume.education.map((edu: any, index: any) => (
-              <div key={index} className="mt-4">
-                <h3 className="font-semibold text-gray-700">{edu.degree}</h3>
-                <p className="text-sm text-gray-600">{edu.school}</p>
-                <p className="text-sm text-gray-600">
-                  {edu.startDate &&
-                    new Date(edu.startDate).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                    })}
-                  {edu.endDate &&
-                    edu.endDate !== "" &&
-                    ` - ${new Date(edu.endDate).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                    })}`}
-                  {(!edu.endDate || edu.endDate === "") &&
-                    edu.startDate &&
-                    " - Present"}
-                </p>
-              </div>
-            ))}
-          </section>
-        )}
-
-        {/* Skills Section */}
-        {resume.skills && resume.skills.length > 0 && (
-          <section className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-800 border-b pb-2">
-              Skills
-            </h2>
-            <ul className="list-disc list-inside text-gray-700">
-              {resume.skills.map((skill: any, index: any) => (
-                <li key={index}>{skill}</li>
-              ))}
-            </ul>
-          </section>
-        )}
-      </div>
-    </div>
-  );
+const styles = StyleSheet.create({
+  page: { padding: 20, fontFamily: "Helvetica" },
+  section: { marginBottom: 10, borderBottomWidth: 1, borderBottomColor: "#ddd", paddingBottom: 5 },
+  heading: { fontSize: 18, fontWeight: "bold", marginBottom: 5 },
+  text: { fontSize: 12, marginBottom: 3 },
+  bulletPoint: { flexDirection: "row", alignItems: "flex-start" },
+  bullet: { width: 10 },
+  image: { width: 80, height: 80, borderRadius: 40, marginBottom: 10 },
 });
 
-export default DefaultTemplate;
+const DefaultTemplatePDF = ({ resume, imageUrl }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      {/* Personal Info */}
+      {resume.personalInfo && (
+        <View style={styles.section}>
+          {imageUrl && <Image src={imageUrl} style={styles.image} />}
+          <Text style={styles.heading}>{resume.personalInfo.fullName}</Text>
+          <Text style={styles.text}>{resume.personalInfo.jobTitle}</Text>
+          {resume.personalInfo.email && <Text style={styles.text}>{resume.personalInfo.email}</Text>}
+          {resume.personalInfo.phone && <Text style={styles.text}>{resume.personalInfo.phone}</Text>}
+          {resume.personalInfo.address && <Text style={styles.text}>{resume.personalInfo.address}</Text>}
+        </View>
+      )}
+
+      {/* Summary */}
+      {resume.summary && (
+        <View style={styles.section}>
+          <Text style={styles.heading}>Summary</Text>
+          <Text style={styles.text}>{resume.summary}</Text>
+        </View>
+      )}
+
+      {/* Experience */}
+      {resume.experience && resume.experience.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.heading}>Experience</Text>
+          {resume.experience.map((exp, index) => (
+            <View key={index}>
+              <Text style={styles.text}>{exp.role} - {exp.companyName}, {exp.location}</Text>
+              <Text style={styles.text}>
+                {exp.startDate} - {exp.endDate || "Present"}
+              </Text>
+              {exp.description && exp.description.split("\n").map((desc, i) => (
+                <View key={i} style={styles.bulletPoint}>
+                  <Text style={styles.bullet}>•</Text>
+                  <Text style={styles.text}>{desc}</Text>
+                </View>
+              ))}
+            </View>
+          ))}
+        </View>
+      )}
+
+      {/* Education */}
+      {resume.education && resume.education.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.heading}>Education</Text>
+          {resume.education.map((edu, index) => (
+            <View key={index}>
+              <Text style={styles.text}>{edu.degree} - {edu.school}</Text>
+              <Text style={styles.text}>{edu.startDate} - {edu.endDate || "Present"}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+
+      {/* Skills */}
+      {resume.skills && resume.skills.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.heading}>Skills</Text>
+          {resume.skills.map((skill, index) => (
+            <View key={index} style={styles.bulletPoint}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={styles.text}>{skill}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+    </Page>
+  </Document>
+);
+
+export default DefaultTemplatePDF;
