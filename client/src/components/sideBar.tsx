@@ -47,10 +47,10 @@ const SideNav = () => {
 
   const pages = [
     {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: Home,
-      description: "Overview of your activities",
+      title: "Resume Builder",
+      url: "/resume",
+      icon: LayoutGrid,
+      description: "Create your professional resume",
     },
     {
       title: "Templates",
@@ -58,19 +58,13 @@ const SideNav = () => {
       icon: FileText,
       description: "Browse resume templates",
     },
-    {
-      title: "Resume Builder",
-      url: "/resume",
-      icon: LayoutGrid,
-      description: "Create your professional resume",
-    },
   ];
 
   return (
     <Sidebar className="h-screen w-64">
       <SidebarContent className="bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 py-4 flex flex-col h-full">
         {/* Logo Section */}
-        <div className="flex justify-center mb-6 px-6 border-b-2 border-white">
+        <div className="flex justify-center mb-6 px-6">
           <Image
             src="/resumifyx-logo.svg"
             height={100}

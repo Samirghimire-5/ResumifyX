@@ -1,12 +1,24 @@
-import dynamic from 'next/dynamic';
-const DefaultTemplate = dynamic(() => import("./defaultTemplate"))
+"use client";
+import dynamic from "next/dynamic";
 
-const templates: any = {
-  default: DefaultTemplate,
-}
+const PreviewDefaultTemplates = dynamic(
+  () => import("./PreviewTemplates/defaultTemplate")
+);
+const PdfDefaultTemplate = dynamic(
+  () => import("./pdfTemplates/defaultTemplate"),
+  { ssr: false }
+);
 
-export default templates;
+export const previewTemplates = {
+  default: PreviewDefaultTemplates,
+};
 
+export const pdfTemplates = {
+  default: PdfDefaultTemplate,
+};
 
-
-// task add selectTemplate to redux so when clicked on a template the template design can be displayed
+// Default export for backward compatibility
+export default {
+  ...previewTemplates,
+  ...pdfTemplates,
+};

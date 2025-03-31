@@ -1,35 +1,28 @@
 "use client";
 import React, { Suspense, useRef } from "react";
 import { Card } from "./ui/card";
-import { useSelector } from "react-redux";
-import templates from "./templates";
-import ResumePdfDownload from "./resumePdfDownload";
+import { previewTemplates } from "./templates";
 
-const PreviewSec = () => {
-  const resume = useSelector((state: any) => state.resumeData);
-  const imageUrl = resume?.personalInfo.image;
+const PreviewSec = ({resume}: any) => {
+  const selectedTemplate = resume?.selectedTemplate || "default";
+  const TemplateComponent = previewTemplates[selectedTemplate] || previewTemplates["default"];
 
-  const selectedTemplate = resume?.selectedTemplate;
-  const TemplateComponent = templates[selectedTemplate] || templates["default"];
-
-  const downloadResume = () => {};
 
   return (
-    <Card className="flex flex-col h-[80%] w-[55%] shadow-xl bg-gray-100 rounded-2xl px-2 mr-4">
-      <div className="flex justify-end mr-3">
-        <ResumePdfDownload resume={resume} imageUrl={imageUrl} />
-      </div>
-      <div className="bg-white w-full h-full overflow-auto">
+    <Card className="flex flex-col min-h-[80vh] max-h-[80vh] w-[55%] shadow-xl rounded-2xl px-5 overflow-auto">
         <Suspense fallback={<p>Loading template...</p>}>
           {TemplateComponent ? (
-            <TemplateComponent resume={resume} imageUrl={imageUrl} />
+            <TemplateComponent resume={resume} />
           ) : (
             <p>Template not found</p>
           )}
         </Suspense>
-      </div>
     </Card>
   );
 };
 
 export default PreviewSec;
+
+{/* <div className="flex justify-end mr-3">
+<ResumePdfDownload resume={resume} />
+</div> */}

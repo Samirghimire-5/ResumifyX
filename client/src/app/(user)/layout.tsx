@@ -1,8 +1,6 @@
 "use client"
 import SideNav from "@/components/sideBar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import UserFetcher from "@/components/userFetcher";
-
 
 export default function Layout({ children }: any) {
   return (

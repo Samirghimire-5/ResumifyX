@@ -7,18 +7,6 @@ const getUsers = async (req, res) => {
   return res.json(data);
 };
 
-const dashboard = async (req, res) => {
-  try {
-    const user = await User.findOne({ _id: req.user.id }).select("-password");
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    res.status(201).json({ message: "welcome to dashboard", user });
-  } catch (error) {
-    res.status(500).json({ error: "server error" });
-  }
-};
 
 const registerNewUsers = async (req, res) => {
   try {
@@ -104,4 +92,4 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, registerNewUsers, loginUser, dashboard, logout };
+module.exports = { getUsers, registerNewUsers, loginUser, logout };

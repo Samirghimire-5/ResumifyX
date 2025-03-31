@@ -34,7 +34,7 @@ const Login = () => {
         toast.success(response.data.message);
         dispatch(userData(response.data.user))
         
-        router.push("/dashboard");
+        router.push("/resume");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Something went wrong');

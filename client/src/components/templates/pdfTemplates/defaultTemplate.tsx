@@ -1,5 +1,5 @@
 import React from "react";
-import { Document, Page, Text, View, Image, StyleSheet } from "@react-pdf/renderer";
+import { Page, Text, View, Image, StyleSheet, Document } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
   page: { padding: 20, fontFamily: "Helvetica" },
@@ -11,13 +11,14 @@ const styles = StyleSheet.create({
   image: { width: 80, height: 80, borderRadius: 40, marginBottom: 10 },
 });
 
-const DefaultTemplatePDF = ({ resume, imageUrl }) => (
+
+const PdfDefaultTemplate = ({ resume }: any) => (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Personal Info */}
       {resume.personalInfo && (
         <View style={styles.section}>
-          {imageUrl && <Image src={imageUrl} style={styles.image} />}
+          {resume?.personalInfo?.image && <Image src={resume?.personalInfo?.image} style={styles.image} />}
           <Text style={styles.heading}>{resume.personalInfo.fullName}</Text>
           <Text style={styles.text}>{resume.personalInfo.jobTitle}</Text>
           {resume.personalInfo.email && <Text style={styles.text}>{resume.personalInfo.email}</Text>}
@@ -38,13 +39,13 @@ const DefaultTemplatePDF = ({ resume, imageUrl }) => (
       {resume.experience && resume.experience.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.heading}>Experience</Text>
-          {resume.experience.map((exp, index) => (
+          {resume.experience.map((exp: any, index: any) => (
             <View key={index}>
               <Text style={styles.text}>{exp.role} - {exp.companyName}, {exp.location}</Text>
               <Text style={styles.text}>
                 {exp.startDate} - {exp.endDate || "Present"}
               </Text>
-              {exp.description && exp.description.split("\n").map((desc, i) => (
+              {exp.description && exp.description.split("\n").map((desc: any, i: any) => (
                 <View key={i} style={styles.bulletPoint}>
                   <Text style={styles.bullet}>•</Text>
                   <Text style={styles.text}>{desc}</Text>
@@ -59,7 +60,7 @@ const DefaultTemplatePDF = ({ resume, imageUrl }) => (
       {resume.education && resume.education.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.heading}>Education</Text>
-          {resume.education.map((edu, index) => (
+          {resume.education.map((edu: any, index: any) => (
             <View key={index}>
               <Text style={styles.text}>{edu.degree} - {edu.school}</Text>
               <Text style={styles.text}>{edu.startDate} - {edu.endDate || "Present"}</Text>
@@ -72,7 +73,7 @@ const DefaultTemplatePDF = ({ resume, imageUrl }) => (
       {resume.skills && resume.skills.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.heading}>Skills</Text>
-          {resume.skills.map((skill, index) => (
+          {resume.skills.map((skill: any, index: any) => (
             <View key={index} style={styles.bulletPoint}>
               <Text style={styles.bullet}>•</Text>
               <Text style={styles.text}>{skill}</Text>
@@ -84,4 +85,4 @@ const DefaultTemplatePDF = ({ resume, imageUrl }) => (
   </Document>
 );
 
-export default DefaultTemplatePDF;
+export default PdfDefaultTemplate;
