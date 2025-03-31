@@ -12,7 +12,6 @@ import {
   delEducation,
   updateEducation,
 } from "@/lib/redux/resumeData/resumeDataSlice";
-import toast from "react-hot-toast";
 
 const Education = ({ setActiveForm }: any) => {
   const educations = useSelector((state: any) => state.resumeData.education);
@@ -29,23 +28,25 @@ const Education = ({ setActiveForm }: any) => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
-    trigger,
+    formState: {},
   } = useForm<EducationForm>();
 
   const onSubmit = async (data: any) => {
-    const isValid = await trigger();
-    if (!isValid) return toast.error("please fill necessary fields");
-
-    setActiveForm("Skills");
+    setActiveForm("Summary");
     console.log(data);
   };
 
   const updateEdu = (index: any, item: any) => {
     const data = {
       ...item,
-      startDate: item.startDate instanceof Date ? item.startDate.toISOString() : item.startDate || '',
-      endDate: item.endDate instanceof Date ? item.endDate.toISOString() : item.endDate || '',
+      startDate:
+        item.startDate instanceof Date
+          ? item.startDate.toISOString()
+          : item.startDate || "",
+      endDate:
+        item.endDate instanceof Date
+          ? item.endDate.toISOString()
+          : item.endDate || "",
     };
     dispatch(updateEducation({ data, index }));
   };
@@ -89,12 +90,7 @@ const Education = ({ setActiveForm }: any) => {
                     Degree
                   </label>
                   <Input
-                    {...register("degree", {
-                      required: {
-                        value: true,
-                        message: "Enter degree name",
-                      },
-                    })}
+                    {...register("degree")}
                     onChange={(e) =>
                       updateEdu(index, { ...item, degree: e.target.value })
                     }
@@ -102,11 +98,6 @@ const Education = ({ setActiveForm }: any) => {
                       if (e.key === "Enter") e.preventDefault();
                     }}
                   />
-                  {errors.degree && (
-                    <p className="text-red-500 text-xs">
-                      {errors.degree.message}
-                    </p>
-                  )}
                 </div>
 
                 <div className="w-full">
@@ -114,12 +105,7 @@ const Education = ({ setActiveForm }: any) => {
                     School / University
                   </label>
                   <Input
-                    {...register("school", {
-                      required: {
-                        value: true,
-                        message: "Enter school/university name",
-                      },
-                    })}
+                    {...register("school")}
                     onChange={(e) =>
                       updateEdu(index, { ...item, school: e.target.value })
                     }
@@ -127,11 +113,6 @@ const Education = ({ setActiveForm }: any) => {
                       if (e.key === "Enter") e.preventDefault();
                     }}
                   />
-                  {errors.school && (
-                    <p className="text-red-500 text-xs">
-                      {errors.school.message}
-                    </p>
-                  )}
                 </div>
 
                 <div className="flex justify-between overflow-x-auto w-full gap-2">
@@ -142,7 +123,6 @@ const Education = ({ setActiveForm }: any) => {
                     <Controller
                       name="startDate"
                       control={control}
-                      rules={{ required: "Start date is required" }}
                       render={({ field }) => (
                         <DatePicker
                           value={field.value || null}
@@ -153,11 +133,6 @@ const Education = ({ setActiveForm }: any) => {
                         />
                       )}
                     />
-                    {errors.startDate && (
-                      <p className="text-red-500 text-xs">
-                        {errors.startDate.message}
-                      </p>
-                    )}
                   </div>
 
                   <div className="flex flex-col">

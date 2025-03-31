@@ -4,35 +4,37 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { setSkills } from "@/lib/redux/resumeData/resumeDataSlice";
-import { Sparkles } from "lucide-react";
+import { Save } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const Skills = () => {
   const dispatch = useDispatch();
   const skillRef = useRef<HTMLTextAreaElement | null>(null);
-  const userInfo = useSelector((state: any) => state.userData.user)
-  const resume = useSelector((state: any) => state.resumeData)
-  console.log({userId: userInfo._id, ...resume})
+  const userInfo = useSelector((state: any) => state.userData.user);
+  const resume = useSelector((state: any) => state.resumeData);
+  console.log({ userId: userInfo._id, ...resume });
 
-  const generate = async () => {
+  const save = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resume`, {
-        userId: userInfo._id, 
-        ...resume
-      }, 
-      {withCredentials: true}
-    )
-  
-      if (response.status === 400) return toast.error(response.data.error)
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/resume`,
+        {
+          userId: userInfo._id,
+          ...resume,
+        },
+        { withCredentials: true }
+      );
+
+      if (response.status === 400) return toast.error(response.data.error);
 
       if (response.status === 200) {
-        return toast.success(response.data.message)
+        return toast.success(response.data.message);
       }
     } catch (error) {
-      console.log("Error", error)
+      console.log("Error", error);
     }
-  }
+  };
 
   const handleChange = () => {
     if (skillRef.current) {
@@ -64,11 +66,13 @@ const Skills = () => {
         </p>
       </div>
 
-      <Button type="submit" className="bg-green-500 font-sans hover:bg-green-700"
-      onClick={generate}
+      <Button
+        type="submit"
+        className="bg-green-500 font-sans hover:bg-green-700"
+        onClick={save}
       >
-        <Sparkles />
-        Generate
+        <Save />
+        Save
       </Button>
     </div>
   );

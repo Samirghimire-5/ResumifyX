@@ -33,22 +33,25 @@ const Experience = ({ setActiveForm }: any) => {
     handleSubmit,
     control,
     formState: { errors },
-    trigger,
   } = useForm<ExperienceForm>();
 
   const updateExp = (index: any, item: any) => {
     const data = {
       ...item,
-      startDate: item.startDate instanceof Date ? item.startDate.toISOString() : item.startDate || '',
-      endDate: item.endDate instanceof Date ? item.endDate.toISOString() : item.endDate || '',
+      startDate:
+        item.startDate instanceof Date
+          ? item.startDate.toISOString()
+          : item.startDate || "",
+      endDate:
+        item.endDate instanceof Date
+          ? item.endDate.toISOString()
+          : item.endDate || "",
     };
     dispatch(updateExperience({ data, index }));
   };
 
   const onSubmit = async (data: any) => {
-    const isValid = await trigger();
-    if (!isValid) return toast.error("please fillout necessary fields");
-    setActiveForm("Education");
+    setActiveForm("Skills");
     // console.log(data)
   };
 
@@ -94,9 +97,7 @@ const Experience = ({ setActiveForm }: any) => {
                     Role
                   </label>
                   <Input
-                    {...register("role", {
-                      required: { value: true, message: "What was you role" },
-                    })}
+                    {...register("role")}
                     type="text"
                     placeholder="Software Engineer"
                     onChange={(e) =>
@@ -106,11 +107,6 @@ const Experience = ({ setActiveForm }: any) => {
                       if (e.key === "Enter") e.preventDefault();
                     }}
                   />
-                  {errors.role && (
-                    <p className="text-red-500 text-xs">
-                      {errors.role.message}
-                    </p>
-                  )}
                 </div>
 
                 <div className="w-full">
@@ -136,7 +132,6 @@ const Experience = ({ setActiveForm }: any) => {
                     <Controller
                       name={`startDate`}
                       control={control}
-                      rules={{ required: "Start date is required" }}
                       render={({ field }) => (
                         <DatePicker
                           value={field.value || null}
@@ -147,11 +142,6 @@ const Experience = ({ setActiveForm }: any) => {
                         />
                       )}
                     />
-                    {errors.startDate && (
-                      <p className="text-red-500 text-xs">
-                        {errors.startDate.message}
-                      </p>
-                    )}
                   </div>
 
                   <div className="flex flex-col">

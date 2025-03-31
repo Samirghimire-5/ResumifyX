@@ -7,22 +7,24 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "./ui/breadcrumb";
-import PersonalInfo from "./resumeForm/personalInfo";
-import Summary from "./resumeForm/summaryInfo";
-import Experience from "./resumeForm/experienceInfo";
-import Education from "./resumeForm/educationInfo";
-import Skills from "./resumeForm/skillsInfo";
+import PersonalInfo from "./resumeForm/personal";
+import Summary from "./resumeForm/summary";
+import Experience from "./resumeForm/experiences";
+import Education from "./resumeForm/educations";
+import Skills from "./resumeForm/skills";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "./ui/button";
 import { RotateCcw } from "lucide-react";
+import Projects from "./resumeForm/projects";
 
 const InputSec = ({setPreviewPhoto}: any) => {
 
   const categories = [
     "Personal Info",
     "Summary",
-    "Experience",
-    "Education",
+    "Experiences",
+    "Educations",
+    "Projects",
     "Skills",
   ];
 
@@ -36,14 +38,16 @@ const InputSec = ({setPreviewPhoto}: any) => {
     switch (activeForm) {
       case "Skills":
         return <Skills />;
-      case "Education":
+      case "Educations":
         return <Education setActiveForm={setActiveForm}/>;
       case "Personal Info":
-        return <PersonalInfo setPreviewPhoto={setPreviewPhoto} setActiveForm={setActiveForm}/>;
+        return <PersonalInfo setActiveForm={setActiveForm}/>;
       case "Summary":
         return <Summary setActiveForm={setActiveForm}/>;
-      case "Experience":
+      case "Experiences":
         return <Experience setActiveForm={setActiveForm} />;
+      case "Projects":
+        return <Projects setActiveForm={setActiveForm} />;
       default:
         return null;
     }

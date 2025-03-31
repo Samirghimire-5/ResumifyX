@@ -5,12 +5,15 @@ import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { setImage, setPersonalInfo } from "@/lib/redux/resumeData/resumeDataSlice";
+import {
+  setImage,
+  setPersonalInfo,
+} from "@/lib/redux/resumeData/resumeDataSlice";
 import { ChevronRight, FileLineChart } from "lucide-react";
 
 const PersonalInfo = ({ setActiveForm }: any) => {
   // const reduxValue = useSelector((state: any) => state.resumeData.personalInfo)    // to set initial value of inputs
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const dispatch = useDispatch();
 
   interface FormInputs {
@@ -27,8 +30,7 @@ const PersonalInfo = ({ setActiveForm }: any) => {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors },
-    trigger,
+    formState: {},
   } = useForm<FormInputs>();
 
   const watchedFields = watch([
@@ -55,14 +57,13 @@ const PersonalInfo = ({ setActiveForm }: any) => {
     return () => clearTimeout(timer);
   }, [formValue]);
 
-
   const handleFileChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e?.target?.files[0];
-      setSelectedFile(file.name)
+      setSelectedFile(file.name);
 
       const objectUrl = URL.createObjectURL(file);
-      dispatch(setImage(objectUrl))
+      dispatch(setImage(objectUrl));
     }
   };
 
@@ -73,38 +74,25 @@ const PersonalInfo = ({ setActiveForm }: any) => {
   // }, [reduxValue, setValue])
 
   const onSubmit = async (data: any) => {
-    const isValid = trigger();
     const formData = new FormData();
-    if (!isValid) {
-      return toast.error("fill out the details");
-    } else {
-      if (selectedFile) {
-        formData.append("image", selectedFile);
-      }
-      formData.append("fullName", data.fullName);
-      formData.append("jobTitle", data.jobTitle || '');
-      formData.append("phone", data.phone || '');
-      formData.append("address", data.address || '');
-      formData.append("email", data.email);
 
-      // try {
-      //   const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/resumeImg`, formData);
-      //   if (response.status === 200) {
-      //     console.log(response);
-      //   }
-
-      // } catch (error) {
-      //   console.log(error)
-      // }
-      setActiveForm("Summary");
+    if (selectedFile) {
+      formData.append("image", selectedFile);
     }
+    formData.append("fullName", data.fullName);
+    formData.append("jobTitle", data.jobTitle || "");
+    formData.append("phone", data.phone || "");
+    formData.append("address", data.address || "");
+    formData.append("email", data.email);
+
+    setActiveForm("Experiences");
   };
 
   const deleteImage = () => {
-    dispatch(setImage(''))
-    setSelectedFile(null)
-    setValue('image', undefined )
-  }
+    dispatch(setImage(""));
+    setSelectedFile(null);
+    setValue("image", undefined);
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -121,27 +109,19 @@ const PersonalInfo = ({ setActiveForm }: any) => {
         <div className="w-full">
           <label className="font-semibold font-sans text-sm">Your photo</label>
           <div className="flex">
-          <Input
-            type="file"
-            placeholder="Choose a file"
-            {...register("image")}
-            onChange={handleFileChange}
-          />
-          {selectedFile && <Button onClick={deleteImage}>Delete</Button>}
+            <Input
+              type="file"
+              placeholder="Choose a file"
+              {...register("image")}
+              onChange={handleFileChange}
+            />
+            {selectedFile && <Button onClick={deleteImage}>Delete</Button>}
           </div>
         </div>
 
         <div className="w-full">
           <label className="font-semibold font-sans text-sm">Full name</label>
-          <Input
-            placeholder="Jhon Doe"
-            {...register("fullName", {
-              required: { value: true, message: "Add your Full name" },
-            })}
-          />
-          {errors.fullName && (
-            <p className="text-red-500 text-xs">{errors.fullName.message}</p>
-          )}
+          <Input placeholder="Jhon Doe" {...register("fullName")} />
         </div>
 
         <div className="flex justify-between gap-2 w-full">
@@ -166,18 +146,8 @@ const PersonalInfo = ({ setActiveForm }: any) => {
           <Input
             placeholder="jhondoe@gmail.com"
             type="email"
-            {...register("email", {
-              required: { value: true, message: "Email is required" },
-              pattern: {
-                value:
-                  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                message: "Please enter valid email",
-              },
-            })}
+            {...register("email")}
           />
-          {errors.email && (
-            <p className="text-red-500 text-xs">{errors.email.message}</p>
-          )}
         </div>
 
         <Button type="submit" className="mt-4 w-20">

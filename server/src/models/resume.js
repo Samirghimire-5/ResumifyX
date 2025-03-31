@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const resumeSchema = new mongoose.Schema(
   {
@@ -8,15 +8,20 @@ const resumeSchema = new mongoose.Schema(
       required: true,
     },
     personalInfo: {
-      image: {type: String},
-      fullName: { type: String, required: true },
-      email: { type: String, required: true },
+      image: { type: String },
+      fullName: { type: String },
+      email: { type: String },
       phone: { type: String },
-      jobTitle: {type: String },
+      jobTitle: { type: String },
       address: { type: String },
     },
     summary: { type: String },
-
+    projects: [
+      {
+        project: { type: String, required: true },
+        description: { type: String },
+      },
+    ],
     experience: [
       {
         role: { type: String, required: true },
@@ -29,8 +34,8 @@ const resumeSchema = new mongoose.Schema(
 
     education: [
       {
-        school: { type: String, required: true },
-        degree: { type: String, required: true },
+        school: { type: String },
+        degree: { type: String },
         startDate: { type: Date },
         endDate: { type: Date },
       },

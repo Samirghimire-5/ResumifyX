@@ -24,7 +24,8 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER], // Ignore non-serializable Redux-Persist actions
       },
-    })/*.concat(logger)*/,
+    })
+    // .concat(logger),
 })
 
 export const persistor = persistStore(store);
