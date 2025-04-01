@@ -66,6 +66,10 @@ const Education = ({ setActiveForm }: any) => {
     dispatch(delEducation(index));
   };
 
+  const preventDefault = (e: any) => {
+    if (e.key === "Enter") e.preventDefault();
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col items-center font-serif">
@@ -94,9 +98,7 @@ const Education = ({ setActiveForm }: any) => {
                     onChange={(e) =>
                       updateEdu(index, { ...item, degree: e.target.value })
                     }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") e.preventDefault();
-                    }}
+                    onKeyDown={(e) => preventDefault(e)}
                   />
                 </div>
 
@@ -109,9 +111,7 @@ const Education = ({ setActiveForm }: any) => {
                     onChange={(e) =>
                       updateEdu(index, { ...item, school: e.target.value })
                     }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") e.preventDefault();
-                    }}
+                    onKeyDown={(e) => preventDefault(e)}
                   />
                 </div>
 

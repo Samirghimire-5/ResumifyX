@@ -29,7 +29,7 @@ const ResumePdfDownload = ({ resume }: any) => {
     <a
       download="resume.pdf"
       href={pdfUrl}
-      className="px-4 py-2 bg-black text-white rounded-lg"
+      className="flex px-2 py-2 bg-black text-white rounded-lg"
     >
       Download PDF
     </a>

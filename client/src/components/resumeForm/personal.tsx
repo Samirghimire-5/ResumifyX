@@ -4,7 +4,6 @@ import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
-import toast from "react-hot-toast";
 import {
   setImage,
   setPersonalInfo,
@@ -52,7 +51,7 @@ const PersonalInfo = ({ setActiveForm }: any) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(setPersonalInfo(formValue));
-    }, 500);
+    }, 0);
 
     return () => clearTimeout(timer);
   }, [formValue]);
@@ -94,6 +93,10 @@ const PersonalInfo = ({ setActiveForm }: any) => {
     setValue("image", undefined);
   };
 
+  const preventDefault = (e: any) => {
+    if (e.key === "Enter") e.preventDefault();
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col font-serif items-center">
@@ -114,6 +117,7 @@ const PersonalInfo = ({ setActiveForm }: any) => {
               placeholder="Choose a file"
               {...register("image")}
               onChange={handleFileChange}
+              onKeyDown={(e) => preventDefault(e)}
             />
             {selectedFile && <Button onClick={deleteImage}>Delete</Button>}
           </div>
@@ -121,24 +125,38 @@ const PersonalInfo = ({ setActiveForm }: any) => {
 
         <div className="w-full">
           <label className="font-semibold font-sans text-sm">Full name</label>
-          <Input placeholder="Jhon Doe" {...register("fullName")} />
+          <Input
+            placeholder="Jhon Doe"
+            {...register("fullName")}
+            onKeyDown={(e) => preventDefault(e)}
+          />
         </div>
 
         <div className="flex justify-between gap-2 w-full">
           <div className="w-full">
             <label className="font-semibold font-sans text-sm">Job title</label>
-            <Input placeholder="Software Developer" {...register("jobTitle")} />
+            <Input
+              placeholder="Software Developer"
+              {...register("jobTitle")}
+              onKeyDown={(e) => preventDefault(e)}
+            />
           </div>
 
           <div className="w-full">
             <label className="font-semibold font-sans text-sm">Phone</label>
-            <Input {...register("phone")} />
+            <Input
+              {...register("phone")}
+              onKeyDown={(e) => preventDefault(e)}
+            />
           </div>
         </div>
 
         <div className="w-full">
           <label className="font-semibold font-sans text-sm">Address</label>
-          <Input {...register("address")} />
+          <Input
+            {...register("address")}
+            onKeyDown={(e) => preventDefault(e)}
+          />
         </div>
 
         <div className="w-full">
@@ -147,6 +165,7 @@ const PersonalInfo = ({ setActiveForm }: any) => {
             placeholder="jhondoe@gmail.com"
             type="email"
             {...register("email")}
+            onKeyDown={(e) => preventDefault(e)}
           />
         </div>
 

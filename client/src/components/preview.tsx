@@ -9,7 +9,7 @@ const PreviewSec = ({resume}: any) => {
 
 
   return (
-    <Card className="flex flex-col min-h-[80vh] max-h-[80vh] w-[55%] shadow-xl rounded-2xl px-5 overflow-auto">
+    <Card className="flex flex-col min-h-[80vh] max-h-[80vh] w-[55%] shadow-xl rounded-2xl overflow-auto">
         <Suspense fallback={<p>Loading template...</p>}>
           {TemplateComponent ? (
             <TemplateComponent resume={resume} />

@@ -2,20 +2,42 @@
 import React, { useRef } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSummary } from "@/lib/redux/resumeData/resumeDataSlice";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Save } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const Summary = ({ setActiveForm }: any) => {
+const Summary = () => {
   const summaryRef = useRef<HTMLTextAreaElement | null>(null);
+  const userInfo = useSelector((state: any) => state.userData.user);
+  const resume = useSelector((state: any) => state.resumeData);
   const dispatch = useDispatch();
+
+  const save = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/resume`,
+        {
+          userId: userInfo._id,
+          ...resume,
+        },
+        { withCredentials: true }
+      );
+
+      if (response.status === 400) return toast.error(response.data.error);
+
+      if (response.status === 200) {
+        return toast.success(response.data.message);
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
 
   const handleChange = () => {
     if (summaryRef.current) {
-      const timer = setTimeout(() => {
         dispatch(setSummary(summaryRef?.current?.value));
-      }, 1000);
-      return () => clearTimeout(timer);
     }
   };
 
@@ -34,8 +56,13 @@ const Summary = ({ setActiveForm }: any) => {
         onChange={handleChange}
       />
 
-      <Button type="submit" onClick={() => setActiveForm("Experiences")}>
-        Next <ChevronRight />
+      <Button
+        type="submit"
+        className="bg-green-500 font-sans hover:bg-green-700"
+        onClick={save}
+      >
+        <Save />
+        Save
       </Button>
     </div>
   );

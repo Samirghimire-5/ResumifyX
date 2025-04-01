@@ -13,7 +13,6 @@ import {
   delExperience,
   updateExperience,
 } from "@/lib/redux/resumeData/resumeDataSlice";
-import toast from "react-hot-toast";
 
 const Experience = ({ setActiveForm }: any) => {
   const dispatch = useDispatch();
@@ -71,6 +70,10 @@ const Experience = ({ setActiveForm }: any) => {
     dispatch(delExperience(index));
   };
 
+  const preventDefault = (e: any) => {
+    if (e.key === "Enter") e.preventDefault();
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col items-center font-serif">
@@ -103,9 +106,7 @@ const Experience = ({ setActiveForm }: any) => {
                     onChange={(e) =>
                       updateExp(index, { ...item, role: e.target.value })
                     }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") e.preventDefault();
-                    }}
+                    onKeyDown={(e) => preventDefault(e)}
                   />
                 </div>
 
@@ -118,9 +119,7 @@ const Experience = ({ setActiveForm }: any) => {
                     onChange={(e) =>
                       updateExp(index, { ...item, companyName: e.target.value })
                     }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") e.preventDefault();
-                    }}
+                    onKeyDown={(e) => preventDefault(e)}
                   />
                 </div>
 
@@ -177,9 +176,7 @@ const Experience = ({ setActiveForm }: any) => {
                     onChange={(e) =>
                       updateExp(index, { ...item, description: e.target.value })
                     }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") e.preventDefault();
-                    }}
+                    onKeyDown={(e) => preventDefault(e)}
                   />
                 </div>
               </div>

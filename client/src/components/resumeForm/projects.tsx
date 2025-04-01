@@ -5,12 +5,12 @@ import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { ChevronRight, Minus, Plus } from "lucide-react";
-import { addProject, delProject } from "@/lib/redux/resumeData/resumeDataSlice";
+import { addProject, delProject, updateProject } from "@/lib/redux/resumeData/resumeDataSlice";
 
 const Projects = ({ setActiveForm }: any) => {
   const dispatch = useDispatch();
-  const projects = useSelector((state: any) => state?.resumeData.projects);
-  console.log("projects", projects);
+  const projects = useSelector((state: any) => state.resumeData.projects || []);
+  // console.log("projects", projects);
 
   interface ProjectForm {
     project: string;
@@ -40,7 +40,13 @@ const Projects = ({ setActiveForm }: any) => {
     dispatch(delProject(index));
   };
 
-  const updateProject = (index: any, item: any) => {};
+  const updProject = (index: any, data: any) => {
+    dispatch(updateProject({data, index}))
+  };
+
+  const preventDefault = (e: any) => {
+      if (e.key === "Enter") e.preventDefault();
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -70,11 +76,9 @@ const Projects = ({ setActiveForm }: any) => {
                       required: { value: true, message: "Add project name" },
                     })}
                     onChange={(e) =>
-                      updateProject(index, { ...item, project: e.target.value })
+                      updProject(index, { ...item, project: e.target.value })
                     }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") e.preventDefault();
-                    }}
+                    onKeyDown={(e) => preventDefault(e)}
                   />
                   {errors.project && (
                     <p className="text-sm text-red-600 font-sans">
@@ -90,14 +94,12 @@ const Projects = ({ setActiveForm }: any) => {
                   <Input
                     {...register("description")}
                     onChange={(e) =>
-                      updateProject(index, {
+                      updProject(index, {
                         ...item,
                         description: e.target.value,
                       })
                     }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") e.preventDefault();
-                    }}
+                    onKeyDown={(e) => preventDefault(e)}
                   />
                 </div>
               </div>

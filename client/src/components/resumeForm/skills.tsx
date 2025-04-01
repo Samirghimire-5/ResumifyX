@@ -4,37 +4,15 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { setSkills } from "@/lib/redux/resumeData/resumeDataSlice";
-import { Save } from "lucide-react";
+import { ChevronRight, Save } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const Skills = () => {
+const Skills = ({ setActiveForm }: any) => {
   const dispatch = useDispatch();
   const skillRef = useRef<HTMLTextAreaElement | null>(null);
-  const userInfo = useSelector((state: any) => state.userData.user);
-  const resume = useSelector((state: any) => state.resumeData);
-  console.log({ userId: userInfo._id, ...resume });
 
-  const save = async () => {
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/resume`,
-        {
-          userId: userInfo._id,
-          ...resume,
-        },
-        { withCredentials: true }
-      );
-
-      if (response.status === 400) return toast.error(response.data.error);
-
-      if (response.status === 200) {
-        return toast.success(response.data.message);
-      }
-    } catch (error) {
-      console.log("Error", error);
-    }
-  };
+  // console.log({ userId: userInfo._id, ...resume });
 
   const handleChange = () => {
     if (skillRef.current) {
@@ -42,10 +20,7 @@ const Skills = () => {
         .split(",")
         .map((skill) => skill.trim());
       skillArr = skillArr.filter((skill) => skill !== "");
-      const timer = setTimeout(() => {
-        dispatch(setSkills(skillArr));
-      }, 1000);
-      return () => clearTimeout(timer);
+      dispatch(setSkills(skillArr));
     }
   };
   return (
@@ -65,14 +40,8 @@ const Skills = () => {
           Seperate each skill with a comma.
         </p>
       </div>
-
-      <Button
-        type="submit"
-        className="bg-green-500 font-sans hover:bg-green-700"
-        onClick={save}
-      >
-        <Save />
-        Save
+      <Button type="submit" onClick={() => setActiveForm("Projects")}>
+        Next <ChevronRight />
       </Button>
     </div>
   );

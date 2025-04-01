@@ -21,11 +21,11 @@ const InputSec = ({setPreviewPhoto}: any) => {
 
   const categories = [
     "Personal Info",
-    "Summary",
     "Experiences",
-    "Educations",
-    "Projects",
     "Skills",
+    "Projects",
+    "Educations",
+    "Summary",
   ];
 
   const [activeForm, setActiveForm] = useState('Personal Info')
@@ -37,13 +37,13 @@ const InputSec = ({setPreviewPhoto}: any) => {
   const renderForm = () => {
     switch (activeForm) {
       case "Skills":
-        return <Skills />;
+        return <Skills setActiveForm={setActiveForm}/>;
       case "Educations":
         return <Education setActiveForm={setActiveForm}/>;
       case "Personal Info":
         return <PersonalInfo setActiveForm={setActiveForm}/>;
       case "Summary":
-        return <Summary setActiveForm={setActiveForm}/>;
+        return <Summary />;
       case "Experiences":
         return <Experience setActiveForm={setActiveForm} />;
       case "Projects":
