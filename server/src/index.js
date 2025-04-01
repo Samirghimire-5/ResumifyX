@@ -2,7 +2,6 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
-const dotenv = require('dotenv');
 
 // Database Connection
 const dbConnect = require("./db/connection");
@@ -14,6 +13,7 @@ const upload = require("./middleware/imageMiddleware");
 const userRoute = require("./routes/user");
 const resumeRoute = require("./routes/resume");
 const templateRoute = require('./routes/template')
+const geminiRoute = require("./routes/gemini")
 
 const app = express();
 
@@ -48,6 +48,7 @@ dbConnect();
 app.use(userRoute);
 app.use(resumeRoute);
 app.use(templateRoute);
+app.use(geminiRoute)
 
 // Server Start
 app.listen(process.env.PORT, () => console.log(`starting localhost: ${process.env.PORT}`));
