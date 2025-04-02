@@ -1,14 +1,17 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { setSummary } from "@/lib/redux/resumeData/resumeDataSlice";
-import { ChevronRight, Save } from "lucide-react";
+import { ChevronRight, Save, Sparkle, Sparkles } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Ai from "../ai";
 
 const Summary = () => {
+  const [showAi, setShowAi] = useState(false)
+
   const summaryRef = useRef<HTMLTextAreaElement | null>(null);
   const userInfo = useSelector((state: any) => state.userData.user);
   const resume = useSelector((state: any) => state.resumeData);
@@ -41,6 +44,8 @@ const Summary = () => {
     }
   };
 
+  const handleAiGenerate = () => setShowAi(true)
+
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="flex flex-col items-center font-serif">
@@ -48,6 +53,11 @@ const Summary = () => {
         <p className="font-light text-sm">
           Write a short introduction for your resume
         </p>
+      </div>
+
+      <div className="flex w-full items-center">
+        <Button onClick={handleAiGenerate}><Sparkles /> Generate with ai</Button>
+        {showAi && <Ai />}
       </div>
 
       <Textarea
