@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
@@ -8,7 +8,8 @@ import {
   setImage,
   setPersonalInfo,
 } from "@/lib/redux/resumeData/resumeDataSlice";
-import { ChevronRight, FileLineChart } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import { debounce } from 'lodash';
 
 const PersonalInfo = ({ setActiveForm }: any) => {
   // const reduxValue = useSelector((state: any) => state.resumeData.personalInfo)    // to set initial value of inputs
@@ -40,20 +41,21 @@ const PersonalInfo = ({ setActiveForm }: any) => {
     "email",
   ]);
 
-  const formValue = {
+  const formValue = useMemo(() => ({
     fullName: watchedFields[0],
     jobTitle: watchedFields[1],
     phone: watchedFields[2],
     address: watchedFields[3],
     email: watchedFields[4],
-  };
+  }), [JSON.stringify(watchedFields)]);;
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const debouncedDispatch = debounce(() => {
       dispatch(setPersonalInfo(formValue));
-    }, 0);
-
-    return () => clearTimeout(timer);
+    }, 500); // 500ms debounce time
+  
+    debouncedDispatch();
+    return () => debouncedDispatch.cancel();
   }, [formValue]);
 
   const handleFileChange = (e: any) => {

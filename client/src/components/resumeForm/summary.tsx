@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,13 @@ const Summary = () => {
   const userInfo = useSelector((state: any) => state.userData.user);
   const resume = useSelector((state: any) => state.resumeData);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (summaryRef.current && resume.summary) {
+      summaryRef.current.value = resume.summary;
+    }
+  }, [resume.summary]);
+
 
   const save = async () => {
     try {
@@ -57,7 +64,7 @@ const Summary = () => {
 
       <div className="flex w-full items-center">
         <Button onClick={handleAiGenerate}><Sparkles /> Generate with ai</Button>
-        {showAi && <Ai />}
+        {showAi && <Ai setShowAi={setShowAi}/>}
       </div>
 
       <Textarea

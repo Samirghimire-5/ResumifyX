@@ -24,6 +24,7 @@
     "date-fns": "^3.6.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.477.0",
     "next": "^15.2.4",
     "next-themes": "^0.4.4",
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.16",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

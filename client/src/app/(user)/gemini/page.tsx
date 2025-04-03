@@ -15,8 +15,6 @@ function GeminiComponent() {
 
         try {
             const response = await axios.post(`http://localhost:8000/api/generate`, { prompt });
-            console.log("hi")
-            console.log(response)
             setGeneratedText(response.data.generatedText);
         } catch (err: any) {
             setError(err.response?.error || 'An error occurred.');

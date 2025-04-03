@@ -5,7 +5,6 @@ const protecteRoute = (req, res, next) => {
   if (!token) return res.status(401).json({ error: "Not authorized" });
 
   try {
-    debugger;
     const decode = jwt.verify(token, process.env.SECRET_KEY);
     req.user = decode;
     next();

@@ -1,7 +1,11 @@
 const axios = require("axios");
 
 const generateWithAi = async (req, res) => {
-  const { prompt } = req.body;
+  const { textPrompt, resumeData  } = req.body;
+  let prompt = textPrompt;
+  if (!textPrompt && resumeData) {
+    prompt = JSON.stringify(resumeData)
+  }
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) res.status(401).json({ message: "Api key not found" });
@@ -17,7 +21,7 @@ const generateWithAi = async (req, res) => {
       {
         parts: [
           {
-            text: prompt,
+            text: `Write a 2-3 sentence resume summary, in the first person, emphasizing my MERN stack skills and career goals: ${prompt}`,
           },
         ],
       },
@@ -26,13 +30,11 @@ const generateWithAi = async (req, res) => {
 
 
   try {
-    console.log("1st")
     const response = await axios.post(url, data, { headers });
-    console.log(response)
     const generatedText = response.data.candidates[0].content.parts[0].text;
     res.status(200).json({ generatedText });
   }catch (error) {
-    console.error("Axios Error:", error); // Log the full error
+    // console.error("Axios Error:", error); // Log the full error
     if (error.response) {
       res.status(error.response.status).json({ error: error.response.data });
     } else if (error.request) {
