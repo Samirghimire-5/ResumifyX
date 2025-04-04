@@ -1,9 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Controller, set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
-import { DatePicker } from "../datePicker";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { ChevronRight, Minus, Plus } from "lucide-react";
@@ -17,41 +16,50 @@ import {
 const Experience = ({ setActiveForm }: any) => {
   const dispatch = useDispatch();
   const experiences = useSelector((state: any) => state.resumeData.experience);
-  // console.log(experiences);
 
-  interface ExperienceForm {
+  interface Experience {
     role: string;
     companyName: string;
-    startDate: Date | null;
-    endDate: Date | null;
+    startDate: string;
+    endDate: string;
     description: string;
+  }
+
+  interface ExperienceForm {
+    experience: Experience[]; 
   }
 
   const {
     register,
     handleSubmit,
-    control,
+    watch,
     formState: { errors },
   } = useForm<ExperienceForm>();
 
+  const watchExperience = watch();
+
+  const formatDateInput = (value: string) => {
+    // Remove all non-digit characters
+    let formattedValue = value.replace(/\D/g, '');
+    
+    // Add hyphens at appropriate positions
+    if (formattedValue.length > 4) {
+      formattedValue = formattedValue.substring(0, 4) + '-' + formattedValue.substring(4);
+    }
+    if (formattedValue.length > 7) {
+      formattedValue = formattedValue.substring(0, 7) + '-' + formattedValue.substring(7);
+    }
+    
+    // Limit to 10 characters (YYYY-MM-DD)
+    return formattedValue.substring(0, 10);
+  };
+
   const updateExp = (index: any, item: any) => {
-    const data = {
-      ...item,
-      startDate:
-        item.startDate instanceof Date
-          ? item.startDate.toISOString()
-          : item.startDate || "",
-      endDate:
-        item.endDate instanceof Date
-          ? item.endDate.toISOString()
-          : item.endDate || "",
-    };
-    dispatch(updateExperience({ data, index }));
+    dispatch(updateExperience({ data: item, index }));
   };
 
   const onSubmit = async (data: any) => {
     setActiveForm("Skills");
-    // console.log(data)
   };
 
   const addNew = () => {
@@ -59,8 +67,8 @@ const Experience = ({ setActiveForm }: any) => {
       addExperience({
         role: "",
         companyName: "",
-        startDate: null,
-        endDate: null,
+        startDate: "",
+        endDate: "",
         description: "",
       })
     );
@@ -100,7 +108,7 @@ const Experience = ({ setActiveForm }: any) => {
                     Role
                   </label>
                   <Input
-                    {...register("role")}
+                    {...register(`experience.${index}.role`)}
                     type="text"
                     placeholder="Software Engineer"
                     onChange={(e) =>
@@ -115,7 +123,7 @@ const Experience = ({ setActiveForm }: any) => {
                     Company name
                   </label>
                   <Input
-                    {...register("companyName")}
+                    {...register(`experience.${index}.companyName`)}
                     onChange={(e) =>
                       updateExp(index, { ...item, companyName: e.target.value })
                     }
@@ -128,37 +136,31 @@ const Experience = ({ setActiveForm }: any) => {
                     <label className="font-semibold font-sans text-sm">
                       Start date
                     </label>
-                    <Controller
-                      name={`startDate`}
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          value={field.value || null}
-                          onChange={(date) => {
-                            field.onChange(date);
-                            updateExp(index, { ...item, startDate: date });
-                          }}
-                        />
-                      )}
+                    <Input
+                      {...register(`experience.${index}.startDate`)}
+                      placeholder="YYYY-MM-DD"
+                      value={item.startDate || ''}
+                      onChange={(e) => {
+                        const formattedValue = formatDateInput(e.target.value);
+                        updateExp(index, { ...item, startDate: formattedValue });
+                      }}
+                      onKeyDown={(e) => preventDefault(e)}
                     />
                   </div>
 
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-full">
                     <label className="font-semibold font-sans text-sm">
                       End date
                     </label>
-                    <Controller
-                      name={`endDate`}
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          value={field.value || null}
-                          onChange={(date) => {
-                            field.onChange(date);
-                            updateExp(index, { ...item, endDate: date });
-                          }}
-                        />
-                      )}
+                    <Input
+                      {...register(`experience.${index}.endDate`)}
+                      placeholder="YYYY-MM-DD"
+                      value={item.endDate || ''}
+                      onChange={(e) => {
+                        const formattedValue = formatDateInput(e.target.value);
+                        updateExp(index, { ...item, endDate: formattedValue });
+                      }}
+                      onKeyDown={(e) => preventDefault(e)}
                     />
                   </div>
                 </div>
@@ -172,7 +174,7 @@ const Experience = ({ setActiveForm }: any) => {
                     Description
                   </label>
                   <Textarea
-                    {...register("description")}
+                    {...register(`experience.${index}.description`)}
                     onChange={(e) =>
                       updateExp(index, { ...item, description: e.target.value })
                     }

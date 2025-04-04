@@ -136,22 +136,6 @@ const styles = StyleSheet.create({
 });
 
 const PdfDefaultTemplate = ({ resume }: any) => {
-  // Function to format dates to US format (MM/DD/YYYY)
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "";
-    
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {
-        month: '2-digit',
-        day: '2-digit',
-        year: 'numeric'
-      });
-    } catch (error) {
-      return dateString; // Return original if can't parse
-    }
-  };
-
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -200,7 +184,7 @@ const PdfDefaultTemplate = ({ resume }: any) => {
                 <View style={styles.experienceHeader}>
                   <Text style={styles.experienceRole}>{exp.role}</Text>
                   <Text style={styles.experienceDate}>
-                    {exp.startDate ? `${formatDate(exp.startDate)}- ${exp.endDate ? formatDate(exp.endDate) : "Present"}`: ""}
+                    {exp.startDate ? `${exp.startDate}- ${exp.endDate ? exp.endDate : "Present"}`: ""}
                   </Text>
                 </View>
                 <Text style={styles.companyInfo}>
@@ -252,7 +236,7 @@ const PdfDefaultTemplate = ({ resume }: any) => {
                 <View style={styles.experienceHeader}>
                   <Text style={styles.educationDegree}>{edu.degree}</Text>
                   <Text style={styles.experienceDate}>
-                    {edu.startDate ? `${formatDate(edu.startDate)}- ${edu.endDate ? formatDate(edu.endDate) : "Present"}`: ""}
+                    {edu.startDate ? `${edu.startDate}- ${edu.endDate ? edu.endDate : "Present"}`: ""}
                   </Text>
                 </View>
                 <Text style={styles.schoolName}>{edu.school}</Text>

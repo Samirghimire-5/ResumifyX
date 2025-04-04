@@ -1,21 +1,6 @@
 import React from "react";
 
 const PreviewDefaultTemplate = ({ resume }: any) => {
-  // Function to format dates to US format (MM/DD/YYYY)
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "";
-    
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {
-        month: '2-digit',
-        day: '2-digit',
-        year: 'numeric'
-      });
-    } catch (error) {
-      return dateString; // Return original if can't parse
-    }
-  };
 
   return (
     <div className="w-full h-full p-6 max-w-3xl mx-auto font-sans bg-white">
@@ -65,7 +50,7 @@ const PreviewDefaultTemplate = ({ resume }: any) => {
               <div className="flex justify-between items-baseline">
                 <h3 className="text-md font-semibold">{exp.role}</h3>
                 <span className="text-sm text-gray-600">
-                  {exp.startDate ? `${formatDate(exp.startDate)}- ${exp.endDate ? formatDate(exp.endDate) : "Present"}`: null}
+                  {exp.startDate ? `${exp.startDate}- ${exp.endDate ? exp.endDate : "Present"}`: ""}
                 </span>
               </div>
               <p className="text-sm font-medium text-gray-700 mb-1">
@@ -119,7 +104,7 @@ const PreviewDefaultTemplate = ({ resume }: any) => {
               <div className="flex justify-between items-baseline">
                 <h3 className="text-md font-semibold">{edu.degree}</h3>
                 <span className="text-sm text-gray-600">
-                {edu.startDate ? `${formatDate(edu.startDate)}- ${edu.endDate ? formatDate(edu.endDate) : "Present"}`: null}
+                {edu.startDate ? `${edu.startDate}- ${edu.endDate ? edu.endDate : "Present"}`: null}
                 </span>
               </div>
               <p className="text-sm">{edu.school}</p>

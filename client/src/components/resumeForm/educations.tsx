@@ -1,9 +1,8 @@
 "use client";
-import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
-import { DatePicker } from "../datePicker";
 import { Button } from "../ui/button";
 import { ChevronRight, Minus, Plus } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,35 +19,38 @@ const Education = ({ setActiveForm }: any) => {
   interface EducationForm {
     degree: string;
     school: string;
-    startDate: Date | null;
-    endDate: Date | null;
+    startDate: string;
+    endDate: string;
   }
 
   const {
     register,
     handleSubmit,
-    control,
     formState: {},
   } = useForm<EducationForm>();
 
-  const onSubmit = async (data: any) => {
-    setActiveForm("Summary");
-    console.log(data);
+  const formatDateInput = (value: string) => {
+    // Remove all non-digit characters
+    let formattedValue = value.replace(/\D/g, '');
+    
+    // Add hyphens at appropriate positions
+    if (formattedValue.length > 4) {
+      formattedValue = formattedValue.substring(0, 4) + '-' + formattedValue.substring(4);
+    }
+    if (formattedValue.length > 7) {
+      formattedValue = formattedValue.substring(0, 7) + '-' + formattedValue.substring(7);
+    }
+    
+    // Limit to 10 characters (YYYY-MM-DD)
+    return formattedValue.substring(0, 10);
   };
 
   const updateEdu = (index: any, item: any) => {
-    const data = {
-      ...item,
-      startDate:
-        item.startDate instanceof Date
-          ? item.startDate.toISOString()
-          : item.startDate || "",
-      endDate:
-        item.endDate instanceof Date
-          ? item.endDate.toISOString()
-          : item.endDate || "",
-    };
-    dispatch(updateEducation({ data, index }));
+    dispatch(updateEducation({ data: item, index }));
+  };
+
+  const onSubmit = async (data: any) => {
+    setActiveForm("Summary");
   };
 
   const addNew = () => {
@@ -56,8 +58,8 @@ const Education = ({ setActiveForm }: any) => {
       addEducation({
         degree: "",
         school: "",
-        startDate: null,
-        endDate: null,
+        startDate: "",
+        endDate: "",
       })
     );
   };
@@ -118,39 +120,33 @@ const Education = ({ setActiveForm }: any) => {
                 <div className="flex justify-between overflow-x-auto w-full gap-2">
                   <div className="flex flex-col w-full">
                     <label className="font-semibold font-sans text-sm">
-                      Start date
+                      Start date (YYYY-MM-DD)
                     </label>
-                    <Controller
-                      name="startDate"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          value={field.value || null}
-                          onChange={(date) => {
-                            field.onChange(date);
-                            updateEdu(index, { ...item, startDate: date });
-                          }}
-                        />
-                      )}
+                    <Input
+                      {...register("startDate")}
+                      placeholder="YYYY-MM-DD"
+                      value={item.startDate || ''}
+                      onChange={(e) => {
+                        const formattedValue = formatDateInput(e.target.value);
+                        updateEdu(index, { ...item, startDate: formattedValue });
+                      }}
+                      onKeyDown={(e) => preventDefault(e)}
                     />
                   </div>
 
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-full">
                     <label className="font-semibold font-sans text-sm">
-                      End data
+                      End date (YYYY-MM-DD)
                     </label>
-                    <Controller
-                      name="endDate"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          value={field.value || null}
-                          onChange={(date) => {
-                            field.onChange(date);
-                            updateEdu(index, { ...item, endDate: date });
-                          }}
-                        />
-                      )}
+                    <Input
+                      {...register("endDate")}
+                      placeholder="YYYY-MM-DD"
+                      value={item.endDate || ''}
+                      onChange={(e) => {
+                        const formattedValue = formatDateInput(e.target.value);
+                        updateEdu(index, { ...item, endDate: formattedValue });
+                      }}
+                      onKeyDown={(e) => preventDefault(e)}
                     />
                   </div>
                 </div>
