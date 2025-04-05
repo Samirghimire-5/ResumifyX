@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -8,208 +8,270 @@ import { Button } from "../ui/button";
 import { ChevronRight, Minus, Plus } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addExperience,
-  delExperience,
-  updateExperience,
+    addExperience,
+    delExperience,
+    updateExperience,
 } from "@/lib/redux/resumeData/resumeDataSlice";
+import { debounce } from "lodash";
+import dayjs from "dayjs"; // Import Day.js
 
-const Experience = ({ setActiveForm }: any) => {
-  const dispatch = useDispatch();
-  const experiences = useSelector((state: any) => state.resumeData.experience);
-
-  interface Experience {
+interface Experience {
     role: string;
     companyName: string;
     startDate: string;
     endDate: string;
     description: string;
-  }
+}
 
-  interface ExperienceForm {
-    experience: Experience[]; 
-  }
+interface ExperienceForm {
+    experience: Experience[];
+}
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<ExperienceForm>();
+const Experience = ({ setActiveForm }: any) => {
+    const dispatch = useDispatch();
+    const experiences = useSelector((state: any) => state.resumeData.experience); // Get experiences from Redux
 
-  const watchExperience = watch();
+    const { register, control, handleSubmit, watch, setValue } =
+        useForm<ExperienceForm>({
+            defaultValues: {
+                experience: experiences, // Set Redux state as the default values
+            },
+        });
 
-  const formatDateInput = (value: string) => {
-    // Remove all non-digit characters
-    let formattedValue = value.replace(/\D/g, '');
-    
-    // Add hyphens at appropriate positions
-    if (formattedValue.length > 4) {
-      formattedValue = formattedValue.substring(0, 4) + '-' + formattedValue.substring(4);
-    }
-    if (formattedValue.length > 7) {
-      formattedValue = formattedValue.substring(0, 7) + '-' + formattedValue.substring(7);
-    }
-    
-    // Limit to 10 characters (YYYY-MM-DD)
-    return formattedValue.substring(0, 10);
-  };
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "experience",
+    });
 
-  const updateExp = (index: any, item: any) => {
-    dispatch(updateExperience({ data: item, index }));
-  };
+    const formatDateInput = (value: string) => {
+        let formattedValue = value.replace(/\D/g, ""); // Remove non-digit characters
+        if (formattedValue.length > 4) {
+            formattedValue =
+                formattedValue.substring(0, 4) + "-" + formattedValue.substring(4);
+        }
+        if (formattedValue.length > 6) {
+            formattedValue =
+                formattedValue.substring(0, 7) + "-" + formattedValue.substring(7);
+        }
+        return formattedValue.substring(0, 10); // Limit to 10 characters
+    };
 
-  const onSubmit = async (data: any) => {
-    setActiveForm("Skills");
-  };
+    // Simplified handleInputChange with Day.js
+    const handleInputChange = debounce(
+        (index: number, name: string, value: any) => {
+            let formattedValue = value;
 
-  const addNew = () => {
-    dispatch(
-      addExperience({
-        role: "",
-        companyName: "",
-        startDate: "",
-        endDate: "",
-        description: "",
-      })
+            if (name.includes("Date")) {
+                if (value) {
+                    // Check if the input has at least 10 characters (YYYY-MM-DD)
+                    if (value.length >= 10) {
+                        const dayjsDate = dayjs(value);
+                        if (dayjsDate.isValid()) {
+                            formattedValue = dayjsDate.format("YYYY-MM-DD");
+                        } else {
+                            formattedValue = value; // Keep raw value if parsing fails
+                        }
+                    } else {
+                        formattedValue = value; // Keep raw value if too short
+                    }
+                } else {
+                    formattedValue = null;
+                }
+            } else {
+                formattedValue = value;
+            }
+
+            dispatch(
+                updateExperience({
+                    index,
+                    data: { [name]: formattedValue },
+                })
+            );
+        },
+        500
     );
-  };
 
-  const deleteExp = (index: any) => {
-    dispatch(delExperience(index));
-  };
+    useEffect(() => {
+        // Initialize form values from Redux on mount
+        fields.forEach((_, index) => {
+            if (experiences[index]) {
+                setValue(`experience.${index}.role`, experiences[index].role);
+                setValue(
+                    `experience.${index}.companyName`,
+                    experiences[index].companyName
+                );
+                setValue(
+                    `experience.${index}.startDate`,
+                    experiences[index].startDate || ""
+                );
+                setValue(
+                    `experience.${index}.endDate`,
+                    experiences[index].endDate || ""
+                );
+                setValue(
+                    `experience.${index}.description`,
+                    experiences[index].description
+                );
+            }
+        });
+    }, [experiences, fields, setValue]);
 
-  const preventDefault = (e: any) => {
-    if (e.key === "Enter") e.preventDefault();
-  }
+    const onSubmit = (data: ExperienceForm) => {
+        console.log("Submitted Data:", data);
+        setActiveForm("Skills");
+    };
 
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col items-center font-serif">
-        <p className="font-bold text-xl">Work Experience</p>
-        <p className="font-light text-sm">
-          Add as many work experience as you like.
-        </p>
-      </div>
+    const handleAdd = () => {
+        append({
+            role: "",
+            companyName: "",
+            startDate: "",
+            endDate: "",
+            description: "",
+        });
+        dispatch(addExperience({}));
+    };
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 items-center"
-      >
-        {experiences.map((item: any, index: any) => {
-          return (
-            <Card key={index} className="w-full p-3">
-              <p className="font-sans font-bold text-[16]">{`Work Experience ${
-                index + 1
-              }`}</p>
+    const handleDelete = (index: number) => {
+        remove(index);
+        dispatch(delExperience(index));
+    };
 
-              <div className="flex flex-col gap-2">
-                <div className="w-full">
-                  <label className="font-semibold font-sans text-sm">
-                    Role
-                  </label>
-                  <Input
-                    {...register(`experience.${index}.role`)}
-                    type="text"
-                    placeholder="Software Engineer"
-                    onChange={(e) =>
-                      updateExp(index, { ...item, role: e.target.value })
-                    }
-                    onKeyDown={(e) => preventDefault(e)}
-                  />
-                </div>
+    const preventDefault = (e: any) => {
+        if (e.key === "Enter") e.preventDefault();
+    };
 
-                <div className="w-full">
-                  <label className="font-semibold font-sans text-sm">
-                    Company name
-                  </label>
-                  <Input
-                    {...register(`experience.${index}.companyName`)}
-                    onChange={(e) =>
-                      updateExp(index, { ...item, companyName: e.target.value })
-                    }
-                    onKeyDown={(e) => preventDefault(e)}
-                  />
-                </div>
-
-                <div className="flex justify-between overflow-x-auto w-full gap-2">
-                  <div className="flex flex-col w-full">
-                    <label className="font-semibold font-sans text-sm">
-                      Start date
-                    </label>
-                    <Input
-                      {...register(`experience.${index}.startDate`)}
-                      placeholder="YYYY-MM-DD"
-                      value={item.startDate || ''}
-                      onChange={(e) => {
-                        const formattedValue = formatDateInput(e.target.value);
-                        updateExp(index, { ...item, startDate: formattedValue });
-                      }}
-                      onKeyDown={(e) => preventDefault(e)}
-                    />
-                  </div>
-
-                  <div className="flex flex-col w-full">
-                    <label className="font-semibold font-sans text-sm">
-                      End date
-                    </label>
-                    <Input
-                      {...register(`experience.${index}.endDate`)}
-                      placeholder="YYYY-MM-DD"
-                      value={item.endDate || ''}
-                      onChange={(e) => {
-                        const formattedValue = formatDateInput(e.target.value);
-                        updateExp(index, { ...item, endDate: formattedValue });
-                      }}
-                      onKeyDown={(e) => preventDefault(e)}
-                    />
-                  </div>
-                </div>
-
-                <p className="font-light font-sans text-sm">
-                  Leave the end date empty if your currently working here.
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex flex-col items-center font-serif">
+                <p className="font-bold text-xl">Work Experience</p>
+                <p className="font-light text-sm">
+                    Add as many work experience as you like.
                 </p>
+            </div>
 
-                <div className="w-full">
-                  <label className="font-semibold font-sans text-sm">
-                    Description
-                  </label>
-                  <Textarea
-                    {...register(`experience.${index}.description`)}
-                    onChange={(e) =>
-                      updateExp(index, { ...item, description: e.target.value })
-                    }
-                    onKeyDown={(e) => preventDefault(e)}
-                  />
-                </div>
-              </div>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-4 items-center"
+            >
+                {fields.map((field, index) => (
+                    <Card key={field.id} className="w-full p-3">
+                        <p className="font-sans font-bold text-[16px]">
+                            Work Experience {index + 1}
+                        </p>
 
-              <Button
-                type="button"
-                onClick={() => deleteExp(index)}
-                className="bg-red-600 hover:bg-red-400 w-fit"
-              >
-                <Minus />
-                Remove
-              </Button>
-            </Card>
-          );
-        })}
+                        <div className="flex flex-col gap-2">
+                            <div>
+                                <label className="font-semibold font-sans text-sm">Role</label>
+                                <Input
+                                    {...register(`experience.${index}.role`)}
+                                    placeholder="Software Engineer"
+                                    onKeyDown={preventDefault}
+                                    onChange={(e) =>
+                                        handleInputChange(index, "role", e.target.value)
+                                    }
+                                />
+                            </div>
 
-        <Button
-          type="button"
-          onClick={() => addNew()}
-          className="bg-green-500 hover:bg-green-700"
-        >
-          <Plus />
-          Add new{" "}
-        </Button>
+                            <div>
+                                <label className="font-semibold font-sans text-sm">
+                                    Company Name
+                                </label>
+                                <Input
+                                    {...register(`experience.${index}.companyName`)}
+                                    placeholder="Google"
+                                    onKeyDown={preventDefault}
+                                    onChange={(e) =>
+                                        handleInputChange(index, "companyName", e.target.value)
+                                    }
+                                />
+                            </div>
 
-        <Button type="submit">
-          Next <ChevronRight />
-        </Button>
-      </form>
-    </div>
-  );
+                            <div className="flex gap-2">
+                                <div className="flex flex-col w-full">
+                                    <label className="font-semibold font-sans text-sm">
+                                        Start Date
+                                    </label>
+                                    <Input
+                                        {...register(`experience.${index}.startDate`)}
+                                        placeholder="YYYY-MM-DD"
+                                        value={watch(`experience.${index}.startDate`) || ""}
+                                        onChange={(e) => {
+                                            const formatted = formatDateInput(e.target.value);
+                                            setValue(`experience.${index}.startDate`, formatted);
+                                            handleInputChange(index, "startDate", formatted);
+                                        }}
+                                        onKeyDown={preventDefault}
+                                        autoComplete="off"
+                                        maxLength={10}
+                                    />
+                                </div>
+
+                                <div className="flex flex-col w-full">
+                                    <label className="font-semibold font-sans text-sm">
+                                        End Date
+                                    </label>
+                                    <Input
+                                        {...register(`experience.${index}.endDate`)}
+                                        placeholder="YYYY-MM-DD"
+                                        value={watch(`experience.${index}.endDate`) || ""}
+                                        onChange={(e) => {
+                                            const formatted = formatDateInput(e.target.value);
+                                            setValue(`experience.${index}.endDate`, formatted);
+                                            handleInputChange(index, "endDate", formatted);
+                                        }}
+                                        onKeyDown={preventDefault}
+                                        autoComplete="off"
+                                        maxLength={10}
+                                    />
+                                </div>
+                            </div>
+
+                            <p className="text-xs font-light">
+                                Leave end date empty if you're still working there.
+                            </p>
+
+                            <div>
+                                <label className="font-semibold font-sans text-sm">
+                                    Description
+                                </label>
+                                <Textarea
+                                    {...register(`experience.${index}.description`)}
+                                    placeholder="Write a short description..."
+                                    onKeyDown={preventDefault}
+                                    onChange={(e) =>
+                                        handleInputChange(index, "description", e.target.value)
+                                    }
+                                />
+                            </div>
+                        </div>
+
+                        <Button
+                            type="button"
+                            onClick={() => handleDelete(index)}
+                            className="bg-red-600 hover:bg-red-400 mt-2"
+                        >
+                            <Minus className="mr-1" />
+                            Remove
+                        </Button>
+                    </Card>
+                ))}
+
+                <Button
+                    type="button"
+                    onClick={handleAdd}
+                    className="bg-green-500 hover:bg-green-700"
+                >
+                    <Plus className="mr-1" />
+                    Add New
+                </Button>
+
+                <Button type="submit">
+                    Next <ChevronRight className="ml-1" />
+                </Button>
+            </form>
+        </div>
+    );
 };
 
 export default Experience;

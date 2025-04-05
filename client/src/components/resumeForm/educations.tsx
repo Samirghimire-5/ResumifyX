@@ -1,184 +1,227 @@
 "use client";
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ChevronRight, Minus, Plus } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addEducation,
-  delEducation,
-  updateEducation,
+    addEducation,
+    delEducation,
+    updateEducation,
 } from "@/lib/redux/resumeData/resumeDataSlice";
+import { debounce } from "lodash";
+import dayjs from "dayjs"; // Import Day.js
 
-const Education = ({ setActiveForm }: any) => {
-  const educations = useSelector((state: any) => state.resumeData.education);
-  const dispatch = useDispatch();
-
-  interface EducationForm {
+interface Education {
     degree: string;
     school: string;
     startDate: string;
     endDate: string;
-  }
+}
 
-  const {
-    register,
-    handleSubmit,
-    formState: {},
-  } = useForm<EducationForm>();
+interface EducationForm {
+    education: Education[];
+}
 
-  const formatDateInput = (value: string) => {
-    // Remove all non-digit characters
-    let formattedValue = value.replace(/\D/g, '');
-    
-    // Add hyphens at appropriate positions
-    if (formattedValue.length > 4) {
-      formattedValue = formattedValue.substring(0, 4) + '-' + formattedValue.substring(4);
-    }
-    if (formattedValue.length > 7) {
-      formattedValue = formattedValue.substring(0, 7) + '-' + formattedValue.substring(7);
-    }
-    
-    // Limit to 10 characters (YYYY-MM-DD)
-    return formattedValue.substring(0, 10);
-  };
+const Education = ({ setActiveForm }: any) => {
+    const educations = useSelector((state: any) => state.resumeData.education);
+    const dispatch = useDispatch();
 
-  const updateEdu = (index: any, item: any) => {
-    dispatch(updateEducation({ data: item, index }));
-  };
+    const { register, control, handleSubmit, watch, setValue } =
+        useForm<EducationForm>({
+            defaultValues: {
+                education: educations,
+            },
+        });
 
-  const onSubmit = async (data: any) => {
-    setActiveForm("Summary");
-  };
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "education",
+    });
 
-  const addNew = () => {
-    dispatch(
-      addEducation({
-        degree: "",
-        school: "",
-        startDate: "",
-        endDate: "",
-      })
+    const formatDateInput = (value: string) => {
+        let formattedValue = value.replace(/\D/g, '');
+        if (formattedValue.length > 4) {
+            formattedValue = formattedValue.substring(0, 4) + '-' + formattedValue.substring(4);
+        }
+        if (formattedValue.length > 6) {
+            formattedValue = formattedValue.substring(0, 7) + '-' + formattedValue.substring(7);
+        }
+        return formattedValue.substring(0, 10);
+    };
+
+    const handleInputChange = debounce(
+        (index: number, name: string, value: any) => {
+            let formattedValue = value;
+
+            if (name.includes("Date")) {
+                if (value) {
+                    if (value.length >= 10 && dayjs(value).isValid()) {
+                        formattedValue = dayjs(value).format("YYYY-MM-DD");
+                    } else {
+                        formattedValue = value;
+                    }
+                } else {
+                    formattedValue = null;
+                }
+            }
+
+            dispatch(
+                updateEducation({
+                    index,
+                    data: { [name]: formattedValue },
+                })
+            );
+        },
+        500
     );
-  };
 
-  const deleteEdu = (index: any) => {
-    dispatch(delEducation(index));
-  };
+    useEffect(() => {
+        fields.forEach((_, index) => {
+            if (educations[index]) {
+                setValue(`education.${index}.degree`, educations[index].degree);
+                setValue(`education.${index}.school`, educations[index].school);
+                setValue(`education.${index}.startDate`, educations[index].startDate || "");
+                setValue(`education.${index}.endDate`, educations[index].endDate || "");
+            }
+        });
+    }, [educations, fields, setValue]);
 
-  const preventDefault = (e: any) => {
-    if (e.key === "Enter") e.preventDefault();
-  }
+    const onSubmit = async (data: EducationForm) => {
+        console.log("Submitted Education Data:", data);
+        setActiveForm("Summary");
+    };
 
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col items-center font-serif">
-        <p className="font-bold text-xl">Education</p>
-        <p className="font-light text-sm">Add your education degrees.</p>
-      </div>
+    const handleAdd = () => {
+        append({
+            degree: "",
+            school: "",
+            startDate: "",
+            endDate: "",
+        });
+        dispatch(addEducation({}));
+    };
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 items-center"
-      >
-        {educations.map((item: any, index: any) => {
-          return (
-            <Card key={index} className="w-full p-3">
-              <p className="font-sans font-bold text-[16]">{`Education ${
-                index + 1
-              }`}</p>
+    const handleDelete = (index: number) => {
+        remove(index);
+        dispatch(delEducation(index));
+    };
 
-              <div className="flex flex-col gap-2">
-                <div className="w-full">
-                  <label className="font-semibold font-sans text-sm">
-                    Degree
-                  </label>
-                  <Input
-                    {...register("degree")}
-                    onChange={(e) =>
-                      updateEdu(index, { ...item, degree: e.target.value })
-                    }
-                    onKeyDown={(e) => preventDefault(e)}
-                  />
-                </div>
+    const preventDefault = (e: any) => {
+        if (e.key === "Enter") e.preventDefault();
+    };
 
-                <div className="w-full">
-                  <label className="font-semibold font-sans text-sm">
-                    School / University
-                  </label>
-                  <Input
-                    {...register("school")}
-                    onChange={(e) =>
-                      updateEdu(index, { ...item, school: e.target.value })
-                    }
-                    onKeyDown={(e) => preventDefault(e)}
-                  />
-                </div>
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex flex-col items-center font-serif">
+                <p className="font-bold text-xl">Education</p>
+                <p className="font-light text-sm">Add your education degrees.</p>
+            </div>
 
-                <div className="flex justify-between overflow-x-auto w-full gap-2">
-                  <div className="flex flex-col w-full">
-                    <label className="font-semibold font-sans text-sm">
-                      Start date (YYYY-MM-DD)
-                    </label>
-                    <Input
-                      {...register("startDate")}
-                      placeholder="YYYY-MM-DD"
-                      value={item.startDate || ''}
-                      onChange={(e) => {
-                        const formattedValue = formatDateInput(e.target.value);
-                        updateEdu(index, { ...item, startDate: formattedValue });
-                      }}
-                      onKeyDown={(e) => preventDefault(e)}
-                    />
-                  </div>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-4 items-center"
+            >
+                {fields.map((field, index) => (
+                    <Card key={field.id} className="w-full p-3">
+                        <p className="font-sans font-bold text-[16]">{`Education ${index + 1}`}</p>
 
-                  <div className="flex flex-col w-full">
-                    <label className="font-semibold font-sans text-sm">
-                      End date (YYYY-MM-DD)
-                    </label>
-                    <Input
-                      {...register("endDate")}
-                      placeholder="YYYY-MM-DD"
-                      value={item.endDate || ''}
-                      onChange={(e) => {
-                        const formattedValue = formatDateInput(e.target.value);
-                        updateEdu(index, { ...item, endDate: formattedValue });
-                      }}
-                      onKeyDown={(e) => preventDefault(e)}
-                    />
-                  </div>
-                </div>
-              </div>
+                        <div className="flex flex-col gap-2">
+                            <div className="w-full">
+                                <label className="font-semibold font-sans text-sm">
+                                    Degree
+                                </label>
+                                <Input
+                                    {...register(`education.${index}.degree`)}
+                                    onChange={(e) =>
+                                        handleInputChange(index, "degree", e.target.value)
+                                    }
+                                    onKeyDown={preventDefault}
+                                />
+                            </div>
 
-              <Button
-                type="button"
-                onClick={() => deleteEdu(index)}
-                className="bg-red-600 hover:bg-red-400 w-fit"
-              >
-                <Minus />
-                Remove
-              </Button>
-            </Card>
-          );
-        })}
+                            <div className="w-full">
+                                <label className="font-semibold font-sans text-sm">
+                                    School / University
+                                </label>
+                                <Input
+                                    {...register(`education.${index}.school`)}
+                                    onChange={(e) =>
+                                        handleInputChange(index, "school", e.target.value)
+                                    }
+                                    onKeyDown={preventDefault}
+                                />
+                            </div>
 
-        <Button
-          type="button"
-          onClick={() => addNew()}
-          className="bg-green-500 hover:bg-green-700"
-        >
-          <Plus />
-          Add new{" "}
-        </Button>
+                            <div className="flex justify-between overflow-x-auto w-full gap-2">
+                                <div className="flex flex-col w-full">
+                                    <label className="font-semibold font-sans text-sm">
+                                        Start date (YYYY-MM-DD)
+                                    </label>
+                                    <Input
+                                        {...register(`education.${index}.startDate`)}
+                                        placeholder="YYYY-MM-DD"
+                                        value={watch(`education.${index}.startDate`) || ''}
+                                        onChange={(e) => {
+                                            const formatted = formatDateInput(e.target.value);
+                                            setValue(`education.${index}.startDate`, formatted);
+                                            handleInputChange(index, "startDate", formatted);
+                                        }}
+                                        onKeyDown={preventDefault}
+                                        maxLength={10}
+                                        autoComplete="off"
+                                    />
+                                </div>
 
-        <Button type="submit">
-          Next <ChevronRight />
-        </Button>
-      </form>
-    </div>
-  );
+                                <div className="flex flex-col w-full">
+                                    <label className="font-semibold font-sans text-sm">
+                                        End date (YYYY-MM-DD)
+                                    </label>
+                                    <Input
+                                        {...register(`education.${index}.endDate`)}
+                                        placeholder="YYYY-MM-DD"
+                                        value={watch(`education.${index}.endDate`) || ''}
+                                        onChange={(e) => {
+                                            const formatted = formatDateInput(e.target.value);
+                                            setValue(`education.${index}.endDate`, formatted);
+                                            handleInputChange(index, "endDate", formatted);
+                                        }}
+                                        onKeyDown={preventDefault}
+                                        maxLength={10}
+                                        autoComplete="off"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <Button
+                            type="button"
+                            onClick={() => handleDelete(index)}
+                            className="bg-red-600 hover:bg-red-400 w-fit mt-2"
+                        >
+                            <Minus />
+                            Remove
+                        </Button>
+                    </Card>
+                ))}
+
+                <Button
+                    type="button"
+                    onClick={handleAdd}
+                    className="bg-green-500 hover:bg-green-700"
+                >
+                    <Plus />
+                    Add new
+                </Button>
+
+                <Button type="submit">
+                    Next <ChevronRight />
+                </Button>
+            </form>
+        </div>
+    );
 };
 
 export default Education;
