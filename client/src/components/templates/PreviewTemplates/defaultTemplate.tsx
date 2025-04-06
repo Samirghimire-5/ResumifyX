@@ -77,7 +77,7 @@ const PreviewDefaultTemplate = ({ resume }: any) => {
           <h2 className="text-lg font-bold mb-3 text-gray-800 pb-1 border-b border-gray-200">Projects</h2>
           {resume.projects.map((project: any, index: number) => (
             <div key={index} className="mb-3">
-              <h3 className="text-md font-semibold">{project.project}</h3>
+              <h3 className="text-md font-semibold">{project.projectName}</h3>
               {project.description && (
                 <ul className="mt-1 space-y-1 pl-1">
                   {project.description

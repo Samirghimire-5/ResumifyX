@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   projectItem: {
     marginBottom: 12,
   },
-  projectName: {
+  projectNameStyle: {
     fontSize: 14,
     fontWeight: "semibold",
   },
@@ -211,7 +211,7 @@ const PdfDefaultTemplate = ({ resume }: any) => {
             <Text style={styles.sectionTitle}>Projects</Text>
             {resume.projects.map((project: any, index: number) => (
               <View key={`project-${index}`} style={styles.projectItem}>
-                <Text style={styles.projectName}>{project.project}</Text>
+                <Text style={styles.projectNameStyle}>{project.projectName}</Text>
                 {project.description && (
                   <View style={styles.bulletList}>
                     {project.description.split("\n").map((desc: string, i: number) => (
