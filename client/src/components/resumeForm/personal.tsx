@@ -12,9 +12,10 @@ import { ChevronRight } from "lucide-react";
 import { debounce } from 'lodash';
 
 const PersonalInfo = ({ setActiveForm }: any) => {
-  // const reduxValue = useSelector((state: any) => state.resumeData.personalInfo)    // to set initial value of inputs
+  const initialValue = useSelector((state: any) => state.resumeData.personalInfo)    // to set initial value of inputs
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const dispatch = useDispatch();
+  console.log(initialValue)
 
   interface FormInputs {
     image?: FileList;
@@ -47,7 +48,7 @@ const PersonalInfo = ({ setActiveForm }: any) => {
     phone: watchedFields[2],
     address: watchedFields[3],
     email: watchedFields[4],
-  }), [JSON.stringify(watchedFields)]);;
+  }), [JSON.stringify(watchedFields)]);
 
   useEffect(() => {
     const debouncedDispatch = debounce(() => {
@@ -60,19 +61,32 @@ const PersonalInfo = ({ setActiveForm }: any) => {
 
   const handleFileChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
-      const file = e?.target?.files[0];
-      setSelectedFile(file.name);
-
-      const objectUrl = URL.createObjectURL(file);
-      dispatch(setImage(objectUrl));
+      const file = e.target.files[0];
+      setSelectedFile(file);
+      console.log("file", file)
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        dispatch(setImage(base64String)); // now image in Redux is base64
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  // useEffect(() => {    // this is to set the initial form value that user typed which is stored in redux
-  //   if (reduxValue) {
-  //     setValue('fullName', reduxValue.fullName)
-  //   }
-  // }, [reduxValue, setValue])
+// prevents input fields from being empty gets data from previously saved data in redux
+  useEffect(() => {
+    if (initialValue) {
+      if (initialValue.image && !selectedFile) {
+        setSelectedFile(initialValue.image); // Just showing file name for now
+      }
+      setValue('fullName', initialValue.fullName || '');
+      setValue('jobTitle', initialValue.jobTitle || '');
+      setValue('phone', initialValue.phone || '');
+      setValue('address', initialValue.address || '');
+      setValue('email', initialValue.email || '');
+    }
+  }, [initialValue, setValue]);
+  
 
   const onSubmit = async (data: any) => {
     const formData = new FormData();

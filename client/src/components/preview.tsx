@@ -5,7 +5,9 @@ import { previewTemplates } from "./templates";
 
 const PreviewSec = ({resume}: any) => {
   const selectedTemplate = resume?.selectedTemplate || "default";
-  const TemplateComponent = previewTemplates[selectedTemplate] || previewTemplates["default"];
+  const TemplateComponent = 
+  // previewTemplates[selectedTemplate] ||
+   previewTemplates["default"];
 
 
   return (

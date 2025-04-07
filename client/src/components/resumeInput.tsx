@@ -12,12 +12,9 @@ import Summary from "./resumeForm/summary";
 import Experience from "./resumeForm/experiences";
 import Education from "./resumeForm/educations";
 import Skills from "./resumeForm/skills";
-import { useDispatch, useSelector } from "react-redux";
-import { Button } from "./ui/button";
-import { RotateCcw } from "lucide-react";
 import Projects from "./resumeForm/projects";
 
-const InputSec = ({setPreviewPhoto}: any) => {
+const InputSec = () => {
 
   const categories = [
     "Personal Info",
