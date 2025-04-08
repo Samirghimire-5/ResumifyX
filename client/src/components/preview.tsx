@@ -2,6 +2,7 @@
 import React, { Suspense, useRef } from "react";
 import { Card } from "./ui/card";
 import { previewTemplates } from "./templates";
+import ResumePdfPrev from "./pdf/resumePdfPrev";
 
 const PreviewSec = ({resume}: any) => {
   const selectedTemplate = resume?.selectedTemplate || "default";
@@ -18,6 +19,9 @@ const PreviewSec = ({resume}: any) => {
           ) : (
             <p>Template not found</p>
           )}
+
+          {/* this below preview section is preview from reactpdf/render
+          <ResumePdfPrev resume={resume}/> */}
         </Suspense>
     </Card>
   );

@@ -1,5 +1,6 @@
 import React from "react";
-import { Document, Page, Text, View, StyleSheet, Image, Font } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
+import { MapPin, Phone, Mail } from "lucide-react";
 
 // Define styles using StyleSheet.create
 const styles = StyleSheet.create({
@@ -158,9 +159,29 @@ const PdfDefaultTemplate = ({ resume }: any) => {
                 </View>
                 
                 <View style={styles.contactInfo}>
-                  {resume.personalInfo.email && <Text>{resume.personalInfo.email}</Text>}
-                  {resume.personalInfo.phone && <Text>{resume.personalInfo.phone}</Text>}
-                  {resume.personalInfo.address && <Text>{resume.personalInfo.address}</Text>}
+                  {/* Email Icon */}
+                  {resume.personalInfo.email && (
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                      <Mail size={16} color="#4b5563" />
+                      <Text style={{ marginLeft: 5 }}>{resume.personalInfo.email}</Text>
+                    </View>
+                  )}
+
+                  {/* Phone Icon */}
+                  {resume.personalInfo.phone && (
+                    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 4 }}>
+                      <Phone size={16} color="#4b5563" />
+                      <Text style={{ marginLeft: 5 }}>{resume.personalInfo.phone}</Text>
+                    </View>
+                  )}
+
+                  {/* Address Icon */}
+                  {resume.personalInfo.address && (
+                    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 4 }}>
+                      <MapPin size={16} color="#4b5563" />
+                      <Text style={{ marginLeft: 5 }}>{resume.personalInfo.address}</Text>
+                    </View>
+                  )}
                 </View>
               </View>
             </View>
@@ -184,7 +205,7 @@ const PdfDefaultTemplate = ({ resume }: any) => {
                 <View style={styles.experienceHeader}>
                   <Text style={styles.experienceRole}>{exp.role}</Text>
                   <Text style={styles.experienceDate}>
-                    {exp.startDate ? `${exp.startDate}- ${exp.endDate ? exp.endDate : "Present"}`: ""}
+                    {exp.startDate ? `${exp.startDate} - ${exp.endDate ? exp.endDate : "Present"}`: ""}
                   </Text>
                 </View>
                 <Text style={styles.companyInfo}>
@@ -236,7 +257,7 @@ const PdfDefaultTemplate = ({ resume }: any) => {
                 <View style={styles.experienceHeader}>
                   <Text style={styles.educationDegree}>{edu.degree}</Text>
                   <Text style={styles.experienceDate}>
-                    {edu.startDate ? `${edu.startDate}- ${edu.endDate ? edu.endDate : "Present"}`: ""}
+                    {edu.startDate ? `${edu.startDate} - ${edu.endDate ? edu.endDate : "Present"}`: ""}
                   </Text>
                 </View>
                 <Text style={styles.schoolName}>{edu.school}</Text>

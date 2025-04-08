@@ -4,7 +4,7 @@ import PdfDefaultTemplate from "../templates/pdfTemplates/defaultTemplate";
 import { useSelector } from "react-redux";
 
 const ResumePdfDownload = () => {
-const resume = useSelector(state => state.resumeData)
+const resume = useSelector((state: any) => state.resumeData)
   const [pdfUrl, setPdfUrl] = useState(null);
 
   useEffect(() => {
