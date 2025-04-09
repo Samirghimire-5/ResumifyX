@@ -4,7 +4,7 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { setSummary } from "@/lib/redux/resumeData/resumeDataSlice";
-import { ChevronRight, Save, Sparkle, Sparkles } from "lucide-react";
+import { Save, Sparkles } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Ai from "../ai";
@@ -35,7 +35,9 @@ const Summary = () => {
         { withCredentials: true }
       );
 
-      if (response.status === 400) return toast.error(response.data.error);
+      if (response.status === 400) {
+        return toast.error(response.data.error);
+      }
 
       if (response.status === 200) {
         return toast.success(response.data.message);

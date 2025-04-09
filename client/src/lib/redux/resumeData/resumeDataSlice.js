@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     personalInfo: {
         image: "",
-        name: "",
+        fullName: "",
         jobTitle: "",
         email: "",
         phone: "",

@@ -18,7 +18,7 @@ const resumeSchema = new mongoose.Schema(
     summary: { type: String },
     projects: [
       {
-        project: { type: String, required: true },
+        projectName: { type: String, required: true },
         description: { type: String },
       },
     ],

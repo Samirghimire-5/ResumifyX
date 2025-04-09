@@ -13,8 +13,10 @@ const Resume = () => {
   }
 
   return (
-    <div className='mt-4'>
-      <Button onClick={() => handleClick()}><Plus />Create a new resume</Button>
+    <div className=' flex items-center justify-center border shadow-xl rounded-md border-black mt-8 w-52 h-72 bg-gray-200' onClick={() => handleClick()}>
+      <div className='flex flex-col items-center justify-center w-32 h-32 rounded-full border border-black border-dashed'>
+        <Plus className='bold'/><span className='font-sans font-bold text-md'>New resume</span>
+      </div>
     </div>
   )
 }

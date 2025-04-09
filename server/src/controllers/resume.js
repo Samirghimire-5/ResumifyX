@@ -12,15 +12,21 @@ const getResume = async (req, res) => {
 
 const createNewResume = async (req, res) => {
   try {
+    console.log("req.body", req.body)
     const resume = await Resume.create(req.body);
-    if (!resume) return res.status(400).json({error: 'failed to save resume'})
-    
-      res.status(200).json({ message: "Successfully saved resume" });
-    console.log(resume);
-  } catch (error) {
-    res.status(401).json({error: 'server failure'})
-  }
 
+    if (!resume) {
+      return res.status(400).json({ error: 'Failed to save resume' });
+    }
+
+    res.status(200).json({
+      message: "Successfully saved resume",
+      resume,
+    });
+  } catch (error) {
+    console.error("Error creating resume:", error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
 };
 
 

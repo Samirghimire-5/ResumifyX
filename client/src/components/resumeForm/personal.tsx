@@ -63,7 +63,7 @@ const PersonalInfo = ({ setActiveForm }: any) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       setSelectedFile(file);
-      console.log("file", file)
+      // console.log("file", file)
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64String = reader.result as string;
@@ -127,7 +127,7 @@ const PersonalInfo = ({ setActiveForm }: any) => {
       >
         <div className="w-full">
           <label className="font-semibold font-sans text-sm">Your photo</label>
-          <div className="flex">
+          <div className="flex gap-2">
             <Input
               type="file"
               placeholder="Choose a file"
