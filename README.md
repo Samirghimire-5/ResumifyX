@@ -1,12 +1,11 @@
-# 🚀 ResumifyX - AI-Powered Resume & Portfolio Builder
+# 🚀 ResumifyX - AI-Powered Resume Builder
 
-ResumifyX is an AI-enhanced **SaaS Resume & Portfolio Builder** that helps users create stunning resumes and portfolios effortlessly. With customizable templates, AI-powered suggestions, and PDF export features, **ResumifyX** aims to make job applications seamless.
+ResumifyX is an AI-enhanced **SaaS Resume Builder** that helps users create stunning resumes  effortlessly. With customizable templates, AI-powered suggestions, and PDF export features, **ResumifyX** aims to make job applications seamless.
 
 ---
 
 ## 🌟 Vision
 ✅ Help users create professional resumes effortlessly 📄  
-✅ Make portfolio building easy for developers & creatives 🎨  
 ✅ Ensure accessibility with a user-friendly and intuitive interface ✨  
 ✅ Save time with ready-made templates and quick customization ⏳  
 ✅ Enhance career growth with AI-powered resume suggestions 🤖  
@@ -18,7 +17,6 @@ ResumifyX is an AI-enhanced **SaaS Resume & Portfolio Builder** that helps users
 ## ✨ Features
 📝 Resume Builder – Create and customize resumes easily.  
 🎨 Templates – Choose from multiple designs.  
-📂 Portfolio – Showcase your work and projects.  
 🔐 Authentication – Secure login and account access.  
 🖨️ PDF Export – Download resumes as PDFs.  
 🚀 Future Plans  
@@ -35,17 +33,17 @@ ResumifyX is an AI-enhanced **SaaS Resume & Portfolio Builder** that helps users
 - [x] Create RESTful APIs for resume data storage ✅
 - [ ] Implement user roles (basic & premium users) ⏳
 - [x] Integrate PDF generation for resumes ✅
-- [ ] Setup database indexing for optimized performance ⏳
 
 ### **Phase 2 - Frontend Development**
 - [x] Design and structure UI components using Tailwind CSS ✅
 - [x] Create Resume Builder page with form fields and live preview ✅
-- [ ] Implement dynamic template selection with previews ⏳
-- [ ] Connect frontend to backend APIs using Axios or Fetch ⏳
+- [x] Implement dynamic template selection with previews ✅
+- [x] Connect frontend to backend APIs using Axios or Fetch ✅
 - [x] Add error handling and validation for user inputs ✅
 - [ ] Implement protected routes for authenticated users ⏳
 
 ### **Phase 3 - AI & SaaS Implementation**
+- [x] inplement auto summary generation feature using Gemini API ✅
 - [ ] Integrate AI-powered resume suggestions (OpenAI API or custom NLP) ⏳
 - [ ] Implement a subscription model for premium features (Stripe/PayPal) ⏳
 - [ ] Optimize performance and SEO for better discoverability ⏳
