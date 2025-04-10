@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const protecteRoute = (req, res, next) => {
+const protectedRoute = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ error: "Not authorized" });
 
@@ -13,4 +13,4 @@ const protecteRoute = (req, res, next) => {
   }
 };
 
-module.exports = protecteRoute;
+module.exports = protectedRoute;
