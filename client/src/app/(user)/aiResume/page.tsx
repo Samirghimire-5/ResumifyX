@@ -5,7 +5,10 @@ import TiptapEditor from './components/tiptapEditor'
 const AiResume = () => {
     
   return (
-    <TiptapEditor />
+    <div className='flex justify-center h-screen w-full'>
+      <TiptapEditor />
+    </div>
+
   )
 }
 
