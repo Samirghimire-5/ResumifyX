@@ -1,14 +1,28 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import JoditEditor from "jodit-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Send } from "lucide-react";
+import { debounce } from "lodash";
+import { defaultTemp } from "./template";
 // import MyEditorConfig from "@/lib/types/editorType";
 ;
 
 const Editor = () => {
+  const [inputText, setInputText] = useState('')
   const editor = React.useRef(null);
-  const [content, setContent] = React.useState("");
+  const [content, setContent] = React.useState(defaultTemp);
+
+ const handleInputChange = debounce((e: any) => {
+    setInputText(e.target.value)
+  }, 500)
+
+  const onSend = () => {
+    return 
+  }
 
   const config: any = useMemo(
     () => ({
@@ -23,7 +37,8 @@ const Editor = () => {
         'font', 'fontsize', '|',
         'align', 'indent', 'outdent', '|',
         'hr', 'table', '|',
-        'undo', 'redo'
+        'undo', 'redo',
+        "print",
       ],
 
       toolbarAdaptive: false,
@@ -52,7 +67,7 @@ const Editor = () => {
 
       removeButtons: [
         'video', 'file', 'image', 'source', 'about', 'fullsize',
-        'print', 'copyformat', 'superscript', 'subscript',
+        'copyformat', 'superscript', 'subscript',
         'selectall', 'cut', 'copy', 'paste', 'symbol'
       ],
 
@@ -70,7 +85,7 @@ const Editor = () => {
   return (
     <div className="h-screen w-fit flex flex-col">
       <ScrollArea className="h-full w-full p-4">
-        <div className="w-[794px] border border-gray-300 rounded-lg shadow-sm">
+        <div className="relative w-[794px] border border-gray-300 rounded-lg shadow-sm">
           <JoditEditor
             ref={editor}
             value={content}
@@ -78,6 +93,11 @@ const Editor = () => {
             onBlur={(newContent) => setContent(newContent)}
             onChange={() => {}}
           />
+
+          <div className="absolute flex w-full items-center gap-4 justify-center bottom-8 px-8">
+            <Input className="border-black bg-white" placeholder="Ask gemini...." onChange={(e) => handleInputChange(e)}/>
+            <Button onClick={() => onSend()}><Send /></Button>
+          </div>
         </div>
       </ScrollArea>
     </div>
