@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import { persistor, store } from "../lib/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import QueryProvider from "@/components/queryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,12 +25,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            {children}
-            <Toaster position="top-right" reverseOrder={true} />
-          </PersistGate>
-        </Provider>
+        <QueryProvider>
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              {children}
+              <Toaster position="top-right" reverseOrder={true} />
+            </PersistGate>
+          </Provider>
+        </QueryProvider>
       </body>
     </html>
   );
