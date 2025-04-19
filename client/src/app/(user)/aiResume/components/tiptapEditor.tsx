@@ -3,21 +3,20 @@
 import React, { useMemo, useState } from "react";
 import JoditEditor from "jodit-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 import { debounce } from "lodash";
 import { defaultTemp } from "./template";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-// import MyEditorConfig from "@/lib/types/editorType";
+import { Textarea } from "@/components/ui/textarea";
 
 const Editor = () => {
   const [inputText, setInputText] = useState("");
   const editor = React.useRef(null);
   const [content, setContent] = React.useState(defaultTemp);
 
-  const handleInputChange = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = debounce((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(e.target.value);
   }, 500);
 
@@ -126,43 +125,71 @@ const Editor = () => {
     }
   };
 
-  //NOTE:- useQuery runs automatically when input/content changes 
-  //                          but 
-  //       useMutation only runs when somthing like a button click happens
-  const {mutate, data, isPending} = useMutation({
+  const {mutate, isPending} = useMutation({
     mutationFn: ({ content, inputText }: { content: string; inputText: string }) =>
       onSend(content, inputText),
     onSuccess: (responseData) => {
       console.log("Response from Gemini:", responseData);
-      setContent(responseData?.generatedResume)
+      setContent(responseData?.generatedResume);
+      setInputText("");
     },
     onError: (error) => {
       console.error("Error sending data:", error);
     }
-  })
-
+  });
 
   return (
-    <div className="h-screen w-fit flex flex-col">
-      <ScrollArea className="h-full w-full p-4">
-        <div className="relative w-[794px] border border-gray-300 rounded-lg shadow-sm">
+    <div className="h-screen w-fit flex flex-col bg-gray-50">
+      <ScrollArea className="h-fit w-full p-6">
+        <div className="relative w-[794px] border border-gray-200 rounded-lg shadow-md bg-white overflow-hidden">
+          
           <JoditEditor
+          className="pb-32"
             ref={editor}
-            value={isPending ? "<p>Generating your request...</p>" : content}
+            value={isPending ? "<p class='text-gray-500 italic'>Generating your request...</p>" : content}
             config={config}
             onBlur={(newContent) => setContent(newContent)}
             onChange={() => {}}
           />
 
-          <div className="absolute flex w-full items-center gap-4 justify-center bottom-8 px-8">
-            <Input
-              className="border-black bg-white"
-              placeholder="Ask gemini...."
-              onChange={(e) => handleInputChange(e)}
-            />
-            <Button disabled={isPending} onClick={() => mutate({content, inputText})}>
-              <Send />
-            </Button>
+          <div className="absolute w-full bottom-0 bg-white border-t border-gray-200 p-4">
+            <div className="flex items-center gap-3">
+              <div className="relative flex-1">
+                <Textarea
+                  className="min-h-18 max-h-18 pr-14 py-3 resize-none border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                  placeholder="Ask Gemini to help with your resume..."
+                  onChange={handleInputChange}
+                  rows={1}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      if (inputText.trim()) {
+                        mutate({ content, inputText });
+                      }
+                    }
+                  }}
+                />
+                <Button 
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 h-12 w-12 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition-colors"
+                  disabled={isPending}
+                  onClick={() => inputText.trim() && mutate({ content, inputText })}
+                  title="Send to Gemini"
+                >
+                  <Send size={18} />
+                </Button>
+              </div>
+              
+              {isPending && (
+                <div className="flex items-center text-sm text-gray-500">
+                  <div className="inline-block h-3 w-3 mr-2 rounded-full border-2 border-blue-600 border-t-transparent animate-spin"></div>
+                  Processing...
+                </div>
+              )}
+            </div>
+            
+            <div className="mt-2 text-xs text-gray-500">
+              Press Enter to send, Shift+Enter for new line
+            </div>
           </div>
         </div>
       </ScrollArea>
