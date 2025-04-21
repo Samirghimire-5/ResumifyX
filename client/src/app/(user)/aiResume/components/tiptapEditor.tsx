@@ -142,7 +142,6 @@ const Editor = () => {
     <div className="h-screen w-fit flex flex-col bg-gray-50">
       <ScrollArea className="h-fit w-full p-6">
         <div className="relative w-[794px] border border-gray-200 rounded-lg shadow-md bg-white overflow-hidden">
-          
           <JoditEditor
           className="pb-32"
             ref={editor}

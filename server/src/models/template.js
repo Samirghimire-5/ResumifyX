@@ -5,7 +5,8 @@ const templateSchema = new mongoose.Schema(
     name: { type: String, required: true },
     previewImage: { type: String, required: true },
     description: { type: String },
-    isDefault: { type: Boolean, default: false }, // if user didn't select any templet 
+    templateContent: { type: String, required: true },
+    isDefault: { type: Boolean, default: false }, 
     isPremium: { type: Boolean, default: false }, 
   },
   { timestamps: true }
