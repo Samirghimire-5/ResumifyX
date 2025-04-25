@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const AddTemplate = () => {
   const {
@@ -25,14 +27,9 @@ const AddTemplate = () => {
     formData.append('previewImage', data.previewImage[0]); // file input is array
 
     try {
-      const res = await fetch('/api/templates', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const result = await res.json();
-      console.log(result);
-      alert('Template uploaded!');
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/templates`, formData)
+      console.log(res);
+      toast.success('Template uploaded!');
       reset();
     } catch (err) {
       console.error(err);
