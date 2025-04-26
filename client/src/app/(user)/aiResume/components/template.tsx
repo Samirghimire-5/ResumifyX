@@ -1,95 +1,94 @@
-export const defaultTemp = `<div style="font-family: 'Poppins', sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9f7f3; color: #374151; border-radius: 8px;">
+export const defaultTemp = `<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px;">
+  
+  <!-- Header -->
   <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 30px; text-align: center;">
-    <h1 style="margin: 0; font-size: 2.5em; font-weight: 700; color: #111827;">Henrietta Mitchell</h1>
-    <div style="font-size: 0.9em; color: #6b7280;">
-      <p style="margin-bottom: 5px;">📞 +123-456-7890 | ✉️ <a href="mailto:hello@reallygreatsite.com" style="color: #6b7280; text-decoration: none;">hello@reallygreatsite.com</a> | 🌐 <a href="mailto:reallygreatsite.com" style="color: #6b7280; text-decoration: none;">reallygreatsite.com</a></p>
-      <p style="margin-bottom: 0;">📍 123 Anywhere St., Any City, ST 12345</p>
+    <h1 style="margin: 0; font-size: 2.5em; font-weight: 700; color: #111827;">Emma Ahearn</h1>
+    <h2 style="margin: 0; font-size: 1.5em; text-transform: uppercase; color: #333;">CHEMIST</h2>
+    <div style="font-size: 0.9em; color: #6b7280; margin-top: 15px;">
+      <p style="margin-bottom: 5px;">
+        <span style="font-family: monospace;">☏</span> +123-456-7890 | 
+        <span style="font-family: monospace;">✉</span> <a href="mailto:hello@reallygreatsite.com" style="color: #6b7280; text-decoration: none;">hello@reallygreatsite.com</a>
+      </p>
+      <p style="margin-bottom: 0;">
+        <span style="font-family: monospace;">⌂</span> 123 Anywhere St., Any City, ST 12345
+      </p>
     </div>
   </div>
-
-  <div style="margin-bottom: 25px;">
-    <h2 style="position: relative; font-size: 1.5em; font-weight: 600; color: #4b5563; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 2px solid #d1d5db; text-align: left;">Business Management & Analysis</h2>
-    <p style="line-height: 1.6; font-size: 0.95em; color: #4b5563; margin-bottom: 0;">Motivated and results-driven Business School graduate seeking a challenging position within a large organization as a Business Analyst or Project Manager. Offering a strong foundation in business strategy, data analysis, and project management, with a proven ability to drive efficiency, deliver successful outcomes and collaborate within cross-functional teams.</p>
+  
+  <!-- Divider -->
+  <div style="border-top: 2px solid #3a9379; margin: 20px 0;"></div>
+  
+  <!-- Professional Summary -->
+  <div style="margin-bottom: 30px;">
+    <h3 style="color: #3a9379; text-transform: uppercase; font-size: 1.2em; margin-bottom: 15px;">PROFESSIONAL SUMMARY</h3>
+    <p style="text-align: center;">
+      I am a chemistry graduate seeking to apply my extensive academic background and laboratory experience
+      in an organization with an innovative vision. I am looking forward to contributing to a dynamic team and
+      supporting research and development efforts.
+    </p>
   </div>
-
-  <div style="margin-bottom: 25px;">
-    <h2 style="position: relative; font-size: 1.5em; font-weight: 600; color: #4b5563; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 2px solid #d1d5db; text-align: left;">Key Competencies</h2>
-    <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
-      <li style="font-size: 0.95em; color: #4b5563;">➡️ Process improvement</li>
-      <li style="font-size: 0.95em; color: #4b5563;">➡️ Data-driven strategic planning</li>
-      <li style="font-size: 0.95em; color: #4b5563;">➡️ Cost-benefit analysis</li>
-      <li style="font-size: 0.95em; color: #4b5563;">➡️ Report writing and presenting</li>
-      <li style="font-size: 0.95em; color: #4b5563;">➡️ Critical thinking skills</li>
-      <li style="font-size: 0.95em; color: #4b5563;">➡️ Excellent communication skills</li>
-      <li style="font-size: 0.95em; color: #4b5563;">➡️ Strong interpersonal skills</li>
-      <li style="font-size: 0.95em; color: #4b5563;">➡️ Proactive and self-motivated</li>
-      <li style="font-size: 0.95em; color: #4b5563;">➡️ Exceptional organizational skills</li>
+  
+  <!-- Education -->
+  <div style="margin-bottom: 30px;">
+    <h3 style="color: #3a9379; text-transform: uppercase; font-size: 1.2em; margin-bottom: 15px;">EDUCATION</h3>
+    <div style="margin-bottom: 15px;">
+      <h4 style="margin: 0; font-size: 1.1em;">Bachelor of Science in Chemistry | 2026-2030</h4>
+      <p style="margin: 5px 0; font-style: italic;">East State University, Valley City</p>
+      <ul style="margin-top: 10px; padding-left: 20px;">
+        <li style="margin-bottom: 5px;">Relevant Coursework: Organic Chemistry, Inorganic Chemistry, Physical Chemistry, Analytical Chemistry, Chemical Engineering Principles, Thermodynamics, Material Science</li>
+        <li style="margin-bottom: 5px;">GPA: 3.8</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- Research Experience -->
+  <div style="margin-bottom: 30px;">
+    <h3 style="color: #3a9379; text-transform: uppercase; font-size: 1.2em; margin-bottom: 15px;">RESEARCH EXPERIENCE</h3>
+    <div style="margin-bottom: 15px;">
+      <h4 style="margin: 0; font-size: 1.1em;">Undergraduate Research Assistant | 2029-2030</h4>
+      <p style="margin: 5px 0; font-style: italic;">Chemistry Department of East State University</p>
+      <ul style="margin-top: 10px; padding-left: 20px;">
+        <li style="margin-bottom: 5px;">Collaborated with a research team to study the synthesis of novel organic compounds</li>
+        <li style="margin-bottom: 5px;">Conducted experiments using chromatography, spectroscopy, and other analytical techniques</li>
+        <li style="margin-bottom: 5px;">Analyzed and interpreted data, contributing to a research paper submitted for publication</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- Projects -->
+  <div style="margin-bottom: 30px;">
+    <h3 style="color: #3a9379; text-transform: uppercase; font-size: 1.2em; margin-bottom: 15px;">PROJECTS</h3>
+    <div style="margin-bottom: 15px;">
+      <h4 style="margin: 0; font-size: 1.1em;">Fabrication of a Miniature Chemical Reactor</h4>
+      <p style="margin: 5px 0; font-style: italic;">Chemical Engineering Course, Second Semester of 2028</p>
+      <ul style="margin-top: 10px; padding-left: 20px;">
+        <li style="margin-bottom: 5px;">Engineered a small-scale chemical reactor using principles of chemical engineering</li>
+        <li style="margin-bottom: 5px;">Conducted performance tests and optimization checks to ensure efficiency and safety</li>
+        <li style="margin-bottom: 5px;">Presented findings to faculty and peers and received excellent marks for innovation</li>
+      </ul>
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <h4 style="margin: 0; font-size: 1.1em;">The Green Thumb Chemist</h4>
+      <p style="margin: 5px 0; font-style: italic;">Chemistry Club, First Semester of 2029</p>
+      <ul style="margin-top: 10px; padding-left: 20px;">
+        <li style="margin-bottom: 5px;">Developed a project aimed at implementing environmentally-friendly lab practices</li>
+        <li style="margin-bottom: 5px;">Researched and implemented sustainable alternatives to hazardous chemicals</li>
+        <li style="margin-bottom: 5px;">Educated peers on the importance of green chemistry through workshops and forums</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- Notable Awards -->
+  <div style="margin-bottom: 30px;">
+    <h3 style="color: #3a9379; text-transform: uppercase; font-size: 1.2em; margin-bottom: 15px;">NOTABLE AWARDS</h3>
+    <ul style="margin-top: 10px; padding-left: 20px;">
+      <li style="margin-bottom: 5px;">Dean's List, East State University, 2026-2030</li>
+      <li style="margin-bottom: 5px;">Gold Award, Chemistry Olympiad, 2027</li>
     </ul>
   </div>
-
-  <div style="margin-bottom: 25px;">
-    <h2 style="position: relative; font-size: 1.5em; font-weight: 600; color: #4b5563; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 2px solid #d1d5db; text-align: left;">Professional Experience</h2>
-    <div style="margin-bottom: 15px;">
-      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px;">
-        <h3 style="font-size: 1.1em; font-weight: 600; color: #111827; margin: 0;">Business Analyst Intern</h3>
-        <p style="font-size: 0.9em; color: #6b7280; font-style: italic;">Oct 2023 - Present</p>
-      </div>
-      <p style="font-size: 0.95em; color: #4b5563; margin-bottom: 5px;">Arrowai Industries</p>
-      <ul style="list-style: disc; padding-left: 20px; margin-bottom: 0; font-size: 0.95em; color: #4b5563; line-height: 1.6;">
-        <li>Developed and implemented a streamlined process for gathering business requirements, reducing project delivery time by 15%.</li>
-        <li>Developed and implemented a standardized reporting framework, resulting in improved visibility of key performance metrics and enabling data-driven decision-making at all levels of the organization.</li>
-      </ul>
-    </div>
-    <div style="margin-bottom: 15px;">
-      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px;">
-        <h3 style="font-size: 1.1em; font-weight: 600; color: #111827; margin: 0;">Project Management Assistant</h3>
-        <p style="font-size: 0.9em; color: #6b7280; font-style: italic;">Jan 2022 - Aug 2023</p>
-      </div>
-      <p style="font-size: 0.95em; color: #4b5563; margin-bottom: 5px;">Hanover and Tyke</p>
-      <ul style="list-style: disc; padding-left: 20px; margin-bottom: 0; font-size: 0.95em; color: #4b5563; line-height: 1.6;">
-        <li>Assisted project managers in planning and executing various projects, ensuring adherence to project timelines and deliverables.</li>
-        <li>Monitored project budgets, tracked expenses, and prepared financial reports to ensure cost-effectiveness and adherence to financial guidelines.</li>
-      </ul>
-    </div>
-    <div>
-      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px;">
-        <h3 style="font-size: 1.1em; font-weight: 600; color: #111827; margin: 0;">Barista</h3>
-        <p style="font-size: 0.9em; color: #6b7280; font-style: italic;">July 2020 - Jan 2022</p>
-      </div>
-      <p style="font-size: 0.95em; color: #4b5563; margin-bottom: 5px;">Giggling Platypus Co.</p>
-      <ul style="list-style: disc; padding-left: 20px; margin-bottom: 0; font-size: 0.95em; color: #4b5563; line-height: 1.6;">
-        <li>Prepared and served a variety of beverages with precision and creativity, consistently meeting or exceeding quality standards, and receiving compliments for latte art and presentation.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-    <div>
-      <h2 style="position: relative; font-size: 1.5em; font-weight: 600; color: #4b5563; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 2px solid #d1d5db; text-align: left;">Education & Certifications</h2>
-      <div style="margin-bottom: 10px;">
-        <h3 style="font-size: 1.1em; font-weight: 600; color: #111827; margin-bottom: 3px;">Bachelor of Business Administration</h3>
-        <p style="font-size: 0.95em; color: #4b5563; margin-bottom: 2px;">Majors: Analytics and Project Management</p>
-        <p style="font-size: 0.95em; color: #6b7280;">Ginyard International Co.</p>
-      </div>
-      <div style="margin-bottom: 10px;">
-        <h3 style="font-size: 1.1em; font-weight: 600; color: #111827; margin-bottom: 3px;">Graduate Project Management Certification</h3>
-        <p style="font-size: 0.95em; color: #6b7280;">Ginyard International Co.</p>
-      </div>
-      <div>
-        <h3 style="font-size: 1.1em; font-weight: 600; color: #111827; margin-bottom: 3px;">Impact Evaluation Methods 3-Day Short Course</h3>
-        <p style="font-size: 0.95em; color: #6b7280;">Liceria & Co.</p>
-      </div>
-    </div>
-    <div>
-      <h2 style="position: relative; font-size: 1.5em; font-weight: 600; color: #4b5563; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 2px solid #d1d5db; text-align: left;">Extracurricular Activities</h2>
-      <div style="margin-bottom: 10px;">
-        <h3 style="font-size: 1.1em; font-weight: 600; color: #111827; margin-bottom: 3px;">President, Business Club</h3>
-        <p style="font-size: 0.95em; color: #6b7280;">Ginyard International Co.</p>
-      </div>
-      <div>
-        <h3 style="font-size: 1.1em; font-weight: 600; color: #111827; margin-bottom: 3px;">Community Volunteer</h3>
-        <p style="font-size: 0.95em; color: #6b7280;">Paucek and Lage</p>
-      </div>
-    </div>
-  </div>
-</div>`;
+  
+  <!-- Bottom Divider -->
+  <div style="border-top: 2px solid #3a9379; margin: 20px 0;"></div>
+  
+</body>`;

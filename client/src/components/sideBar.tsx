@@ -5,11 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   LogOut,
-  Home,
   FileText,
-  Settings,
-  BookOpen,
   LayoutGrid,
+  FileUser,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
@@ -57,6 +55,12 @@ const SideNav = () => {
       url: "/templates",
       icon: FileText,
       description: "Browse resume templates",
+    },
+    {
+      title: "Ai Resueme",
+      url: "/aiResume",
+      icon: FileUser,
+      description: "Create your resume with the help of AI",
     },
   ];
 

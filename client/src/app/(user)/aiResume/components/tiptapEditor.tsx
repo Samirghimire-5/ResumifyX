@@ -143,7 +143,7 @@ const Editor = () => {
       <ScrollArea className="h-fit w-full p-6">
         <div className="relative w-[794px] border border-gray-200 rounded-lg shadow-md bg-white overflow-hidden">
           <JoditEditor
-          className="pb-32"
+          className="pb-48"
             ref={editor}
             value={isPending ? "<p class='text-gray-500 italic'>Generating your request...</p>" : content}
             config={config}

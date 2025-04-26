@@ -1,48 +1,63 @@
-'use client'
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+"use client";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import axios from "axios";
+import toast from "react-hot-toast";
+
+interface FormData {
+  name: string;
+  description: string;
+  isPremium: boolean;
+  templateContent: string;
+  previewImage: FileList;
+}
 
 const AddTemplate = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    control,
+    formState: { errors, isSubmitting },
     reset,
-  } = useForm();
+  } = useForm<FormData>();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
+    console.log(data);
     const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('description', data.description);
-    formData.append('isPremium', data.isPremium);
-    formData.append('templateContent', data.templateContent);
-    formData.append('previewImage', data.previewImage[0]); // file input is array
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("isPremium", data.isPremium);
+    formData.append("templateContent", data.templateContent);
+    formData.append("previewImage", data.previewImage[0]); // file input is array
 
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/templates`, formData)
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/templates`,
+        formData
+      );
       console.log(res);
-      toast.success('Template uploaded!');
+      toast.success("Template uploaded!");
       reset();
     } catch (err) {
       console.error(err);
-      alert('Error uploading template');
+      toast.error("Error uploading template");
     }
   };
 
   return (
     <Card className="max-w-xl mx-auto shadow">
       <CardHeader className="bg-slate-50 border-b">
-        <CardTitle className="text-xl font-bold text-center">Add New Template</CardTitle>
+        <CardTitle className="text-xl font-bold text-center">
+          Add New Template
+        </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Name */}
@@ -55,7 +70,7 @@ const AddTemplate = () => {
               type="text"
               placeholder="Enter template name"
               className="w-full"
-              {...register('name', { required: 'Name is required' })}
+              {...register("name", { required: "Name is required" })}
             />
             {errors.name && (
               <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -71,11 +86,11 @@ const AddTemplate = () => {
               id="description"
               placeholder="Template Description"
               className="w-full"
-              {...register('description', {
-                required: 'Description is required',
+              {...register("description", {
+                required: "Description is required",
                 minLength: {
                   value: 10,
-                  message: 'Description must be at least 10 characters',
+                  message: "Description must be at least 10 characters",
                 },
               })}
             />
@@ -87,11 +102,19 @@ const AddTemplate = () => {
           </div>
 
           {/* Premium */}
-          <div className="pt-2">
-            <Label className="flex items-center gap-2 cursor-pointer">
-              <Checkbox id="isPremium" {...register('isPremium')}/>
-              <span>Premium Template</span>
-            </Label>
+          <div className="flex gap-2 items-center pt-2">
+            <Controller
+              name="isPremium"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  id="isPremium"
+                  checked={field.value}
+                  onCheckedChange={(checked) => field.onChange(checked)}
+                />
+              )}
+            />
+            <span>Premium Template</span>
           </div>
 
           {/* Image Upload */}
@@ -104,8 +127,8 @@ const AddTemplate = () => {
               type="file"
               accept="image/*"
               className="w-full"
-              {...register('previewImage', {
-                required: 'Preview image is required',
+              {...register("previewImage", {
+                required: "Preview image is required",
               })}
             />
             {errors.previewImage && (
@@ -123,9 +146,9 @@ const AddTemplate = () => {
             <Textarea
               id="templateContent"
               placeholder="Paste HTML here..."
-              className="w-full min-h-32 max-h-32 font-mono text-sm overflow-y-auto"              
-              {...register('templateContent', {
-                required: 'HTML content is required',
+              className="w-full min-h-32 max-h-32 font-mono text-sm overflow-y-auto"
+              {...register("templateContent", {
+                required: "HTML content is required",
               })}
             />
             {errors.templateContent && (
@@ -135,10 +158,7 @@ const AddTemplate = () => {
             )}
           </div>
 
-          <Button
-            type="submit"
-            className="w-full mt-6"
-          >
+          <Button disabled={isSubmitting} type="submit" className="w-full mt-6">
             Add Template
           </Button>
         </form>

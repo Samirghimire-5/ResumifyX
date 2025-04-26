@@ -29,18 +29,6 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Image Upload Route
-app.post("/resumeImg", upload.single("image"), (req, res) => {
-  try {
-    console.log(req.body);
-    console.log(req.file);
-
-    res.status(200).json({ msg: "ayo hai" });
-  } catch (error) {
-    console.log("error", error);
-  }
-});
-
 // Database Connection Initialization
 dbConnect();
 
@@ -49,6 +37,7 @@ app.use(userRoute);
 app.use(resumeRoute);
 app.use(templateRoute);
 app.use(geminiRoute)
+app.use('/uploads', express.static('uploads'));
 
 // Server Start
 app.listen(process.env.PORT, () => console.log(`starting localhost: ${process.env.PORT}`));

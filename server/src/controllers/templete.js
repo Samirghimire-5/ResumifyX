@@ -22,7 +22,8 @@ const getTemplate = async (req, res) => {
 
 const addNewTemplate = async (req, res) => {
   try {
-    const template = await Template.create(req.body);
+    const previewImage = await req.file?.filename
+    const template = await Template.create({...req.body, previewImage});
     res.status(201).json({ message: "Created new template", template });
   } catch (error) {
     console.error("Error creating template:", error);
