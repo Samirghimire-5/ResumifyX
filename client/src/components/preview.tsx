@@ -20,8 +20,8 @@ const PreviewSec = ({resume}: any) => {
             <p>Template not found</p>
           )}
 
-          {/* this below preview section is preview from reactpdf/render
-          <ResumePdfPrev resume={resume}/> */}
+          {/* this below preview section is preview from reactpdf/render */}
+          {/* <ResumePdfPrev resume={resume}/> */}
         </Suspense>
     </Card>
   );

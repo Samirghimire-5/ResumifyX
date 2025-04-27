@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import TiptapEditor from './components/tiptapEditor'
+import TiptapEditor from './components/joditEditor'
 
 const AiResume = () => {
     
