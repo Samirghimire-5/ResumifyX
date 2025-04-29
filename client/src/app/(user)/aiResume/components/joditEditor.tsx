@@ -1,24 +1,33 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import JoditEditor from "jodit-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
-import { debounce } from "lodash";
-import { defaultTemp } from "./template";
+import { debounce, set } from "lodash";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { setHtml } from "@/lib/redux/aiResumeHtml/resumeHtmlSlice";
 
 const Editor = () => {
   const [inputText, setInputText] = useState("");
   const editor = React.useRef(null);
-  const [content, setContent] = React.useState(defaultTemp);
+  const [content, setContent] = React.useState('');
+  const {html} = useSelector((state) => state.htmlData)
+  const dispatch = useDispatch()
+
 
   const handleInputChange = debounce((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(e.target.value);
   }, 500);
+
+  useEffect(() => {
+      setContent(html)
+  }, [])
 
   const config: any = useMemo(
     () => ({
@@ -129,12 +138,15 @@ const Editor = () => {
     mutationFn: ({ content, inputText }: { content: string; inputText: string }) =>
       onSend(content, inputText),
     onSuccess: (responseData) => {
-      console.log("Response from Gemini:", responseData);
-      setContent(responseData?.generatedResume);
-      setInputText("");
+      // console.log("Response from Gemini:", responseData);
+      // setContent(responseData?.generatedResume);
+      dispatch(setHtml(responseData?.generatedResume))
+      // console.log("hi")
+      setInputText("oi");
+      // console.log("hello")
     },
     onError: (error) => {
-      console.error("Error sending data:", error);
+      toast.error("Error sending data");
     }
   });
 
@@ -147,7 +159,7 @@ const Editor = () => {
             ref={editor}
             value={isPending ? "<p class='text-gray-500 italic'>Generating your request...</p>" : content}
             config={config}
-            onBlur={(newContent) => setContent(newContent)}
+            onBlur={(newContent) => dispatch(setHtml(newContent))}
             onChange={() => {}}
           />
 

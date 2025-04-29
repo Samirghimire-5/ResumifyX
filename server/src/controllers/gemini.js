@@ -80,7 +80,7 @@ const geminiForEditor = (req, res) => {
       res.status(200).json({ generatedResume });
     })
     .catch((error) => {
-      console.error("Axios Error:", error); // Log the full error
+      // console.error("Axios Error:", error); // Log the full error
       if (error.response) {
         res.status(error.response.status).json({ error: error.response.data });
       } else if (error.request) {
