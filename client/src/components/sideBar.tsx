@@ -3,19 +3,11 @@ import React from "react";
 import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  LogOut,
-  FileText,
-  LayoutGrid,
-  FileUser,
-} from "lucide-react";
+import { LogOut, FileText, LayoutGrid, FileUser } from "lucide-react";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
-import {
-  Sidebar,
-  SidebarContent,
-} from "./ui/sidebar";
+import { Sidebar, SidebarContent } from "./ui/sidebar";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/lib/redux/user/userSlice";
 
@@ -69,13 +61,15 @@ const SideNav = () => {
       <SidebarContent className="bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 py-4 flex flex-col h-full">
         {/* Logo Section */}
         <div className="flex justify-center mb-6 px-6">
-          <Image
-            src="/resumifyx-logo.svg"
-            height={100}
-            width={250}
-            alt="resumifyX logo"
-            priority
-          />
+          <Link href="/resume">
+            <Image
+              src="/resumifyx-logo.svg"
+              height={100}
+              width={250}
+              alt="resumifyX logo"
+              priority
+            />
+          </Link>
         </div>
 
         {/* Navigation Menu */}

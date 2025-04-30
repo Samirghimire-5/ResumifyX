@@ -20,8 +20,8 @@ export function middleware(request: NextRequest) {
         }   
     } else {
         if (pathname === '/login' || pathname === '/register') {
-            console.log('Authenticated user, redirecting to home');
-            return NextResponse.redirect(new URL('/home', request.url));
+            console.log('Authenticated user, redirecting to resume');       //if later make home page 
+            return NextResponse.redirect(new URL('/resume', request.url));
         } else {
             console.log('Authenticated user, allowing access');
             return NextResponse.next();
