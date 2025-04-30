@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import userReducer from "./user/userSlice"
 import resumeDataReducer from "./resumeData/resumeDataSlice"
 import resumeHtmlReducer from "./aiResumeHtml/resumeHtmlSlice"
@@ -27,7 +27,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER], // Ignore non-serializable Redux-Persist actions
       },
     })
-    .concat(logger),
+    // .concat(logger),
 })
 
 export const persistor = persistStore(store);

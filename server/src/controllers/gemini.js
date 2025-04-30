@@ -76,7 +76,14 @@ const geminiForEditor = (req, res) => {
   axios
     .post(url, data, { headers })
     .then((response) => {
-      const generatedResume = response.data.candidates[0].content.parts[0].text;
+      let generatedResume = response.data.candidates[0].content.parts[0].text;
+
+      // Clean Markdown-style code block from Gemini
+      generatedResume = generatedResume
+        .replace(/^```html\s*/, "")
+        .replace(/```$/, "")
+        .trim();
+
       res.status(200).json({ generatedResume });
     })
     .catch((error) => {
