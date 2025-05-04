@@ -88,7 +88,7 @@ const Templates = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">
-          Templates Gallery
+          Templates Gallery For AI_Resumes
         </h1>
         <p className="text-gray-600 mb-6">
           Browse our collection of professionally designed templates
