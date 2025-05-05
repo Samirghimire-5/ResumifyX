@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const ResumePdfDownload = () => {
 const resume = useSelector((state: any) => state.resumeData)
-  const [pdfUrl, setPdfUrl] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const generatePdf = async () => {

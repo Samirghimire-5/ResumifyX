@@ -8,6 +8,17 @@ import { useDispatch } from "react-redux";
 import { setHtml } from "@/lib/redux/aiResumeHtml/resumeHtmlSlice";
 import { useRouter } from "next/navigation";
 
+interface templateTypes {
+  _id: string;
+  name: string;
+  description: string;
+  templateContent: string;
+  previewImage: string;
+  downloads?: number;
+  category?: string;
+  featured?: string;
+}
+
 const Templates = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
@@ -30,7 +41,7 @@ const Templates = () => {
   const filteredTemplates =
     searchTerm && templates
       ? templates.filter(
-          (template) =>
+          (template: templateTypes) =>
             template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             template.description
               .toLowerCase()
@@ -38,7 +49,7 @@ const Templates = () => {
         )
       : templates;
 
-  const handleTemplateClick = (template) => {
+  const handleTemplateClick = (template: templateTypes) => {
     // console.log(template)
     dispatch(setHtml(template.templateContent));
     router.push('/aiResume')
@@ -110,7 +121,7 @@ const Templates = () => {
 
       {filteredTemplates && filteredTemplates.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredTemplates.map((template) => (
+          {filteredTemplates.map((template: templateTypes) => (
             <div
               key={template._id}
               className="group bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl w-[220]"
@@ -150,7 +161,7 @@ const Templates = () => {
 
                 <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
                   <div className="text-sm text-gray-500">
-                    {template.downloads
+                    {template?.downloads
                       ? `${template.downloads} downloads`
                       : "New"}
                   </div>
