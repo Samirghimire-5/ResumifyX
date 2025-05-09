@@ -14,6 +14,7 @@ const userRoute = require("./routes/user");
 const resumeRoute = require("./routes/resume");
 const templateRoute = require('./routes/template')
 const geminiRoute = require("./routes/gemini")
+const downloadRoute = require("./routes/download")
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(userRoute);
 app.use(resumeRoute);
 app.use(templateRoute);
 app.use(geminiRoute)
+app.use(downloadRoute)
 app.use('/uploads', express.static('uploads'));
 
 // Server Start

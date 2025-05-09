@@ -6,7 +6,6 @@ import NameAndDownload from '@/components/nameAndDownload'
 import { useSelector } from 'react-redux'
 
 const Builder = () => {
-  const resume = useSelector((state: any) => state.resumeData);
 
   return (
     <div className="flex flex-col gap-5 w-full p-5">
@@ -15,7 +14,7 @@ const Builder = () => {
         </div>
         <div className='flex items-center justify-between h-full w-full'>
           <InputSec />
-          <PreviewSec resume={resume}/>
+          <PreviewSec/>
         </div>
 
     </div>
