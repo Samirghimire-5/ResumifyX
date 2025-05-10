@@ -15,7 +15,7 @@ const PersonalInfo = ({ setActiveForm }: any) => {
   const initialValue = useSelector((state: any) => state.resumeData.personalInfo)    // to set initial value of inputs
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const dispatch = useDispatch();
-  console.log(initialValue)
+  // console.log(initialValue)
 
   interface FormInputs {
     image?: FileList;

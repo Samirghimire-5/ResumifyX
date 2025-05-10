@@ -1,9 +1,9 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import React from "react";
 
-const PreviewDefaultTemplate = ({ resume }: any) => {
+const PreviewDefaultTemplate = ({ resume, resumeRef }: any) => {
   return (
-    <div className="w-full h-full p-6 max-w-3xl mx-auto font-sans bg-white">
+    <div ref={resumeRef} className="w-full h-full p-6 max-w-3xl mx-auto font-sans bg-white">
       {/* Header / Personal Info */}
       {resume.personalInfo && (
         <header className="mb-6 flex items-start gap-4">

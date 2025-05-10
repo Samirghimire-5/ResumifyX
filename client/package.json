@@ -31,6 +31,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.9.2",
+    "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
     "jodit": "^4.6.2",
     "jodit-react": "^5.2.19",
