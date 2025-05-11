@@ -10,11 +10,12 @@ import { Button } from "./ui/button";
 import { toPng } from "html-to-image";
 import jsPDF from "jspdf";
 
+
 const PreviewSec = () => {
   const resumeRef = useRef(null)
   const resume = useSelector((state: any) => state.resumeData);
 
-  const handleDownload = () => {
+ const handleDownload = () => {
       if (!resumeRef.current) return console.log('aayena')
   
       
@@ -31,16 +32,18 @@ const PreviewSec = () => {
           console.error("Failed to generate PDF:", err);
         });
       }
+
   const selectedTemplate = resume?.selectedTemplate || "default";
   const TemplateComponent =
     // previewTemplates[selectedTemplate] ||
     previewTemplates["default"];
 
   return (
-    <Card className="flex flex-col max-h-[1123px] w-[794px] p-[20px] shadow-xl rounded-2xl overflow-auto">
+    // <Card className="flex flex-col max-h-[100%] w-full p-[20px] shadow-xl rounded-2xl overflow-auto">
+    <div>
       <Suspense fallback={<p>Loading template...</p>}>
         {TemplateComponent ? (
-          <TemplateComponent resume={resume} resumeRef={resumeRef} />
+          <TemplateComponent className="p-[20px] shadow-xl" resume={resume} resumeRef={resumeRef} />
         ) : (
           <p>Template not found</p>
         )}
@@ -50,7 +53,8 @@ const PreviewSec = () => {
 
       </Suspense>
       <Button onClick={handleDownload}>download</Button>
-    </Card>
+      </div>
+    // </Card>
   );
 };
 

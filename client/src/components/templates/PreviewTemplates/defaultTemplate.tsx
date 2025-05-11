@@ -3,7 +3,7 @@ import React from "react";
 
 const PreviewDefaultTemplate = ({ resume, resumeRef }: any) => {
   return (
-    <div ref={resumeRef} className="w-full h-full p-6 max-w-3xl mx-auto font-sans bg-white">
+    <div ref={resumeRef} className="w-[794px] h-[1123px] p-[13.4708mm] font-sans bg-gray-100">
       {/* Header / Personal Info */}
       {resume.personalInfo && (
         <header className="mb-6 flex items-start gap-4">
