@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   page: {
     padding: 24,
     fontFamily: "Helvetica",
-    backgroundColor: "#ffffff",
+    backgroundColor: "white",
   },
   header: {
     flexDirection: "row",

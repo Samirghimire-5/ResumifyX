@@ -127,3 +127,12 @@
     @apply bg-background text-foreground;
   }
 }
+.pdf-viewer {
+  background-image: url('/client/public/blank-white.jpg');
+  background-size: cover
+}
+
+.pdf-viewer > iframe {
+  background-image: url('/client/public/blank-white.jpg');
+  background-size: cover
+}
