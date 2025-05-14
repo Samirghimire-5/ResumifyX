@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState ={
+const initialState: { html: string } ={
   html: ''
 }
 
@@ -8,7 +8,7 @@ const resumeHtmlSlice = createSlice({
   name: 'resumeHtml',
   initialState,
   reducers: {
-    setHtml: (state, action) => {
+    setHtml: (state, action: PayloadAction<string>) => {
       state.html = action.payload;
     },
   },

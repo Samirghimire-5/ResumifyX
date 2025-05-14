@@ -8,6 +8,13 @@ import { Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast"
 import {useRouter} from "next/navigation"
 
+type RegisterFormInputs = {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 const Register = () => {
   const router = useRouter()
 
@@ -18,19 +25,18 @@ const Register = () => {
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<RegisterFormInputs>();
 
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: RegisterFormInputs) => {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, data)
       if (response.status === 201) {
       toast.success(response.data.message)
        router.push('/login')
       }      
-    } catch (error) {
+    } catch (error: any) {
         toast.error(error.response.data.message)
     }
   };

@@ -24,6 +24,7 @@
     "@tiptap/extension-underline": "^2.11.7",
     "@tiptap/react": "^2.11.7",
     "@tiptap/starter-kit": "^2.11.7",
+    "@types/react-redux": "^7.1.34",
     "autoprefixer": "^10.4.21",
     "axios": "^1.8.1",
     "class-variance-authority": "^0.7.1",

@@ -10,10 +10,18 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { useDispatch } from "react-redux";
 import {userData} from "@/lib/redux/user/userSlice"
+import { AppDispatch } from "@/lib/redux/store";
+
+
+type LoginFormInputs = {
+  email: string;
+  password: string;
+};
+
 
 const Login = () => {
   const router = useRouter();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -21,9 +29,9 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<LoginFormInputs>();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: LoginFormInputs) => {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
@@ -36,7 +44,7 @@ const Login = () => {
         
         router.push("/resume");
       }
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.response?.data?.message || 'Something went wrong');
     }
   };
