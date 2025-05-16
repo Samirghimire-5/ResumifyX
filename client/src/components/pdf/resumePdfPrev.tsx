@@ -15,8 +15,8 @@ const ResumePdfPrev = () => {
         style={{
           backgroundColor: "transparent",
           border: "none",
-          width: "794px", // A4 width
-          height: "1123px", // A4 height
+          width: "794px",
+          height: "1123px",
         }}
       >
         {resume && <PdfDefaultTemplate resume={resume} />}

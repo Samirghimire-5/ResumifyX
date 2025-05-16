@@ -41,18 +41,6 @@
 //   section: {
 //     marginBottom: 25,
 //   },
-//   sectionTitle: {
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//     marginBottom: 10,
-//     borderBottomWidth: 2,
-//     borderBottomColor: '#2E8B57',
-//     paddingBottom: 5,
-//     color: '#333333',
-//   },
-//   experienceItem: {
-//     marginBottom: 15,
-//   },
 //   role: {
 //     fontSize: 16,
 //     fontWeight: 'bold',

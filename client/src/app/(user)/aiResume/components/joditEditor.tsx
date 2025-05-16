@@ -11,12 +11,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { setHtml } from "@/lib/redux/aiResumeHtml/resumeHtmlSlice";
+import { RootState } from "@/lib/redux/store";
 
 const Editor = () => {
   const [inputText, setInputText] = useState("");
   const editor = React.useRef(null);
   const [content, setContent] = React.useState("");
-  const { html } = useSelector((state) => state.htmlData);
+  const { html } = useSelector((state: RootState) => state.htmlData);
   const dispatch = useDispatch();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

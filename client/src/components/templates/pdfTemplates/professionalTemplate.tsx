@@ -53,17 +53,6 @@
 //   experienceItem: {
 //     marginBottom: 15,
 //   },
-//   role: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//     color: '#333333',
-//     marginBottom: 3,
-//   },
-//   company: {
-//     fontSize: 14,
-//     color: '#555555',
-//     marginBottom: 3,
-//   },
 //   dates: {
 //     fontSize: 12,
 //     color: '#777777',
