@@ -127,12 +127,11 @@
     @apply bg-background text-foreground;
   }
 }
-.pdf-viewer {
-  background-image: url('/client/public/blank-white.jpg');
-  background-size: cover
-}
 
-.pdf-viewer > iframe {
-  background-image: url('/client/public/blank-white.jpg');
-  background-size: cover
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
