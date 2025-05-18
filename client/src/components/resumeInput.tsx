@@ -68,7 +68,6 @@ const InputSec = () => {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="w-full h-full overflow-y-auto">{renderForm()}</div>
-      {/* <RotateCcw className="left-2 bottom-2"/> */}
     </Card>
   );
 };

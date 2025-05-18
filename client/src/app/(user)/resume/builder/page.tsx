@@ -3,7 +3,6 @@ import React from "react";
 import InputSec from "@/components/resumeInput";
 import PreviewSec from "@/components/preview";
 import NameAndDownload from "@/components/nameAndDownload";
-import { useSelector } from "react-redux";
 
 const Builder = () => {
   return (

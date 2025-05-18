@@ -104,7 +104,15 @@ const Experience = ({ setActiveForm }: any) => {
       endDate: "",
       description: "",
     });
-    dispatch(addExperience({}));
+    dispatch(
+      addExperience({
+        role: "",
+        companyName: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+      })
+    );
   };
 
   const handleDelete = (index: number) => {
@@ -224,7 +232,6 @@ const Experience = ({ setActiveForm }: any) => {
                 <Textarea
                   {...register(`experience.${index}.description`)}
                   placeholder="Write a short description..."
-                  onKeyDown={preventDefault}
                   onChange={(e) =>
                     handleInputChange(index, "description", e.target.value)
                   }

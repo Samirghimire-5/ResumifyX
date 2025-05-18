@@ -10,7 +10,7 @@ const PreviewSec = () => {
     previewTemplates["default"];
 
   return (
-   <div className="w-[700px] h-[1000px] bg-red-500">
+   <div className="h-screen border bg-white">
         <Suspense fallback={<p>Loading template...</p>}>
           {TemplateComponent ? (
             <TemplateComponent resume={resume} />

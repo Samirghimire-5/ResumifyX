@@ -3,7 +3,7 @@ import React from "react";
 import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
-import { LogOut, FileText, LayoutGrid, FileUser } from "lucide-react";
+import { LogOut, FileText, LayoutGrid, FileUser, FileSpreadsheetIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
@@ -37,10 +37,16 @@ const SideNav = () => {
 
   const pages = [
     {
-      title: "Resume Builder",
+      title: "Dashboard",
       url: "/resume",
       icon: LayoutGrid,
-      description: "Create your professional resume",
+      description: "Welcome to your dashboard",
+    },
+    {
+      title: "Builder",
+      url: "/resume/builder",
+      icon: FileSpreadsheetIcon,
+      description: "Build your resume",
     },
     {
       title: "Templates",
@@ -57,7 +63,7 @@ const SideNav = () => {
   ];
 
   return (
-    <Sidebar className="h-screen w-64">
+    <Sidebar className="h-screen w-56">
       <SidebarContent className="bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 py-4 flex flex-col h-full">
         {/* Logo Section */}
         <div className="flex justify-center mb-6 px-6">

@@ -11,17 +11,17 @@ interface Personal  {
 
 interface Experience {
     role: string;
-    company: string;
-    startDate: Date;
-    endDate: Date;
+    companyName: string;
+    startDate: Date |  string;
+    endDate: Date | string;
     description: string;
 }
 
 interface Education {
     degree: string;
     school: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: Date | string;
+    endDate: Date | string;
 }
 
 interface Project {

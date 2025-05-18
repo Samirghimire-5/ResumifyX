@@ -11,7 +11,7 @@ import {
   updateEducation,
 } from "@/lib/redux/resumeData/resumeDataSlice";
 import { debounce } from "lodash";
-import dayjs from "dayjs"; 
+import dayjs from "dayjs";
 import { Input } from "../ui/input";
 import CustomDatePicker from "../costumeDatePicker";
 
@@ -88,7 +88,9 @@ const Education = ({ setActiveForm }: any) => {
       startDate: "",
       endDate: "",
     });
-    dispatch(addEducation({}));
+    dispatch(
+      addEducation({ degree: "", school: "", startDate: "", endDate: "" })
+    );
   };
 
   const handleDelete = (index: number) => {

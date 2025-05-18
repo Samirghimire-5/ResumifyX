@@ -128,7 +128,6 @@ const Projects = ({ setActiveForm }: any) => {
                 <Textarea
                   {...register(`projects.${index}.description`)}
                   placeholder="Project description..."
-                  onKeyDown={preventDefault}
                   onChange={(e) =>
                     handleInputChange(index, "description", e.target.value)
                   }

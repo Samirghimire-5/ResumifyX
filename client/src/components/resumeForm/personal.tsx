@@ -11,7 +11,7 @@ import {
 import { ChevronRight } from "lucide-react";
 import { debounce } from 'lodash';
 
-const PersonalInfo = ({ setActiveForm }: any) => {
+const PersonalInfo = ({setActiveForm}: any) => {
   const initialValue = useSelector((state: any) => state.resumeData.personalInfo)    // to set initial value of inputs
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const dispatch = useDispatch();
