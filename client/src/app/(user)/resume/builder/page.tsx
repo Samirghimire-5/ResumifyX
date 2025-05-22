@@ -6,7 +6,7 @@ import NameAndDownload from "@/components/nameAndDownload";
 
 const Builder = () => {
   return (
-    <div className="flex flex-col gap-5 w-full h-screen scrollbar-hidden overflow-y-scroll p-3">
+    <div className="flex flex-col gap-5 w-full h-screen overflow-y-scroll p-3">
       <div className="w-full">
         <NameAndDownload />
       </div>

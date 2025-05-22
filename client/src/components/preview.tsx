@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useRef } from "react";
+import React, { Suspense } from "react";
 import { previewTemplates } from "./templates";
 import { useSelector } from "react-redux";
 const PreviewSec = () => {
@@ -10,7 +10,7 @@ const PreviewSec = () => {
     previewTemplates["default"];
 
   return (
-   <div className="h-screen border bg-white">
+   <div className="w-[550px]  h-screen p-[13.4708mm]  border bg-white">
         <Suspense fallback={<p>Loading template...</p>}>
           {TemplateComponent ? (
             <TemplateComponent resume={resume} />

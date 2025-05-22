@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import ResumePdfDownload from "./pdf/resumePdfDownload";
-import ResumePdfPrev from "./pdf/resumePdfPrev";
-// import ResumePdfPrev from "./pdf/resumePdfPrev";
 
 const NameAndDownload = () => {
   return (

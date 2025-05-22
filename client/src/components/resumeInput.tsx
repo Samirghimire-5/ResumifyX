@@ -51,7 +51,7 @@ const InputSec = () => {
   };
 
   return (
-    <Card className="flex flex-col items-center max-h-[80vh] min-h-[80vh] w-[40%] p-4 cursor-pointer">
+    <Card className="flex flex-col items-center max-h-[80vh] w-[40%] p-4 cursor-pointer">
       <Breadcrumb>
         <BreadcrumbList>
           {categories.map((item, index) => (
