@@ -92,7 +92,6 @@ const Experience = ({ setActiveForm }: any) => {
   }, [experiences, fields, setValue]);
 
   const onSubmit = (data: ExperienceForm) => {
-    console.log("Submitted Data:", data);
     setActiveForm("Skills");
   };
 

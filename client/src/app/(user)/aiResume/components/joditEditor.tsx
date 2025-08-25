@@ -35,28 +35,28 @@ const Editor = () => {
       height: "calc(100vh - 4rem)",
       width: "794px",
 
-      buttons: [
-        "bold",
-        "italic",
-        "underline",
-        "|",
-        "ul",
-        "ol",
-        "|",
-        "font",
-        "fontsize",
-        "|",
-        "align",
-        "indent",
-        "outdent",
-        "|",
-        "hr",
-        "table",
-        "|",
-        "undo",
-        "redo",
-        "print",
-      ],
+      // buttons: [
+      //   "bold",
+      //   "italic",
+      //   "underline",
+      //   "|",
+      //   "ul",
+      //   "ol",
+      //   "|",
+      //   "font",
+      //   "fontsize",
+      //   "|",
+      //   "align",
+      //   "indent",
+      //   "outdent",
+      //   "|",
+      //   "hr",
+      //   "table",
+      //   "|",
+      //   "undo",
+      //   "redo",
+      //   "print",
+      // ],
 
       toolbarAdaptive: false,
       toolbar: true,
@@ -82,22 +82,22 @@ const Editor = () => {
         },
       },
 
-      removeButtons: [
-        "video",
-        "file",
-        "image",
-        "source",
-        "about",
-        "fullsize",
-        "copyformat",
-        "superscript",
-        "subscript",
-        "selectall",
-        "cut",
-        "copy",
-        "paste",
-        "symbol",
-      ],
+      // removeButtons: [
+      //   "video",
+      //   "file",
+      //   "image",
+      //   "source",
+      //   "about",
+      //   "fullsize",
+      //   "copyformat",
+      //   "superscript",
+      //   "subscript",
+      //   "selectall",
+      //   "cut",
+      //   "copy",
+      //   "paste",
+      //   "symbol",
+      // ],
 
       disablePlugins: [
         "speech-recognize",
@@ -153,7 +153,7 @@ const Editor = () => {
 
   return (
     <div className="h-screen w-fit flex flex-col bg-gray-50">
-      <ScrollArea className="h-fit w-full p-6">
+      <ScrollArea className="h-fit w-full">
         <div className="relative w-[794px] border border-gray-200 rounded-lg shadow-md bg-white overflow-hidden">
           <JoditEditor
             className="pb-48"

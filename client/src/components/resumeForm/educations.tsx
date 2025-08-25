@@ -77,7 +77,6 @@ const Education = ({ setActiveForm }: any) => {
   }, [educations, fields, setValue]);
 
   const onSubmit = async (data: EducationForm) => {
-    console.log("Submitted Education Data:", data);
     setActiveForm("Summary");
   };
 

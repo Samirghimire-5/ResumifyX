@@ -30,7 +30,7 @@ const createNewResume = async (req, res) => {
 
 
 const updateResume = async (req, res) => {
-  const resume = await Resume.findByIdAndUpdate(req.params.id, req.body)
+  await Resume.findByIdAndUpdate(req.params.id, req.body)
   res.json({message: "updated successfully"})
 };
 

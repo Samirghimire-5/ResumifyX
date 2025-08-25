@@ -61,7 +61,6 @@ const Projects = ({ setActiveForm }: any) => {
   }, [projects, fields, setValue]);
 
   const onSubmit = (data: ProjectForm) => {
-    console.log("Submitted Data:", data);
     setActiveForm("Educations");
   };
 

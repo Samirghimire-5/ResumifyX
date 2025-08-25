@@ -28,7 +28,6 @@ const AddTemplate = () => {
   } = useForm<FormData>();
 
   const onSubmit = async (data: any) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.description);
@@ -41,7 +40,6 @@ const AddTemplate = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/api/templates`,
         formData
       );
-      console.log(res);
       toast.success("Template uploaded!");
       reset();
     } catch (err) {

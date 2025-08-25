@@ -50,7 +50,6 @@ const Templates = () => {
       : templates;
 
   const handleTemplateClick = (template: templateTypes) => {
-    // console.log(template)
     dispatch(setHtml(template.templateContent));
     router.push('/aiResume')
   };
