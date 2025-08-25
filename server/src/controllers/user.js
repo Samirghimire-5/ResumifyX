@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const getUsers = async (req, res) => {
@@ -32,7 +32,6 @@ const registerNewUsers = async (req, res) => {
         email,
         password: hashedPassword,
       });
-      console.log(data);
       return res.status(201).json({ message: "User registered successfully" });
     } else {
       return res.status(400).json({ message: "Password do not match" });

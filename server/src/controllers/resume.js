@@ -12,7 +12,6 @@ const getResume = async (req, res) => {
 
 const createNewResume = async (req, res) => {
   try {
-    console.log("req.body", req.body)
     const resume = await Resume.create(req.body);
 
     if (!resume) {
