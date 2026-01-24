@@ -8,8 +8,8 @@ const protectedRoute = (req, res, next) => {
     const decode = jwt.verify(token, process.env.SECRET_KEY);
     req.user = decode;
     next();
-  }catch (err) {
-    res.status(498).json({error: 'Token expired. Please log in again'})
+  } catch (err) {
+    res.status(498).json({ error: "Token expired. Please log in again" });
   }
 };
 
