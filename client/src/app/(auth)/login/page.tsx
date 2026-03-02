@@ -1,17 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { userData } from "@/lib/redux/user/userSlice";
 import { AppDispatch } from "@/lib/redux/store";
-import { googleLogin } from "@/api/auth";
+import { googleLogin } from "@/lib/firebase/auth";
 
 type LoginFormInputs = {
   email: string;
@@ -63,7 +60,7 @@ const Login = () => {
         <Button
           onClick={async () => {
             const { token } = await googleLogin();
-            const response = await axios.post("/api/auth", {
+            const response = await axios.post("/api/googleAuth", {
               token,
             });
             console.log(response.data);
