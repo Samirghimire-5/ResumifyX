@@ -1,21 +1,36 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import Link from "next/link"
-import { useRef } from "react"
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import Image from "next/image";
+import Link from "next/link";
+import { useRef } from "react";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { googleLogin } from "@/lib/firebase/auth";
+import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
+import Login from "@/components/auth/login";
 
 const Home = () => {
-  const { scrollYProgress } = useScroll()
-  const featuresRef = useRef(null)
-  const testimonialsRef = useRef(null)
-  const ctaRef = useRef(null)
+  const { scrollYProgress } = useScroll();
+  const featuresRef = useRef(null);
+  const testimonialsRef = useRef(null);
+  const ctaRef = useRef(null);
 
-  const featuresInView = useInView(featuresRef, { once: true, amount: 0.2 })
-  const testimonialsInView = useInView(testimonialsRef, { once: true, amount: 0.2 })
-  const ctaInView = useInView(ctaRef, { once: true })
+  const featuresInView = useInView(featuresRef, { once: true, amount: 0.2 });
+  const testimonialsInView = useInView(testimonialsRef, {
+    once: true,
+    amount: 0.2,
+  });
+  const ctaInView = useInView(ctaRef, { once: true });
 
-  const navbarOpacity = useTransform(scrollYProgress, [0, 0.05], [0.7, 1])
+  const navbarOpacity = useTransform(scrollYProgress, [0, 0.05], [0.7, 1]);
+
+  // const googleAuth = async () => {
+  //   const { token } = await googleLogin();
+  //   const response = await axios.post("/api/googleAuth", {
+  //     token,
+  //   });
+  //   console.log(response.data);
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 text-white">
@@ -36,22 +51,6 @@ const Home = () => {
             alt="ResumifyX logo"
             priority
           />
-        </div>
-        <div>
-          <motion.button
-            className="mr-4 px-4 py-2 border border-indigo-500/50 text-cyan-400 rounded-lg font-semibold hover:bg-indigo-900/50 transition duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link href={"/login"}>Login</Link>
-          </motion.button>
-          <motion.button
-            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-lg font-semibold hover:from-indigo-700 hover:to-violet-700 transition duration-300 shadow-lg shadow-indigo-500/20"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link href={"/register"}>Sign Up</Link>
-          </motion.button>
         </div>
       </motion.nav>
 
@@ -77,23 +76,29 @@ const Home = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
           >
-            ResumifyX helps you craft professional resumes and portfolios in minutes.
+            ResumifyX helps you craft professional resumes and portfolios in
+            minutes.
           </motion.p>
-          <motion.button
-            className="mt-8 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg hover:from-indigo-700 hover:to-violet-700 transition duration-300"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link href={"/register"}>Get Started</Link>
-          </motion.button>
+          {/* <motion.button */}
+          {/*   className="flex gap-2 items-center mt-8 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg hover:from-indigo-700 hover:to-violet-700 transition duration-300" */}
+          {/*   initial={{ opacity: 0 }} */}
+          {/*   animate={{ opacity: 1 }} */}
+          {/*   transition={{ delay: 0.7, duration: 0.8 }} */}
+          {/*   whileHover={{ scale: 1.05 }} */}
+          {/*   whileTap={{ scale: 0.95 }} */}
+          {/*   onClick={googleAuth} */}
+          {/* > */}
+          {/*   <FcGoogle /> <span>Google</span> */}
+          {/* </motion.button> */}
+          <Login />
         </motion.div>
       </section>
 
       {/* Features Section */}
-      <section ref={featuresRef} className="py-20 max-w-6xl mx-auto text-center px-4">
+      <section
+        ref={featuresRef}
+        className="py-20 max-w-6xl mx-auto text-center px-4"
+      >
         <motion.h2
           className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400"
           initial={{ opacity: 0, y: 20 }}
@@ -108,7 +113,8 @@ const Home = () => {
           animate={featuresInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          Our platform simplifies the job-seeking process with powerful resume-building and portfolio tools.
+          Our platform simplifies the job-seeking process with powerful
+          resume-building and portfolio tools.
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
@@ -131,7 +137,8 @@ const Home = () => {
                 </svg>
               ),
               title: "Resume Builder",
-              description: "Easily create professional resumes with our intuitive editor.",
+              description:
+                "Easily create professional resumes with our intuitive editor.",
               color: "text-cyan-400",
               gradient: "from-blue-600 to-indigo-600",
               delay: 0.1,
@@ -154,7 +161,8 @@ const Home = () => {
                 </svg>
               ),
               title: "Portfolio Showcase",
-              description: "Display your work in a visually appealing online portfolio.",
+              description:
+                "Display your work in a visually appealing online portfolio.",
               color: "text-violet-400",
               gradient: "from-indigo-600 to-violet-600",
               delay: 0.2,
@@ -177,7 +185,8 @@ const Home = () => {
                 </svg>
               ),
               title: "PDF Export",
-              description: "Download your resume as a high-quality PDF instantly.",
+              description:
+                "Download your resume as a high-quality PDF instantly.",
               color: "text-cyan-400",
               gradient: "from-violet-600 to-purple-600",
               delay: 0.3,
@@ -200,7 +209,8 @@ const Home = () => {
                 </svg>
               ),
               title: "AI-Powered Suggestions",
-              description: "Get AI-driven insights to optimize your resume for better job prospects.",
+              description:
+                "Get AI-driven insights to optimize your resume for better job prospects.",
               color: "text-violet-400",
               gradient: "from-cyan-600 to-blue-600",
               delay: 0.4,
@@ -223,7 +233,8 @@ const Home = () => {
                 </svg>
               ),
               title: "Customization",
-              description: "Choose from various templates and styles to personalize your resume.",
+              description:
+                "Choose from various templates and styles to personalize your resume.",
               color: "text-cyan-400",
               gradient: "from-blue-600 to-indigo-600",
               delay: 0.5,
@@ -246,7 +257,8 @@ const Home = () => {
                 </svg>
               ),
               title: "Secure Storage",
-              description: "Store your resumes and portfolios securely and access them anytime.",
+              description:
+                "Store your resumes and portfolios securely and access them anytime.",
               color: "text-violet-400",
               gradient: "from-indigo-600 to-violet-600",
               delay: 0.6,
@@ -260,7 +272,8 @@ const Home = () => {
               transition={{ delay: feature.delay, duration: 0.5 }}
               whileHover={{
                 y: -10,
-                boxShadow: "0 20px 25px -5px rgba(79, 70, 229, 0.1), 0 10px 10px -5px rgba(79, 70, 229, 0.04)",
+                boxShadow:
+                  "0 20px 25px -5px rgba(79, 70, 229, 0.1), 0 10px 10px -5px rgba(79, 70, 229, 0.04)",
               }}
             >
               <motion.div
@@ -270,7 +283,9 @@ const Home = () => {
               >
                 {feature.icon}
               </motion.div>
-              <h3 className={`text-xl font-bold ${feature.color}`}>{feature.title}</h3>
+              <h3 className={`text-xl font-bold ${feature.color}`}>
+                {feature.title}
+              </h3>
               <p className="mt-4 text-gray-300">{feature.description}</p>
             </motion.div>
           ))}
@@ -342,7 +357,9 @@ const Home = () => {
                     transition={{ type: "spring", stiffness: 300, damping: 10 }}
                   ></motion.div>
                   <div className="ml-3">
-                    <h4 className={`font-semibold ${testimonial.color}`}>{testimonial.name}</h4>
+                    <h4 className={`font-semibold ${testimonial.color}`}>
+                      {testimonial.name}
+                    </h4>
                     <p className="text-sm text-gray-400">{testimonial.role}</p>
                   </div>
                 </div>
@@ -424,7 +441,10 @@ const Home = () => {
               <h3 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400">
                 ResumifyX
               </h3>
-              <p className="text-gray-400">Building better careers through professional resumes and portfolios.</p>
+              <p className="text-gray-400">
+                Building better careers through professional resumes and
+                portfolios.
+              </p>
             </motion.div>
 
             <motion.div
@@ -480,7 +500,7 @@ const Home = () => {
             </motion.p>
             <div className="flex space-x-4 mt-4 md:mt-0">
               {/* Social Media Icons */}
-              
+
               {[
                 {
                   icon: (
@@ -510,15 +530,19 @@ const Home = () => {
                 },
                 {
                   icon: (
-                    <a href="https://www.linkedin.com/in/samir-ghimire-5a0b23331/" target="_blank" rel="noopener noreferrer">
-                    <svg
-                      className="w-5 h-5 text-cyan-400"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <a
+                      href="https://www.linkedin.com/in/samir-ghimire-5a0b23331/"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
-                    </svg>
+                      <svg
+                        className="w-5 h-5 text-cyan-400"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+                      </svg>
                     </a>
                   ),
                   delay: 0.8,
@@ -547,7 +571,7 @@ const Home = () => {
         </div>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

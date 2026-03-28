@@ -10,6 +10,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Sidebar, SidebarContent } from "./ui/sidebar";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/lib/redux/user/userSlice";
+import api from "@/axios/api";
 
 const SideNav = () => {
   const router = useRouter();
@@ -18,16 +19,12 @@ const SideNav = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/logout`,
-        {},
-        { withCredentials: true }
-      );
+      const response = await api.post("/api/user/logout")
 
       if (response.status === 200) {
         toast.success(response.data.message);
         dispatch(logOut());
-        router.push("/login");
+        router.push("/");
       }
     } catch (error) {
       console.error("Logout error:", error);

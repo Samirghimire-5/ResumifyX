@@ -1,4 +1,4 @@
-const Resume = require("../models/resume");
+const Resume = require("../../models/resume");
 
 const getResumes = async (req, res) => {
   const data = await Resume.find();
