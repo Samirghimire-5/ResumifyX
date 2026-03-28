@@ -7,14 +7,14 @@ require("dotenv").config();
 const dbConnect = require("./db/connection");
 
 // Middleware
-const upload = require("./middleware/imageMiddleware");
+const upload = require("./middleware/multer");
 
 // Routes
-const userRoute = require("./routes/user");
-const resumeRoute = require("./routes/resume");
-const templateRoute = require('./routes/template')
-const geminiRoute = require("./routes/gemini")
-const downloadRoute = require("./routes/download")
+const userRoute = require("./routes/user/index");
+const resumeRoute = require("./routes/resume/index");
+const templateRoute = require("./routes/template/index");
+const geminiRoute = require("./routes/gemini/index");
+const downloadRoute = require("./routes/download/index");
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true, // Allow cookies, authentication headers
-  })
+  }),
 );
 
 app.use(express.json());
@@ -33,13 +33,16 @@ app.use(express.urlencoded({ extended: false }));
 // Database Connection Initialization
 dbConnect();
 
+app.use("/uploads", express.static("uploads"));
+
 // Route Application
-app.use(userRoute);
-app.use(resumeRoute);
-app.use(templateRoute);
-app.use(geminiRoute)
-app.use(downloadRoute)
-app.use('/uploads', express.static('uploads'));
+app.use("/api/user", userRoute);
+app.use("/api/resume", resumeRoute);
+app.use("/api/template", templateRoute);
+app.use("/api/gemini", geminiRoute);
+app.use("/api/download", downloadRoute);
 
 // Server Start
-app.listen(process.env.PORT, () => console.log(`starting localhost: ${process.env.PORT}`));
+app.listen(process.env.PORT, () =>
+  console.log(`starting localhost: ${process.env.PORT}`),
+);
