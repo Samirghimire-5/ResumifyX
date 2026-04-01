@@ -1,5 +1,5 @@
 "use client";
-import SideNav from "@/components/sideBar";
+import SideNav from "@/components/sideNav";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function Layout({ children }: any) {

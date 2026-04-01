@@ -12,7 +12,13 @@ import {
   PanelRightClose,
   Settings,
   User,
+  Moon,
+  Sun,
 } from "lucide-react";
+import { PiHammer } from "react-icons/pi";
+import { LuFileStack } from "react-icons/lu";
+
+import { TbLayoutDashboard, TbRobot } from "react-icons/tb";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
@@ -31,12 +37,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "@/lib/redux/user/userSlice";
 import api from "@/axios/api";
+import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./ThemeToogle";
 
 const SideNav = () => {
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = React.useState(pathname);
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === "collapsed";
 
@@ -52,7 +61,6 @@ const SideNav = () => {
         router.push("/");
       }
     } catch (error) {
-      console.error("Logout error:", error);
       toast.error("Failed to logout. Please try again.");
     }
   };
@@ -61,25 +69,25 @@ const SideNav = () => {
     {
       title: "Dashboard",
       url: "/resume",
-      icon: LayoutGrid,
+      icon: TbLayoutDashboard,
       description: "Welcome to your dashboard",
     },
     {
       title: "Builder",
       url: "/resume/builder",
-      icon: FileSpreadsheetIcon,
+      icon: PiHammer,
       description: "Build your resume",
     },
     {
       title: "Templates",
       url: "/templates",
-      icon: FileText,
+      icon: LuFileStack,
       description: "Browse resume templates",
     },
     {
       title: "Ai Resume",
       url: "/aiResume",
-      icon: FileUser,
+      icon: TbRobot,
       description: "Create your resume with AI",
     },
   ];
@@ -90,32 +98,38 @@ const SideNav = () => {
       className="h-screen bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 border-none text-white"
     >
       {/* Header */}
-      <SidebarHeader className="flex flex-row items-center justify-between p-4 bg-transparent border-white/10">
-        <Link
-          href="/resume"
-          className={`flex items-center transition-all ${isCollapsed ? "justify-center w-full" : ""}`}
+      <SidebarHeader className="p-4 border-b border-white/10 bg-transparent">
+        <div
+          className={cn(
+            "flex items-center w-full relative",
+            isCollapsed ? "justify-center" : "justify-between",
+          )}
         >
-          <Image
-            src="/resumifyX.svg"
-            height={32}
-            width={32}
-            alt="resumifyX logo"
-            className="object-contain rounded-full"
-            priority
-          />
-        </Link>
-
-        {/* Toggle inside header right */}
-        {!isCollapsed && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleSidebar}
-            className="text-white/70 hover:bg-white/10 hover:text-white shrink-0"
+          <Link
+            href="/resume"
+            className="w-8 h-8 rounded-full overflow-hidden shrink-0 flex items-center justify-center  transition-all"
           >
-            <PanelLeftClose size={20} />
-          </Button>
-        )}
+            <Image
+              src="/resumifyX.svg"
+              height={32}
+              width={32}
+              alt="resumifyX logo"
+              className="object-cover"
+              priority
+            />
+          </Link>
+
+          {!isCollapsed && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleSidebar}
+              className="absolute right-0 text-white/70 hover:bg-white/10 hover:text-white"
+            >
+              <PanelLeftClose size={20} />
+            </Button>
+          )}
+        </div>
       </SidebarHeader>
 
       {/* Put a toggle when collapsed directly below header if desired, or just keep it in header */}
@@ -133,9 +147,9 @@ const SideNav = () => {
       )}
 
       {/* Main Content */}
-      <SidebarContent className="px-2 py-4 flex flex-col h-full">
-        <SidebarGroup>
-          <SidebarMenu className="space-y-2">
+      <SidebarContent className="py-4 flex flex-col h-full">
+        <SidebarGroup className="group-data-[collapsible=icon]:p-0">
+          <SidebarMenu className="space-y-3 px-2">
             {pages.map((item) => {
               const isActive = pathname === item.url;
               return (
@@ -143,16 +157,13 @@ const SideNav = () => {
                   <SidebarMenuButton
                     asChild
                     tooltip={item.title}
-                    className={`transition-all duration-300`}
+                    className={`${isActive ? "bg-b1 text-text" : ""} hover:bg-b3 transition-all duration-300`}
                   >
                     <Link
                       href={item.url}
                       className={isCollapsed ? "justify-center" : ""}
                     >
-                      <item.icon
-                        size={22}
-                        className={`shrink-0 ${isActive ? "text-white" : ""}`}
-                      />
+                      <item.icon size={22} className={`shrink-0`} />
                       {!isCollapsed && (
                         <div className="flex-grow flex items-center">
                           <span className="text-[15px] font-semibold">
@@ -175,7 +186,11 @@ const SideNav = () => {
           <PopoverTrigger asChild>
             <Button
               variant="ghost"
-              className={`w-full flex items-center p-2 h-auto hover:bg-white/10 ${isCollapsed ? "justify-center" : "justify-start"}`}
+              className={`w-full flex items-center p-2 h-auto ${
+                isCollapsed
+                  ? "justify-center hover:bg-transparent"
+                  : "justify-start hover:bg-white/10"
+              }`}
             >
               <div className="w-8 h-8 rounded-full overflow-hidden bg-indigo-500 shrink-0 flex items-center justify-center">
                 {user?.avatar ? (
@@ -240,6 +255,9 @@ const SideNav = () => {
               <LogOut size={16} />
               <span className="text-sm font-medium">Log out</span>
             </Button>
+
+            {/* theme toogler */}
+            <ThemeToggle />
           </PopoverContent>
         </Popover>
       </SidebarFooter>
