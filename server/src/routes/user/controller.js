@@ -38,8 +38,6 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: "Firebase verification missing" });
     }
 
-    console.log("Firebase claims:", firebaseClaims);
-
     const firebaseId = firebaseClaims.uid;
     const email = firebaseClaims.email;
 
@@ -85,9 +83,14 @@ const loginUser = async (req, res) => {
     return res.status(200).json({
       message: "Login successful",
       accessToken,
+      user: {
+        firstName: user.firstName,
+        email: user.email,
+        avatar: user.avatar,
+      },
     });
   } catch (err) {
-    console.log("Login failed", err);
+    console.error("Login failed", err);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -104,7 +107,7 @@ const refreshAccessToken = async (req, res) => {
       return res.status(401).json({ error: "Invalid refresh token" });
     }
 
-    const user = await User.findById(decoded.id);
+    const user = await User.findById(decoded.id).select("+refreshTokenHash");
     if (!user || !user.refreshTokenHash) {
       return res.status(401).json({ error: "Invalid refresh token" });
     }
@@ -123,6 +126,7 @@ const refreshAccessToken = async (req, res) => {
 
     return res.status(200).json({ accessToken: newAccessToken });
   } catch (error) {
+    console.error("Refresh token error", error);
     return res.status(401).json({ error: "Refresh token expired or invalid" });
   }
 };
@@ -139,7 +143,7 @@ const logout = async (req, res) => {
         );
         await User.findByIdAndUpdate(decoded.id, { refreshTokenHash: null });
       } catch (e) {
-        // Ignore invalid refresh token and still clear cookie.
+        console.error("Invalid refresh token", e);
       }
     }
 

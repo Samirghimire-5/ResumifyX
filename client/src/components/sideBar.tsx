@@ -1,14 +1,34 @@
 "use client";
 import React from "react";
-import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
-import { LogOut, FileText, LayoutGrid, FileUser, FileSpreadsheetIcon } from "lucide-react";
+import {
+  LogOut,
+  FileText,
+  LayoutGrid,
+  FileUser,
+  FileSpreadsheetIcon,
+  PanelLeftClose,
+  PanelRightClose,
+  Settings,
+  User,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
-import { Sidebar, SidebarContent } from "./ui/sidebar";
-import { useDispatch } from "react-redux";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarFooter,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarGroup,
+  useSidebar,
+} from "./ui/sidebar";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "@/lib/redux/user/userSlice";
 import api from "@/axios/api";
 
@@ -17,9 +37,14 @@ const SideNav = () => {
   const pathname = usePathname();
   const dispatch = useDispatch();
 
+  const { state, toggleSidebar } = useSidebar();
+  const isCollapsed = state === "collapsed";
+
+  const user = useSelector((state: any) => state.userData.userCredentials);
+
   const handleLogout = async () => {
     try {
-      const response = await api.post("/api/user/logout")
+      const response = await api.post("/api/user/logout");
 
       if (response.status === 200) {
         toast.success(response.data.message);
@@ -52,81 +77,172 @@ const SideNav = () => {
       description: "Browse resume templates",
     },
     {
-      title: "Ai Resueme",
+      title: "Ai Resume",
       url: "/aiResume",
       icon: FileUser,
-      description: "Create your resume with the help of AI",
+      description: "Create your resume with AI",
     },
   ];
 
   return (
-    <Sidebar className="h-screen w-56">
-      <SidebarContent className="bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 py-4 flex flex-col h-full">
-        {/* Logo Section */}
-        <div className="flex justify-center mb-6 px-6">
-          <Link href="/resume">
-            <Image
-              src="/resumifyx-logo.svg"
-              height={100}
-              width={250}
-              alt="resumifyX logo"
-              priority
-            />
-          </Link>
+    <Sidebar
+      collapsible="icon"
+      className="h-screen bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 border-none text-white"
+    >
+      {/* Header */}
+      <SidebarHeader className="flex flex-row items-center justify-between p-4 bg-transparent border-white/10">
+        <Link
+          href="/resume"
+          className={`flex items-center transition-all ${isCollapsed ? "justify-center w-full" : ""}`}
+        >
+          <Image
+            src="/resumifyX.svg"
+            height={32}
+            width={32}
+            alt="resumifyX logo"
+            className="object-contain rounded-full"
+            priority
+          />
+        </Link>
+
+        {/* Toggle inside header right */}
+        {!isCollapsed && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+            className="text-white/70 hover:bg-white/10 hover:text-white shrink-0"
+          >
+            <PanelLeftClose size={20} />
+          </Button>
+        )}
+      </SidebarHeader>
+
+      {/* Put a toggle when collapsed directly below header if desired, or just keep it in header */}
+      {isCollapsed && (
+        <div className="flex justify-center mt-2 pb-2 border-b border-white/10">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+            className="text-white/70 hover:bg-white/10 hover:text-white"
+          >
+            <PanelRightClose size={20} />
+          </Button>
         </div>
+      )}
 
-        {/* Navigation Menu */}
-        <nav className="flex-grow px-4 space-y-2">
-          {pages.map((item) => (
-            <Link
-              key={item.title}
-              href={item.url}
-              className={`group block w-full rounded-lg transition-all duration-300 ${
-                pathname === item.url
-                  ? "bg-white/20 backdrop-blur-sm"
-                  : "hover:bg-white/10"
-              }`}
+      {/* Main Content */}
+      <SidebarContent className="px-2 py-4 flex flex-col h-full">
+        <SidebarGroup>
+          <SidebarMenu className="space-y-2">
+            {pages.map((item) => {
+              const isActive = pathname === item.url;
+              return (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={item.title}
+                    className={`transition-all duration-300`}
+                  >
+                    <Link
+                      href={item.url}
+                      className={isCollapsed ? "justify-center" : ""}
+                    >
+                      <item.icon
+                        size={22}
+                        className={`shrink-0 ${isActive ? "text-white" : ""}`}
+                      />
+                      {!isCollapsed && (
+                        <div className="flex-grow flex items-center">
+                          <span className="text-[15px] font-semibold">
+                            {item.title}
+                          </span>
+                        </div>
+                      )}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
+          </SidebarMenu>
+        </SidebarGroup>
+      </SidebarContent>
+
+      {/* Footer / Profile Section */}
+      <SidebarFooter className="p-3 bg-white/5 border-t border-white/10 mt-auto">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              className={`w-full flex items-center p-2 h-auto hover:bg-white/10 ${isCollapsed ? "justify-center" : "justify-start"}`}
             >
-              <div className="flex items-center p-3 space-x-4 text-white rounded-lg">
-                <item.icon
-                  className={`text-white/70 group-hover:text-white transition-colors duration-300 ${
-                    pathname === item.url ? "text-white" : ""
-                  }`}
-                  size={22}
-                />
-                <div className="flex-grow">
-                  <div className="text-[16px] font-semibold group-hover:text-white/90 transition-colors">
-                    {item.title}
-                  </div>
-                  <div className="text-xs text-white/50 group-hover:text-white/70 transition-colors">
-                    {item.description}
-                  </div>
-                </div>
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity text-white/50 group-hover:text-white">
-                  →
-                </div>
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-indigo-500 shrink-0 flex items-center justify-center">
+                {user?.avatar ? (
+                  <Image
+                    src={user.avatar}
+                    alt="User avatar"
+                    width={32}
+                    height={32}
+                    className="object-cover"
+                  />
+                ) : (
+                  <User size={18} className="text-white" />
+                )}
               </div>
-            </Link>
-          ))}
-        </nav>
 
-        {/* Logout Footer */}
-        <div className="px-4 pt-6 mt-auto">
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center border border-white/20 transition-all duration-300 hover:bg-white/20">
+              {!isCollapsed && (
+                <div className="ml-3 flex flex-col items-start overflow-hidden">
+                  <span className="text-sm font-medium text-white truncate w-32">
+                    {user?.firstName || "User"}
+                  </span>
+                  <span className="text-xs text-white/50 truncate w-32">
+                    {user?.email || "email@example.com"}
+                  </span>
+                </div>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            side="right"
+            align="end"
+            className="w-56 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 p-2 shadow-xl m-2"
+          >
+            <div className="flex items-center space-x-2 p-2 border-b border-zinc-100 dark:border-zinc-800 mb-2">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-indigo-500 shrink-0 flex items-center justify-center">
+                {user?.avatar ? (
+                  <Image
+                    src={user.avatar}
+                    alt="User avatar"
+                    width={40}
+                    height={40}
+                    className="object-cover"
+                  />
+                ) : (
+                  <User size={20} className="text-white" />
+                )}
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium dark:text-white">
+                  {user?.firstName || "User"}
+                </span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400 truncate w-32">
+                  {user?.email || "email@example.com"}
+                </span>
+              </div>
+            </div>
+
             <Button
               onClick={handleLogout}
               variant="ghost"
-              className="w-full text-white flex items-center justify-center gap-3 hover:bg-transparent"
+              className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 gap-2 !p-2 h-auto"
             >
-              <LogOut size={20} className="text-white/70" />
-              <span className="text-[16px] font-medium">Logout</span>
+              <LogOut size={16} />
+              <span className="text-sm font-medium">Log out</span>
             </Button>
-            <p className="text-xs text-white/50 mt-2 transition-colors group-hover:text-white/70">
-              Secure logout from your account
-            </p>
-          </div>
-        </div>
-      </SidebarContent>
+          </PopoverContent>
+        </Popover>
+      </SidebarFooter>
     </Sidebar>
   );
 };
