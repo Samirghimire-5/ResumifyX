@@ -4,9 +4,12 @@ import { googleLogin } from "@/lib/firebase/auth";
 import api, { setAccessToken } from "@/axios/api";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setUserData } from "@/lib/redux/user/userSlice";
 
 const Login = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const googleAuth = async () => {
     const { token } = await googleLogin();
@@ -16,6 +19,7 @@ const Login = () => {
     if (response.status === 200) {
       setAccessToken(response.data.accessToken);
       toast.success(response.data.message);
+      dispatch(setUserData(response.data.user));
       router.push("/resume");
     } else {
       toast.error(response.data.error);
